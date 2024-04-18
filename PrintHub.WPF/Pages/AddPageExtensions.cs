@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PrintHub.WPF.Shared.ViewModels;
 using PrintHub.WPF.Shared.Navigation;
+using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Pages;
 

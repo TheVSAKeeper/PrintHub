@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:home="clr-namespace:PrintHub.WPF.Pages.Home"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:showAll="clr-namespace:PrintHub.WPF.Endpoints.SurveysEndpoints.ShowAll"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.FontWeight="Medium"
@@ -67,8 +66,6 @@
                                     Content="{materialDesign:PackIcon OpenInNew}" />
                         </StackPanel>
                     </Expander.Header>
-
-                    <showAll:SurveyShowAllFormView DataContext="{Binding SurveyShowAllFormViewModel}" />
                 </Expander>
             </Grid>
         </GroupBox>

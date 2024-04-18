@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
+using PrintHub.WPF.Definitions.Base;
 using Serilog;
 using Serilog.Events;
-using PrintHub.WPF.Definitions.Base;
 
 namespace PrintHub.WPF;
 

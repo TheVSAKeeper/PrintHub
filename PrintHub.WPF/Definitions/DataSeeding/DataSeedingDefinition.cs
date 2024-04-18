@@ -15,8 +15,6 @@ public class DataSeedingDefinition : AppDefinition
         DatabaseInitializer initializer = new(host.Services, DataPath);
 
         await initializer.SeedUsers();
-        await initializer.SeedDiagnoses();
-        await initializer.SeedAnamnesisTemplates();
-        await initializer.SeedPatients();
+        await initializer.SeedAll();
     }
 }

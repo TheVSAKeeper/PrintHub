@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Calabonga.PagedListCore;
-using Calabonga.UnitOfWork;
 
 namespace PrintHub.WPF.Definitions.Mapping;
 

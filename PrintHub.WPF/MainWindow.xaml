@@ -9,12 +9,6 @@
         xmlns:profile="clr-namespace:PrintHub.WPF.Pages.Profile"
         xmlns:home="clr-namespace:PrintHub.WPF.Pages.Home"
         xmlns:login="clr-namespace:PrintHub.WPF.Pages.Login"
-        xmlns:patientSearch="clr-namespace:PrintHub.WPF.Endpoints.PatientsEndpoints.Search"
-        xmlns:anamnesesCreate="clr-namespace:PrintHub.WPF.Endpoints.AnamnesesEndpoints.Create"
-        xmlns:survey="clr-namespace:PrintHub.WPF.Pages.Survey"
-        xmlns:showAll="clr-namespace:PrintHub.WPF.Endpoints.SurveysEndpoints.ShowAll"
-        xmlns:create="clr-namespace:PrintHub.WPF.Endpoints.SurveysEndpoints.Create"
-        xmlns:edit="clr-namespace:PrintHub.WPF.Endpoints.SurveysEndpoints.Edit"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -36,24 +30,7 @@
             <DataTemplate DataType="{x:Type profile:ProfileViewModel}">
                 <profile:ProfileView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type survey:SurveyViewModel}">
-                <survey:SurveyView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type patientSearch:PatientSearchFormViewModel}">
-                <patientSearch:PatientSearchFormView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type showAll:SurveyShowAllFormViewModel}">
-                <showAll:SurveyShowAllFormView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type anamnesesCreate:AnamnesesCreateFormViewModel}">
-                <anamnesesCreate:AnamnesesCreateFormView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type create:SurveyCreateFormViewModel}">
-                <create:SurveyCreateFormView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type edit:SurveyEditFormViewModel}">
-                <edit:SurveyEditFormView />
-            </DataTemplate>
+
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>

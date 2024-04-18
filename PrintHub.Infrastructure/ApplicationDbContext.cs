@@ -8,6 +8,12 @@ namespace PrintHub.Infrastructure;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContextBase(options)
 {
     public DbSet<Client> Clients { get; set; } = null!;
+    public DbSet<Color> Colors { get; set; } = null!;
+    public DbSet<Item> Items { get; set; } = null!;
+    public DbSet<Material> Materials { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
+    public DbSet<PrintingDetails> PrintingDetails { get; set; } = null!;
+    public DbSet<Sample> Samples { get; set; } = null!;
 }
 
 public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>

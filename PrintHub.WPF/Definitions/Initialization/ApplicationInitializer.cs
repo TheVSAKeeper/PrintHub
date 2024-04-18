@@ -3,13 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using PrintHub.Domain.Base;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Base;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Pages.Home;
 using PrintHub.WPF.Pages.Login;
-using PrintHub.WPF.Pages.Survey;
 using PrintHub.WPF.Shared.Navigation;
 
 namespace PrintHub.WPF.Definitions.Initialization;
@@ -41,13 +39,6 @@ public class ApplicationInitializer : AppDefinition
 
             if (authenticationManager.IsLoggedIn)
             {
-                if (authenticationManager.IsInRole(AppData.NurseRoleName))
-                {
-                    NavigationService<SurveyViewModel> surveyNavigationService = scope.ServiceProvider.GetRequiredService<NavigationService<SurveyViewModel>>();
-                    surveyNavigationService.Navigate();
-                    return;
-                }
-
                 NavigationService<HomeViewModel> homeNavigationService = scope.ServiceProvider.GetRequiredService<NavigationService<HomeViewModel>>();
                 homeNavigationService.Navigate();
             }

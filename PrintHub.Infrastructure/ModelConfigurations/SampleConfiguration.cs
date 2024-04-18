@@ -8,16 +8,15 @@ public class SampleConfiguration : AuditableModelConfigurationBase<Sample>
 {
     protected override void AddCustomConfiguration(EntityTypeBuilder<Sample> builder)
     {
-        builder.Property(s => s.Description).IsRequired();
-        builder.Property(s => s.PrintingTechnology).IsRequired();
-        builder.Property(s => s.Approved).IsRequired();
+        builder.Property(sample => sample.Description).IsRequired();
+        builder.Property(sample => sample.Approved).IsRequired();
 
-        builder.HasOne(s => s.Order)
-            .WithMany(o => o.Samples)
-            .HasForeignKey(s => s.OrderId);
+        builder.HasOne(sample => sample.Order)
+            .WithMany(order => order.Samples)
+            .HasForeignKey(sample => sample.OrderId);
 
-        builder.HasOne(s => s.Material)
-            .WithMany()
-            .HasForeignKey(s => s.MaterialId);
+        builder.HasOne(sample => sample.PrintingDetails)
+            .WithMany(printingDetails => printingDetails.Samples)
+            .HasForeignKey(sample => sample.PrintingDetailsId);
     }
 }

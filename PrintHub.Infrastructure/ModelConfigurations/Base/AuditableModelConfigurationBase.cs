@@ -7,7 +7,7 @@ public abstract class AuditableModelConfigurationBase<T> : ModelConfigurationBas
 {
     protected override void AddBaseConfiguration(EntityTypeBuilder<T> builder)
     {
-      builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired();
 
         builder.Property(x => x.CreatedAt)

@@ -4,14 +4,12 @@ namespace PrintHub.Domain;
 
 public class Order : Auditable
 {
-    public string Description { get; set; }
-    public OrderStatus Status { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public DateTime UpdatedDate { get; set; }
+    public required string Description { get; set; }
+    public required OrderStatus Status { get; set; }
 
-    public int ClientId { get; set; }
-    public Client Client { get; set; }
+    public required Guid ClientId { get; set; }
+    public Client? Client { get; set; }
 
-    public List<Sample> Samples { get; set; }
-    public List<Item> Items { get; set; }
+    public virtual List<Sample>? Samples { get; set; }
+    public virtual List<Item>? Items { get; set; }
 }

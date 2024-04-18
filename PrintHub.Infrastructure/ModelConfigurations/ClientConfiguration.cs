@@ -8,10 +8,10 @@ public class ClientConfiguration : IdentityModelConfigurationBase<Client>
 {
     protected override void AddCustomConfiguration(EntityTypeBuilder<Client> builder)
     {
-        builder.Property(c => c.FirstName).IsRequired();
-        builder.Property(c => c.LastName).IsRequired();
-        builder.Property(c => c.Address).IsRequired();
-        builder.Property(c => c.Phone).IsRequired();
-        builder.Property(c => c.Email).IsRequired();
+        builder.Property(client => client.FirstName).IsRequired();
+        builder.Property(client => client.LastName).IsRequired();
+        builder.Property(client => client.Address).IsRequired();
+        builder.Property(client => client.Phone).IsRequired();
+        builder.Property(client => client.Email).IsRequired();
     }
 }

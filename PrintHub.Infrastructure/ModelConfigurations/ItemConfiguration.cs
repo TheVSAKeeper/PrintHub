@@ -8,16 +8,17 @@ public class ItemConfiguration : AuditableModelConfigurationBase<Item>
 {
     protected override void AddCustomConfiguration(EntityTypeBuilder<Item> builder)
     {
-        builder.Property(i => i.Description).IsRequired();
-        builder.Property(i => i.PrintingTechnology).IsRequired();
-        builder.Property(i => i.Ready).IsRequired();
+        builder.Property(item => item.Description).IsRequired();
+        builder.Property(item => item.Ready).IsRequired();
 
-        builder.HasOne(i => i.Order)
-            .WithMany(o => o.Items)
-            .HasForeignKey(i => i.OrderId);
+        builder.HasOne(item => item.Order)
+            .WithMany(order => order.Items)
+            .HasForeignKey(item => item.OrderId)
+            .IsRequired();
 
-        builder.HasOne(i => i.Material)
-            .WithMany()
-            .HasForeignKey(i => i.MaterialId);
+        builder.HasOne(item => item.PrintingDetails)
+            .WithMany(printingDetails => printingDetails.Items)
+            .HasForeignKey(item => item.PrintingDetailsId)
+            .IsRequired();
     }
 }

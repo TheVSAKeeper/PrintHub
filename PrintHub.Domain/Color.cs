@@ -4,9 +4,9 @@ namespace PrintHub.Domain;
 
 public class Color : Identity
 {
-    public string Name { get; set; }
-    public string ColorCode { get; set; }
+    public required string Name { get; set; }
+    public required string ColorCode { get; set; }
 
-    public Guid MaterialId { get; set; }
-    public Material Material { get; set; }
+    public virtual List<Material>? Materials { get; set; }
+    public virtual List<PrintingDetails>? PrintingDetails { get; set; }
 }

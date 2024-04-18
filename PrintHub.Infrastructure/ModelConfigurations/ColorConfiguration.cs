@@ -8,7 +8,7 @@ public class ColorConfiguration : IdentityModelConfigurationBase<Color>
 {
     protected override void AddCustomConfiguration(EntityTypeBuilder<Color> builder)
     {
-        builder.Property(c => c.Name).IsRequired();
-        builder.Property(c => c.ColorCode).IsRequired();
+        builder.Property(color => color.Name).IsRequired();
+        builder.Property(color => color.ColorCode).IsRequired();
     }
 }

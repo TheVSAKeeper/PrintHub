@@ -30,7 +30,7 @@ public partial class DatabaseInitializer
                 Orders = new List<Order>()
             }
         ];
-        
+
         await _context.Clients.AddRangeAsync(clients);
 
         List<Color> colors =
@@ -53,9 +53,8 @@ public partial class DatabaseInitializer
                 PrintingDetails = new List<PrintingDetails>()
             }
         ];
-        
-        await _context.Colors.AddRangeAsync(colors);
 
+        await _context.Colors.AddRangeAsync(colors);
 
         List<Material> materials =
         [
@@ -79,9 +78,8 @@ public partial class DatabaseInitializer
                 PrintingDetails = new List<PrintingDetails>()
             }
         ];
-        
-        await _context.Materials.AddRangeAsync(materials);
 
+        await _context.Materials.AddRangeAsync(materials);
 
         List<Order> orders =
         [
@@ -107,9 +105,8 @@ public partial class DatabaseInitializer
                 Items = new List<Item>()
             }
         ];
-        
-        await _context.Orders.AddRangeAsync(orders);
 
+        await _context.Orders.AddRangeAsync(orders);
 
         List<PrintingDetails> printingDetailsList =
         [
@@ -137,9 +134,8 @@ public partial class DatabaseInitializer
                 Samples = new List<Sample>()
             }
         ];
-        
-        await _context.PrintingDetails.AddRangeAsync(printingDetailsList);
 
+        await _context.PrintingDetails.AddRangeAsync(printingDetailsList);
 
         List<Sample> samples =
         [
@@ -165,56 +161,38 @@ public partial class DatabaseInitializer
                 PrintingDetails = printingDetailsList[1]
             }
         ];
-        
+
         await _context.Samples.AddRangeAsync(samples);
 
-        await _context.SaveChangesAsync();
-
-        /*_logger.LogDebug("[DatabaseInitializer] SeedPatients start");
-
-        ILogger<Patient> logger = _scope.ServiceProvider.GetRequiredService<ILogger<Patient>>();
-
-        if (_context.Patients.Any())
-            return;
-
-        string path = _dataPath + "Patients.txt";
-
-        if (File.Exists(path) == false)
-        {
-            logger.LogError("[DatabaseInitializer] Not found {File}", path);
-            return;
-        }
-
-        string lines = await File.ReadAllTextAsync(path);
-
-        Patient[] patients = lines.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Select(s =>
+        List<Item> items =
+        [
+            new Item
             {
-                string[] parts = s.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                Description = "Пример описания 1",
+                Ready = true,
+                OrderId = orders[0].Id,
+                Order = orders[0],
+                PrintingDetailsId = printingDetailsList[0].Id,
+                PrintingDetails = printingDetailsList[0],
+                CreatedAt = DateTime.Now,
+                CreatedBy = "Superuser"
+            },
 
-                return new Patient
-                {
-                    LastName = parts[0],
-                    FirstName = parts[1],
-                    Patronymic = parts[2],
-                    Gender = parts[3] switch
-                    {
-                        "М" => Gender.Male,
-                        "Ж" => Gender.Female,
-                        var _ => Gender.Unspecified
-                    },
-                    BirthDate = DateOnly.Parse(parts[4])
-                };
-            })
-            .ToArray();
+            new Item
+            {
+                Description = "Пример описания 2",
+                Ready = false,
+                OrderId = orders[1].Id,
+                Order = orders[1],
+                PrintingDetailsId = printingDetailsList[1].Id,
+                PrintingDetails = printingDetailsList[1],
+                CreatedAt = DateTime.Now,
+                CreatedBy = "Superuser"
+            }
+        ];
 
-        logger.LogDebug("[DatabaseInitializer] Founded AnamnesisTemplates: {FoundedPatientsCount}. Added: {AddedPatientsCount}",
-            lines.Length,
-            patients.Length);
+        await _context.Items.AddRangeAsync(items);
 
-        await _context.Patients.AddRangeAsync(patients);
         await _context.SaveChangesAsync();
-
-        _logger.LogDebug("[DatabaseInitializer] SeedPatients end");*/
     }
 }

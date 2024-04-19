@@ -51,12 +51,11 @@ public partial class DatabaseInitializer
 
         ApplicationUser developer = new()
         {
-            Id = Guid.Parse("35a9b0d1-1206-4b9f-9e9e-0dbaf280d3e8"),
+            Email = "microservice@yopmail.com",
+            NormalizedEmail = "MICROSERVICE@YOPMAIL.COM",
             UserName = "Superuser",
-            DisplayName = "Superuser",
             FirstName = "Survey",
             LastName = "Administrator",
-            Patronymic = "Patronymic",
             NormalizedUserName = "SUPERUSER",
             PhoneNumber = "+79000000000",
             EmailConfirmed = true,
@@ -72,7 +71,7 @@ public partial class DatabaseInitializer
         {
             PasswordHasher<ApplicationUser> password = new();
 
-            string hashed = password.HashPassword(developer, "123qwe");
+            string hashed = password.HashPassword(developer, "123qwe!@#");
 
             developer.PasswordHash = hashed;
 

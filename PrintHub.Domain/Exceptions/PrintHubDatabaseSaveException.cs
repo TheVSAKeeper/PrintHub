@@ -1,13 +1,13 @@
 ﻿namespace PrintHub.Domain.Exceptions;
 
-public class SurveysDatabaseSaveException : Exception
+public class PrintHubDatabaseSaveException : Exception
 {
-    public SurveysDatabaseSaveException(string entityName)
+    public PrintHubDatabaseSaveException(string entityName)
         : base($"Saving data error for entity name {entityName}")
     {
     }
 
-    public SurveysDatabaseSaveException(string entityName, Exception? exception)
+    public PrintHubDatabaseSaveException(string entityName, Exception? exception)
         : base($"Saving data error for entity name {entityName}", exception)
     {
     }

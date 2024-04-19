@@ -8,11 +8,11 @@ public class OrderConfiguration : AuditableModelConfigurationBase<Order>
 {
     protected override void AddCustomConfiguration(EntityTypeBuilder<Order> builder)
     {
-        builder.Property(o => o.Description).IsRequired();
-        builder.Property(o => o.Status).IsRequired();
+        builder.Property(order => order.Description).IsRequired();
+        builder.Property(order => order.Status).IsRequired();
 
-        builder.HasOne(o => o.Client)
-            .WithMany(c => c.Orders)
-            .HasForeignKey(o => o.ClientId);
+        builder.HasOne(order => order.Client)
+            .WithMany(client => client.Orders)
+            .HasForeignKey(order => order.ClientId);
     }
 }

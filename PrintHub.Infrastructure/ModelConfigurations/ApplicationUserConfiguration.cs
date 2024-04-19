@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace PrintHub.Infrastructure.ModelConfigurations;
 
-public class ApplicationUserModelConfiguration : IEntityTypeConfiguration<ApplicationUser>
+public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
@@ -15,11 +15,9 @@ public class ApplicationUserModelConfiguration : IEntityTypeConfiguration<Applic
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(user => user.Patronymic).HasMaxLength(50);
-        builder.Property(user => user.DisplayName).HasMaxLength(50);
+        builder.HasOne(user => user.Client);
+        builder.HasMany(user => user.Roles);
 
         builder.Navigation(user => user.Roles).AutoInclude();
-
-        builder.HasMany(user => user.Roles);
     }
 }

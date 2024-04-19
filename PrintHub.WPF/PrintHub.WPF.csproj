@@ -117,9 +117,4 @@
         </Compile>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Endpoints\AnamnesesEndpoints\"/>
-        <Folder Include="Endpoints\PatientsEndpoints\"/>
-    </ItemGroup>
-
 </Project>

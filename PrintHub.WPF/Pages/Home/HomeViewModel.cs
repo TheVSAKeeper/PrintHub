@@ -28,5 +28,5 @@ public class HomeViewModel : ViewModelBase
     public ICommand NavigateProfileCommand { get; }
     public ICommand LogoutCommand { get; }
 
-    public string Username => _authenticationManager.User?.DisplayName ?? "Unknown";
+    public string Username => _authenticationManager.Username;
 }

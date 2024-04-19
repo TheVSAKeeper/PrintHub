@@ -7,6 +7,6 @@ public class ParameterNavigateCommand<T>(IParameterNavigationService<T> navigati
 {
     protected override void Execute(object? parameter)
     {
-        navigationService.Navigate((T)parameter! ?? throw new SurveysArgumentNullException(nameof(parameter)));
+        navigationService.Navigate((T)parameter! ?? throw new PrintHubArgumentNullException(nameof(parameter)));
     }
 }

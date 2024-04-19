@@ -21,7 +21,7 @@ public class ApplicationUserUpdateRequestHandler(IUnitOfWork unitOfWork, IMapper
 
         if (entity is null)
         {
-            operation.AddError(new SurveysNotFoundException(nameof(ApplicationUser), request.Model.Id.ToString()));
+            operation.AddError(new PrintHubNotFoundException(nameof(ApplicationUser), request.Model.Id.ToString()));
             return operation;
         }
 
@@ -34,7 +34,7 @@ public class ApplicationUserUpdateRequestHandler(IUnitOfWork unitOfWork, IMapper
         if (unitOfWork.LastSaveChangesResult.IsOk == false)
         {
             Exception exception = unitOfWork.LastSaveChangesResult.Exception
-                                  ?? new SurveysDatabaseSaveException(nameof(ApplicationUser));
+                                  ?? new PrintHubDatabaseSaveException(nameof(ApplicationUser));
 
             operation.AddError(exception);
             return operation;

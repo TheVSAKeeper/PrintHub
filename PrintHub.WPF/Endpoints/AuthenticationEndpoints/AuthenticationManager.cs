@@ -11,7 +11,7 @@ public class AuthenticationManager(UserManager<ApplicationUser> userManager, Rol
 
     public bool IsLoggedIn => User != null;
 
-    public string Username => User?.DisplayName ?? "Unknown";
+    public string Username => User?.UserName ?? "Unknown";
 
     public bool IsInRole(string roleName)
     {
@@ -88,7 +88,6 @@ public class AuthenticationManager(UserManager<ApplicationUser> userManager, Rol
             NormalizedUserName = username.ToUpper(),
             FirstName = string.Empty,
             LastName = string.Empty,
-            Patronymic = string.Empty,
             EmailConfirmed = true,
             PhoneNumberConfirmed = true,
             Roles = new List<ApplicationRole> { role }

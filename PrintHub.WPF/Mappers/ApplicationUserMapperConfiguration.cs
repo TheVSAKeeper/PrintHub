@@ -12,6 +12,8 @@ public class ApplicationUserMapperConfiguration : Profile
 
         CreateMap<ApplicationUserUpdateDto, ApplicationUser>()
             .ForMember(user => user.Roles, expression => expression.Ignore())
+            .ForMember(user => user.Client, expression => expression.Ignore())
+            .ForMember(user => user.ClientId, expression => expression.Ignore())
             .ForMember(user => user.NormalizedUserName, expression => expression.Ignore())
             .ForMember(user => user.Email, expression => expression.Ignore())
             .ForMember(user => user.NormalizedEmail, expression => expression.Ignore())

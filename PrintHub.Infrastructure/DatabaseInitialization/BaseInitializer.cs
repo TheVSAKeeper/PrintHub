@@ -6,6 +6,9 @@ public partial class DatabaseInitializer
 {
     public async Task SeedAll()
     {
+        if (_context.Clients.Any())
+            return;
+
         List<Client> clients =
         [
             new Client
@@ -174,7 +177,7 @@ public partial class DatabaseInitializer
                 Order = orders[0],
                 PrintingDetailsId = printingDetailsList[0].Id,
                 PrintingDetails = printingDetailsList[0],
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
                 CreatedBy = "Superuser"
             },
 
@@ -186,7 +189,7 @@ public partial class DatabaseInitializer
                 Order = orders[1],
                 PrintingDetailsId = printingDetailsList[1].Id,
                 PrintingDetails = printingDetailsList[1],
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
                 CreatedBy = "Superuser"
             }
         ];

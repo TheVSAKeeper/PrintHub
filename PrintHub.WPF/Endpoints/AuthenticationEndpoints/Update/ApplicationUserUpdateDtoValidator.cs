@@ -6,11 +6,6 @@ public class ApplicationUserUpdateDtoValidator : AbstractValidator<ApplicationUs
 {
     public ApplicationUserUpdateDtoValidator()
     {
-        RuleFor(user => user.DisplayName)
-            .NotEmpty()
-            .MinimumLength(6)
-            .MaximumLength(40);
-
         RuleFor(user => user.UserName)
             .NotEmpty()
             .MinimumLength(4)
@@ -23,10 +18,6 @@ public class ApplicationUserUpdateDtoValidator : AbstractValidator<ApplicationUs
 
         RuleFor(user => user.LastName)
             .NotEmpty()
-            .MinimumLength(3)
-            .MaximumLength(30);
-
-        RuleFor(user => user.Patronymic)
             .MinimumLength(3)
             .MaximumLength(30);
     }

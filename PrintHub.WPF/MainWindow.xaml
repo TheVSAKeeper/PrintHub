@@ -9,6 +9,9 @@
         xmlns:profile="clr-namespace:PrintHub.WPF.Pages.Profile"
         xmlns:home="clr-namespace:PrintHub.WPF.Pages.Home"
         xmlns:login="clr-namespace:PrintHub.WPF.Pages.Login"
+        xmlns:show="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints"
+        xmlns:materialEndpoints="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints"
+        xmlns:colorEndpoints="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -30,7 +33,15 @@
             <DataTemplate DataType="{x:Type profile:ProfileViewModel}">
                 <profile:ProfileView />
             </DataTemplate>
-
+            <DataTemplate DataType="{x:Type show:PrintingDetailsFormViewModel}">
+                <show:PrintingDetailsFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type materialEndpoints:MaterialFormViewModel }">
+                <materialEndpoints:MaterialFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type colorEndpoints:ColorFormViewModel}">
+                <colorEndpoints:ColorFormView />
+            </DataTemplate>
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>

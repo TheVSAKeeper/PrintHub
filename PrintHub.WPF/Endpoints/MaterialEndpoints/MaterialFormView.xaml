@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="PrintHub.WPF.Endpoints.MaterialEndpoints.MaterialFormView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:colorEndpoints="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints"
+             xmlns:materialEndpoints="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{materialDesign:MaterialDesignFont}"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance materialEndpoints:MaterialFormViewModel}">
+    <Grid>
+        <materialDesign:Card Margin="10"
+                             Padding="10"
+                             HorizontalAlignment="Stretch">
+            <StackPanel>
+                <TextBlock Text="Material Details"
+                           FontWeight="Bold"
+                           FontSize="20"
+                           Margin="5" />
+                <TextBlock Text="{Binding Name}"
+                           Margin="5" />
+                <TextBlock Text="{Binding Description}"
+                           Margin="5" />
+                <TextBlock Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                           Margin="5" />
+                <TextBlock Text="Available Colors:"
+                           FontWeight="Bold"
+                           Margin="5" />
+                <ItemsControl ItemsSource="{Binding AvailableColors}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <colorEndpoints:ColorFormView DataContext="{Binding}"
+                                                          Margin="5" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

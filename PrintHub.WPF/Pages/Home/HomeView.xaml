@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:home="clr-namespace:PrintHub.WPF.Pages.Home"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:printingDetailsEndpoints="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.FontWeight="Medium"
@@ -66,6 +67,10 @@
                                     Content="{materialDesign:PackIcon OpenInNew}" />
                         </StackPanel>
                     </Expander.Header>
+
+                    <printingDetailsEndpoints:PrintingDetailsFormView
+                        DataContext="{Binding PrintingDetailsFormViewModel}" />
+
                 </Expander>
             </Grid>
         </GroupBox>

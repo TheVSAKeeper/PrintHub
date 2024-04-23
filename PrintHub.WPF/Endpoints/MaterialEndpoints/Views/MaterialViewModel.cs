@@ -1,6 +1,6 @@
-using PrintHub.WPF.Endpoints.ColorEndpoints;
+using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
 
-namespace PrintHub.WPF.Endpoints.MaterialEndpoints;
+namespace PrintHub.WPF.Endpoints.MaterialEndpoints.Views;
 
 public class MaterialViewModel
 {

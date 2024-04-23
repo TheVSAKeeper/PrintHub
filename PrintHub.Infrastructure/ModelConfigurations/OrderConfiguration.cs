@@ -14,5 +14,8 @@ public class OrderConfiguration : AuditableModelConfigurationBase<Order>
         builder.HasOne(order => order.Client)
             .WithMany(client => client.Orders)
             .HasForeignKey(order => order.ClientId);
+
+        builder.HasMany(order => order.RequiredColors)
+            .WithMany(color => color.Orders);
     }
 }

@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="PrintHub.WPF.Endpoints.ColorEndpoints.ColorFormView"
+﻿<UserControl x:Class="PrintHub.WPF.Endpoints.ColorEndpoints.Views.ColorFormView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:converters="clr-namespace:PrintHub.WPF.Shared.Converters"
-             xmlns:colorEndpoints="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints"
+             xmlns:viewModels="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{materialDesign:MaterialDesignFont}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -14,7 +14,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance colorEndpoints:ColorViewModel}">
+             d:DataContext="{d:DesignInstance viewModels:ColorViewModel}">
     <UserControl.Resources>
         <converters:ColorCodeToColorConverter x:Key="ColorCodeToColorConverter" />
     </UserControl.Resources>
@@ -22,11 +22,7 @@
         <materialDesign:Card Margin="10"
                              Padding="10"
                              HorizontalAlignment="Stretch">
-            <StackPanel>
-                <TextBlock Text="Color Details"
-                           FontWeight="Bold"
-                           FontSize="20"
-                           Margin="5" />
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Name}"
                            Margin="5" />
                 <TextBlock Text="{Binding ColorCode}"

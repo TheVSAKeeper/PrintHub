@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace PrintHub.WPF.Endpoints.PrintingDetailsEndpoints;
+namespace PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views;
 
 public partial class PrintingDetailsFormView : UserControl
 {

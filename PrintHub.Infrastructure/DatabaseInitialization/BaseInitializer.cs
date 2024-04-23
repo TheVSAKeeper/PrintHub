@@ -94,7 +94,8 @@ public partial class DatabaseInitializer
                 ClientId = clients[0].Id,
                 Client = clients[0],
                 Samples = new List<Sample>(),
-                Items = new List<Item>()
+                Items = new List<Item>(),
+                RequiredColors = [colors[0]]
             },
 
             new Order
@@ -105,7 +106,8 @@ public partial class DatabaseInitializer
                 ClientId = clients[1].Id,
                 Client = clients[1],
                 Samples = new List<Sample>(),
-                Items = new List<Item>()
+                Items = new List<Item>(),
+                RequiredColors = [colors[1]]
             }
         ];
 

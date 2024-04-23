@@ -9,9 +9,11 @@
         xmlns:profile="clr-namespace:PrintHub.WPF.Pages.Profile"
         xmlns:home="clr-namespace:PrintHub.WPF.Pages.Home"
         xmlns:login="clr-namespace:PrintHub.WPF.Pages.Login"
-        xmlns:show="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints"
-        xmlns:materialEndpoints="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints"
-        xmlns:colorEndpoints="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints"
+        xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views"
+        xmlns:views1="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.Views"
+        xmlns:views2="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
+        xmlns:queries111="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
+        xmlns:orderEndpoints="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -33,14 +35,17 @@
             <DataTemplate DataType="{x:Type profile:ProfileViewModel}">
                 <profile:ProfileView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type show:PrintingDetailsFormViewModel}">
-                <show:PrintingDetailsFormView />
+            <DataTemplate DataType="{x:Type views:PrintingDetailsViewModel}">
+                <views:PrintingDetailsFormView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type materialEndpoints:MaterialFormViewModel }">
-                <materialEndpoints:MaterialFormView />
+            <DataTemplate DataType="{x:Type views1:MaterialViewModel }">
+                <views1:MaterialFormView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type colorEndpoints:ColorFormViewModel}">
-                <colorEndpoints:ColorFormView />
+            <DataTemplate DataType="{x:Type queries111:ColorViewModel}">
+                <views2:ColorFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type orderEndpoints:OrderCreateFormViewModel}">
+                <orderEndpoints:OrderCreateFormView />
             </DataTemplate>
         </Grid.Resources>
 

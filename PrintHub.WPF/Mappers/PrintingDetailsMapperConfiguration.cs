@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using PrintHub.Domain;
-using PrintHub.WPF.Endpoints.PrintingDetailsEndpoints;
+using PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views;
 
 namespace PrintHub.WPF.Mappers;
 

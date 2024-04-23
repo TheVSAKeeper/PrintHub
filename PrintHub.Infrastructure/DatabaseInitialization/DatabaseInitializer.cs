@@ -64,7 +64,8 @@ public partial class DatabaseInitializer
             Roles = new List<ApplicationRole>
             {
                 administratorRole
-            }
+            },
+            ClientId = _context.Clients.FirstOrDefault()?.Id
         };
 
         if (_context.Users.Any(applicationUser => applicationUser.UserName == developer.UserName) == false)

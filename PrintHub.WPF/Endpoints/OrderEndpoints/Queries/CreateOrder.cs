@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using PrintHub.Domain;
 using PrintHub.Domain.Base;
+using PrintHub.Infrastructure;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
@@ -18,7 +19,8 @@ public sealed class CreateOrder
         {
             logger.LogDebug("Creating new Order");
 
-            Order? entity = mapper.Map<OrderCreateViewModel, Order>(orderRequest.Model);
+            Order? entity = mapper.Map<OrderCreateViewModel, Order>(orderRequest.Model, 
+                options => options.Items[nameof(ApplicationUser)] = orderRequest.User.UserName);
 
             if (entity == null)
             {
@@ -26,6 +28,11 @@ public sealed class CreateOrder
                 return Operation.Error(AppData.Exceptions.MappingException);
             }
 
+            Guid[] chosenColorsKeys = orderRequest.Model.RequiredColors.Select(x => x.Id).ToArray();
+            IList<Color> chosenColors = await unitOfWork.GetRepository<Color>()
+                .GetAllAsync(predicate: color => chosenColorsKeys.Contains(color.Id), disableTracking: false);
+            entity.RequiredColors = chosenColors.ToList();
+            
             await unitOfWork.GetRepository<Order>().InsertAsync(entity, cancellationToken);
             await unitOfWork.SaveChangesAsync();
 
@@ -48,5 +55,5 @@ public sealed class CreateOrder
         }
     }
 
-    public record Request(OrderCreateViewModel Model) : IRequest<Operation<OrderViewModel, string>>;
+    public record Request(OrderCreateViewModel Model, ApplicationUser User) : IRequest<Operation<OrderViewModel, string>>;
 }

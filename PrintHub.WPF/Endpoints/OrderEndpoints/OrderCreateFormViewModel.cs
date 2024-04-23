@@ -1,10 +1,14 @@
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using Calabonga.PagedListCore;
 using Calabonga.Results;
 using MediatR;
+using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.ColorEndpoints.Queries;
 using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
+using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
+using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -12,6 +16,7 @@ namespace PrintHub.WPF.Endpoints.OrderEndpoints;
 
 public class OrderCreateFormViewModel : ViewModelBase
 {
+    private readonly AuthenticationManager _authenticationManager;
     private readonly IMediator _mediator;
 
     private ICommand? _confirmCommand;
@@ -42,9 +47,10 @@ public class OrderCreateFormViewModel : ViewModelBase
     }
     */
 
-    public OrderCreateFormViewModel(IMediator mediator)
+    public OrderCreateFormViewModel(IMediator mediator, AuthenticationManager authenticationManager)
     {
         _mediator = mediator;
+        _authenticationManager = authenticationManager;
     }
 
     public ObservableCollection<CheckableColor> ChosenColors
@@ -59,8 +65,22 @@ public class OrderCreateFormViewModel : ViewModelBase
         set => Set(ref _description, value);
     }
 
-    public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommand(() =>
+    public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommandAsync(async () =>
         {
+            if (_authenticationManager.User is { ClientId: null })
+                MessageBox.Show("Client is null", "Create order error");
+
+            OrderCreateViewModel model = new()
+            {
+                ClientId = (Guid)_authenticationManager.User!.ClientId!,
+                Description = Description!,
+                RequiredColors = ChosenColors.Where(x => x.IsChecked).Select(x => x.ColorViewModel).ToList()
+            };
+
+            Operation<OrderViewModel, string> result = await _mediator.Send(new CreateOrder.Request(model, _authenticationManager.User));
+
+            if (result.Ok)
+                MessageBox.Show(result.Result.ToString(), "Order created");
         },
         () => Description is { Length: > 10 });
 

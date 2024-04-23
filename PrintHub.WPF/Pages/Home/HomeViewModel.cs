@@ -23,7 +23,7 @@ public class HomeViewModel : ViewModelBase
     {
         _authenticationManager = authenticationManager;
         NavigateProfileCommand = new NavigateCommand(profileNavigationService);
-        OrderCreateFormViewModel = new OrderCreateFormViewModel(mediator);
+        OrderCreateFormViewModel = new OrderCreateFormViewModel(mediator, authenticationManager);
         LogoutCommand = new LogoutCommand(authenticationManager, loginNavigationService);
     }
 

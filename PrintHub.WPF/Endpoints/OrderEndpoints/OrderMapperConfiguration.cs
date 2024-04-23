@@ -3,7 +3,6 @@ using Calabonga.PagedListCore;
 using PrintHub.Domain;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Mapping;
-using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints;
@@ -13,9 +12,7 @@ public class OrderMapperConfiguration : Profile
     public OrderMapperConfiguration()
     {
         CreateMap<OrderCreateViewModel, Order>()
-            .ForMember(order => order.RequiredColors,
-                expression => expression.MapFrom((source, _, _, context)
-                    => source.RequiredColors.Select(colorViewModel => context.Mapper.Map<ColorViewModel, Color>(colorViewModel))))
+            .ForMember(order => order.RequiredColors, expression => expression.Ignore())
             .ForMember(order => order.CreatedAt, expression => expression.Ignore())
             .ForMember(order => order.CreatedBy, expression => expression.MapFrom((_, _, _, context) => context.Items[nameof(ApplicationUser)]))
             .ForMember(order => order.UpdatedAt, expression => expression.Ignore())

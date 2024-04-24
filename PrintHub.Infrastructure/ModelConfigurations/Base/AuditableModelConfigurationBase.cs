@@ -23,10 +23,8 @@ public abstract class AuditableModelConfigurationBase<T> : ModelConfigurationBas
             .IsRequired();
 
         builder.Property(x => x.UpdatedAt)
-            .HasConversion(
-                dateTime => dateTime!.Value.Kind == DateTimeKind.Utc ? dateTime : DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc), 
-                dateTime => dateTime!.Value.Kind == DateTimeKind.Utc ? dateTime : DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc)
-                );
+            .HasConversion(dateTime => dateTime!.Value.Kind == DateTimeKind.Utc ? dateTime : DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc),
+                dateTime => dateTime!.Value.Kind == DateTimeKind.Utc ? dateTime : DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc));
 
         builder.Property(x => x.UpdatedBy).HasMaxLength(256);
 

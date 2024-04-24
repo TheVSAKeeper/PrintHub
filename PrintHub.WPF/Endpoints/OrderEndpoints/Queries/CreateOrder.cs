@@ -19,7 +19,7 @@ public sealed class CreateOrder
         {
             logger.LogDebug("Creating new Order");
 
-            Order? entity = mapper.Map<OrderCreateViewModel, Order>(orderRequest.Model, 
+            Order? entity = mapper.Map<OrderCreateViewModel, Order>(orderRequest.Model,
                 options => options.Items[nameof(ApplicationUser)] = orderRequest.User.UserName);
 
             if (entity == null)
@@ -29,10 +29,12 @@ public sealed class CreateOrder
             }
 
             Guid[] chosenColorsKeys = orderRequest.Model.RequiredColors.Select(x => x.Id).ToArray();
+
             IList<Color> chosenColors = await unitOfWork.GetRepository<Color>()
                 .GetAllAsync(predicate: color => chosenColorsKeys.Contains(color.Id), disableTracking: false);
+
             entity.RequiredColors = chosenColors.ToList();
-            
+
             await unitOfWork.GetRepository<Order>().InsertAsync(entity, cancellationToken);
             await unitOfWork.SaveChangesAsync();
 

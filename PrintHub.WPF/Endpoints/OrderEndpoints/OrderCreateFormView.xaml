@@ -26,6 +26,14 @@
                              Padding="10"
                              HorizontalAlignment="Stretch">
             <StackPanel>
+                <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                        Margin="10 0 0 0"
+                        Command="{Binding CancelCommand}"
+                        Content="{materialDesign:PackIcon ArrowBack}"
+                        Width="30"
+                        Height="30"
+                        HorizontalAlignment="Left" />
+
                 <TextBlock Text="Order"
                            FontWeight="Bold"
                            FontSize="20"
@@ -53,7 +61,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <views:ColorFormView DataContext="{Binding ColorViewModel}" />
-                                    <CheckBox materialDesign:CheckBoxAssist.CheckBoxSize="40"
+                                    <CheckBox materialDesign:CheckBoxAssist.CheckBoxSize="32"
                                               IsChecked="{Binding IsChecked}"
                                               Margin="5,5,5,5" />
                                 </StackPanel>

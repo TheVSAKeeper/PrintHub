@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Views"
              xmlns:client="clr-namespace:PrintHub.WPF.Pages.Client"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.FontWeight="Medium"
@@ -15,6 +16,12 @@
              d:DesignWidth="800"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance client:ClientViewModel}">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction Command="{Binding LoadOrdersCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -53,20 +60,91 @@
         <GroupBox Header="Orders"
                   Margin="0,10,0,0"
                   Grid.Row="1">
-            <ListBox ItemsSource="{Binding Orders}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <views:OrderFormView DataContext="{Binding }" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+
+            <StackPanel>
+                <Grid Margin="5 0 5 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0 0 5 0"
+                             VerticalAlignment="Center"
+                             materialDesign:HintAssist.Hint="Search..." />
+
+                    <TextBlock Grid.Column="1"
+                               Text="Description:"
+                               Margin="0 0 0 0"
+                               VerticalAlignment="Center" />
+                    <TextBox Grid.Column="2"
+                             Text="{Binding DescriptionFilter, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0 0 5 0"
+                             VerticalAlignment="Center" />
+
+                    <TextBlock Grid.Column="3"
+                               Text="Status:"
+                               Margin="0 0 0 0"
+                               VerticalAlignment="Center" />
+                    <ComboBox Grid.Column="4"
+                              ItemsSource="{Binding StatusList}"
+                              SelectedItem="{Binding SelectedStatus}"
+                              Margin="0 0 5 0"
+                              VerticalAlignment="Center" />
+
+                    <TextBlock Grid.Column="5"
+                               Text="Updated At:"
+                               Margin="0 0 0 0"
+                               VerticalAlignment="Center" />
+                    <DatePicker Grid.Column="6"
+                                SelectedDate="{Binding UpdatedAtFilter, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="0 0 5 0"
+                                VerticalAlignment="Center" />
+
+                    <Button Grid.Column="7"
+                            Content="Search"
+                            Command="{Binding SearchCommand}"
+                            VerticalAlignment="Center" />
+                </Grid>
+
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding FilteredOrders}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <views:OrderFormView DataContext="{Binding}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Stretch" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </StackPanel>
         </GroupBox>
 
-        <Button Grid.Row="2"
-                Style="{DynamicResource MaterialDesignRaisedButton}"
-                Command="{Binding CreateOrderCommand}"
-                Content="Создать новый опрос"
-                Margin="5,5,5,5"
-                HorizontalAlignment="Right" />
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <Button Style="{DynamicResource MaterialDesignToolButton}"
+                    Command="{Binding LoadOrdersCommand}"
+                    Content="{materialDesign:PackIcon Refresh}"
+                    Margin="0,0,5,0" />
+            <Button Style="{DynamicResource MaterialDesignRaisedButton}"
+                    Command="{Binding CreateOrderCommand}"
+                    Content="Create order"
+                    Margin="5,5,5,5" />
+        </StackPanel>
+
     </Grid>
 </UserControl>

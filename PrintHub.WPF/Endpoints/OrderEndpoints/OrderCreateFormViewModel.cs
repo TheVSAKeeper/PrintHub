@@ -52,7 +52,10 @@ public class OrderCreateFormViewModel : ViewModelBase, ICallbackViewModel<OrderV
     public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommandAsync(async () =>
         {
             if (_authenticationManager.User is { ClientId: null })
+            {
                 MessageBox.Show("Client is null", "Create order error");
+                return;
+            }
 
             OrderCreateViewModel model = new()
             {

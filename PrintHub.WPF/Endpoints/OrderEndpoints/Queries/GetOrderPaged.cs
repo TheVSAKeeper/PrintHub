@@ -48,8 +48,9 @@ public sealed class GetOrderPaged
             if (search is null)
                 return predicate;
 
-            // predicate = predicate.And(x => x.Message.Contains(search));
-            // predicate = predicate.Or(x => x.Logger.Contains(search));
+            predicate = predicate.And(x => x.Description.Contains(search));
+            predicate = predicate.Or(x => x.ClientId.ToString() == search);
+
             return predicate;
         }
     }

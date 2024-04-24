@@ -17,7 +17,8 @@
 
     <Grid>
         <materialDesign:Card Margin="10"
-                             Grid.Row="0">
+                             Grid.Row="0"
+                             HorizontalAlignment="Stretch">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

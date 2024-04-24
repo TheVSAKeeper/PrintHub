@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
              xmlns:orderEndpoints="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance orderEndpoints:OrderCreateFormViewModel, IsDesignTimeCreatable=True}"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{materialDesign:MaterialDesignFont}"
@@ -15,6 +16,11 @@
              mc:Ignorable="d"
              d:DesignHeight="800"
              d:DesignWidth="500">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction Command="{Binding LoadColorsCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <Grid>
         <materialDesign:Card Margin="10"
                              Padding="10"

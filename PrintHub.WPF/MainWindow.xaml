@@ -14,6 +14,7 @@
         xmlns:views2="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
         xmlns:queries111="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
         xmlns:orderEndpoints="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints"
+        xmlns:client="clr-namespace:PrintHub.WPF.Pages.Client"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -34,6 +35,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type profile:ProfileViewModel}">
                 <profile:ProfileView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type client:ClientViewModel}">
+                <client:ClientView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type views:PrintingDetailsViewModel}">
                 <views:PrintingDetailsFormView />

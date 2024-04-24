@@ -1,8 +1,7 @@
 ﻿using System.Windows.Input;
-using MediatR;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Logout;
-using PrintHub.WPF.Endpoints.OrderEndpoints;
+using PrintHub.WPF.Pages.Client;
 using PrintHub.WPF.Pages.Login;
 using PrintHub.WPF.Pages.Profile;
 using PrintHub.WPF.Shared.Commands;
@@ -16,19 +15,21 @@ public class HomeViewModel : ViewModelBase
     private readonly AuthenticationManager _authenticationManager;
 
     public HomeViewModel(
-        IMediator mediator,
         AuthenticationManager authenticationManager,
+        NavigationService<ClientViewModel> clientNavigationService,
         NavigationService<ProfileViewModel> profileNavigationService,
         NavigationService<LoginViewModel> loginNavigationService)
     {
         _authenticationManager = authenticationManager;
+
+        NavigateClientCommand = new NavigateCommand(clientNavigationService);
         NavigateProfileCommand = new NavigateCommand(profileNavigationService);
-        OrderCreateFormViewModel = new OrderCreateFormViewModel(mediator, authenticationManager);
         LogoutCommand = new LogoutCommand(authenticationManager, loginNavigationService);
     }
 
+    public ICommand NavigateClientCommand { get; set; }
     public ICommand NavigateProfileCommand { get; }
     public ICommand LogoutCommand { get; }
-    public OrderCreateFormViewModel OrderCreateFormViewModel { get; }
+
     public string Username => _authenticationManager.Username;
 }

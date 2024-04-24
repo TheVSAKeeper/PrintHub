@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace PrintHub.WPF.Pages.Home;
+namespace PrintHub.WPF.Pages.Client;
 
 /// <summary>
 ///     Interaction logic for ClientView.xaml
 /// </summary>
-public partial class HomeView : UserControl
+public partial class ClientView : UserControl
 {
-    public HomeView()
+    public ClientView()
     {
         InitializeComponent();
     }

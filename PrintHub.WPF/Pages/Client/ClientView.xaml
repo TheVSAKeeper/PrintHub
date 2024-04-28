@@ -16,6 +16,11 @@
              d:DesignWidth="800"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance client:ClientViewModel}">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="OrdersCollection"
+                              Source="{Binding Orders}"
+                              Filter="FilterOrders" />
+    </UserControl.Resources>
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:InvokeCommandAction Command="{Binding LoadOrdersCommand}" />
@@ -24,42 +29,13 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-
-            <Button Style="{DynamicResource MaterialDesignToolButton}"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Command="{Binding NavigateProfileCommand}">
-                <TextBlock>
-                    <Run Text="Привет, " />
-                    <Run FontWeight="Bold"
-                         Text="{Binding Username, Mode=OneWay}" />
-                    <Run Text="!" />
-                </TextBlock>
-            </Button>
-
-            <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
-                    Grid.Column="2"
-                    Margin="10 0 0 0"
-                    Command="{Binding LogoutCommand}"
-                    Content="{materialDesign:PackIcon Logout}"
-                    Width="30"
-                    Height="30" />
-        </Grid>
-
         <GroupBox Header="Orders"
                   Margin="0,10,0,0"
-                  Grid.Row="1">
+                  Grid.Row="0">
 
             <StackPanel>
                 <Grid Margin="5 0 5 0">
@@ -71,31 +47,25 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <TextBox Grid.Column="0"
-                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Grid.ColumnSpan="3"
+                             x:Name="OrdersFilterText"
                              Margin="0 0 5 0"
                              VerticalAlignment="Center"
-                             materialDesign:HintAssist.Hint="Search..." />
-
-                    <TextBlock Grid.Column="1"
-                               Text="Description:"
-                               Margin="0 0 0 0"
-                               VerticalAlignment="Center" />
-                    <TextBox Grid.Column="2"
-                             Text="{Binding DescriptionFilter, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0 0 5 0"
-                             VerticalAlignment="Center" />
+                             materialDesign:HintAssist.Hint="By description or status (case-insensitive)"
+                             TextChanged="OrdersFilterText_TextChanged" />
 
                     <TextBlock Grid.Column="3"
                                Text="Status:"
                                Margin="0 0 0 0"
                                VerticalAlignment="Center" />
                     <ComboBox Grid.Column="4"
+                              x:Name="SelectedStatus"
+                              materialDesign:HintAssist.Hint="By order status"
                               ItemsSource="{Binding StatusList}"
-                              SelectedItem="{Binding SelectedStatus}"
+                              SelectionChanged="SelectedStatus_SelectionChanged"
                               Margin="0 0 5 0"
                               VerticalAlignment="Center" />
 
@@ -104,18 +74,15 @@
                                Margin="0 0 0 0"
                                VerticalAlignment="Center" />
                     <DatePicker Grid.Column="6"
-                                SelectedDate="{Binding UpdatedAtFilter, UpdateSourceTrigger=PropertyChanged}"
+                                x:Name="UpdatedAtFilter"
+                                materialDesign:HintAssist.Hint="On or after chosen"
+                                SelectedDateChanged="UpdatedAtFilter_SelectedDateChanged"
                                 Margin="0 0 5 0"
                                 VerticalAlignment="Center" />
-
-                    <Button Grid.Column="7"
-                            Content="Search"
-                            Command="{Binding SearchCommand}"
-                            VerticalAlignment="Center" />
                 </Grid>
 
                 <ScrollViewer>
-                    <ItemsControl ItemsSource="{Binding FilteredOrders}">
+                    <ItemsControl ItemsSource="{Binding Source={StaticResource OrdersCollection}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <views:OrderFormView DataContext="{Binding}" />
@@ -133,11 +100,12 @@
         </GroupBox>
 
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
             <Button Style="{DynamicResource MaterialDesignToolButton}"
                     Command="{Binding LoadOrdersCommand}"
+                    Click="ResetFilters"
                     Content="{materialDesign:PackIcon Refresh}"
                     Margin="0,0,5,0" />
             <Button Style="{DynamicResource MaterialDesignRaisedButton}"

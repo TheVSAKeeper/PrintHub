@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Calabonga.PagedListCore;
 using Calabonga.Results;
 using MediatR;
+using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Logout;
 using PrintHub.WPF.Endpoints.OrderEndpoints;
@@ -48,6 +49,8 @@ public class ClientViewModel : ViewModelBase
         get => _orders;
         set => Set(ref _orders, value);
     }
+
+    public IEnumerable<string> StatusList => Enum.GetNames(typeof(OrderStatus)).Prepend(string.Empty);
 
     public ICommand NavigateProfileCommand { get; }
     public ICommand CreateOrderCommand { get; }

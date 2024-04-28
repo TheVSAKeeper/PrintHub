@@ -7,7 +7,6 @@ using MediatR;
 using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Logout;
-using PrintHub.WPF.Endpoints.OrderEndpoints;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Pages.Login;
@@ -24,6 +23,7 @@ public class ClientViewModel : ViewModelBase
     private readonly AuthenticationManager _authenticationManager;
     private readonly IMediator _mediator;
     private ICommand? _loadOrdersCommand;
+
     private ObservableCollection<OrderViewModel>? _orders;
 
     public ClientViewModel(
@@ -31,8 +31,7 @@ public class ClientViewModel : ViewModelBase
         IMediator mediator,
         NavigationService<ProfileViewModel> profileNavigationService,
         NavigationService<LoginViewModel> loginNavigationService,
-        ICallbackNavigationService<OrderViewModel> order,
-        OrderCreateFormViewModel orderCreateFormViewModel)
+        ICallbackNavigationService<OrderViewModel> order)
     {
         _authenticationManager = authenticationManager;
         _mediator = mediator;
@@ -40,7 +39,6 @@ public class ClientViewModel : ViewModelBase
         NavigateProfileCommand = new NavigateCommand(profileNavigationService);
         LogoutCommand = new LogoutCommand(authenticationManager, loginNavigationService);
 
-        OrderCreateFormViewModel = orderCreateFormViewModel;
         CreateOrderCommand = new CallbackNavigateCommand<OrderViewModel>(order, OnOrderCreated);
     }
 
@@ -77,9 +75,6 @@ public class ClientViewModel : ViewModelBase
             Orders = new ObservableCollection<OrderViewModel>(old.DistinctBy(model => model.Id).OrderBy(model => model.UpdatedAt));
         }
     });
-
-    public OrderCreateFormViewModel OrderCreateFormViewModel { get; }
-    public string Username => _authenticationManager.Username;
 
     private void OnOrderCreated(OrderViewModel obj)
     {

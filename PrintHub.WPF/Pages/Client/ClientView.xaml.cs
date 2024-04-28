@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
+using PrintHub.WPF.Shared;
 
 namespace PrintHub.WPF.Pages.Client;
 
@@ -71,5 +73,20 @@ public partial class ClientView : UserControl
         SelectedStatus.SelectedValue = null;
         UpdatedAtFilter.SelectedDate = null;
         OrdersFilterText.Text = string.Empty;
+    }
+
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
+        CollectionViewSource collection = (CollectionViewSource)FindResource(nameof(OrdersCollection));
+
+        if (collection.Source is not ObservableCollection<OrderViewModel> source)
+        {
+            MessageBox.Show("collection.Source is not ObservableCollection<OrderViewModel> source", "Error");
+            return;
+        }
+
+        List<OrderViewModel> list = source.Where(order => !(IsStatusMatching(order) == false || IsUpdatedAtMatching(order) == false || IsFilterTextMatching(order) == false)).ToList();
+        Unities.SaveToXml(list);
+        Unities.SaveToExcel(list);
     }
 }

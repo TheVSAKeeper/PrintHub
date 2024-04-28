@@ -81,6 +81,7 @@
         <PackageReference Include="Calabonga.PredicatesBuilder" Version="2.0.1"/>
         <PackageReference Include="Calabonga.Results" Version="1.0.2"/>
         <PackageReference Include="Calabonga.UnitOfWork" Version="4.0.0"/>
+        <PackageReference Include="EPPlus" Version="7.1.2"/>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0"/>
         <PackageReference Include="MaterialDesignThemes" Version="4.9.0"/>
         <PackageReference Include="MediatR" Version="12.2.0"/>
@@ -140,6 +141,10 @@
         <Compile Update="Endpoints\PrintingDetailsEndpoints\Views\PrintingDetailsFormView.cs">
             <DependentUpon>PrintingDetailsFormView.xaml</DependentUpon>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="log4cplus.properties"/>
     </ItemGroup>
 
 </Project>

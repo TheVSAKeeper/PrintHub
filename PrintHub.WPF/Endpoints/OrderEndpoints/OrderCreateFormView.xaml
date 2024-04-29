@@ -27,7 +27,7 @@
                              HorizontalAlignment="Stretch">
             <StackPanel>
                 <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
-                        Margin="10 0 0 0"
+                        Margin="0 0 0 0"
                         Command="{Binding CancelCommand}"
                         Content="{materialDesign:PackIcon ArrowBack}"
                         Width="30"
@@ -37,13 +37,13 @@
                 <TextBlock Text="Order"
                            FontWeight="Bold"
                            FontSize="20"
-                           Margin="5" />
+                           Margin="0 5 0 5" />
 
                 <TextBlock Text="Order Description" />
                 <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                          TextWrapping="WrapWithOverflow" />
 
-                <Expander>
+                <Expander Margin="0 5 0 5">
                     <Expander.Header>
                         <UniformGrid Columns="2"
                                      Rows="1">
@@ -56,18 +56,29 @@
                                     HorizontalAlignment="Right" />
                         </UniformGrid>
                     </Expander.Header>
-                    <ListBox ItemsSource="{Binding ChosenColors}">
-                        <ListBox.ItemTemplate>
+                    <ItemsControl ItemsSource="{Binding ChosenColors}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <views:ColorFormView DataContext="{Binding ColorViewModel}" />
-                                    <CheckBox materialDesign:CheckBoxAssist.CheckBoxSize="32"
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Grid.Column="0"
+                                              materialDesign:CheckBoxAssist.CheckBoxSize="24"
                                               IsChecked="{Binding IsChecked}"
                                               Margin="5,5,5,5" />
-                                </StackPanel>
+                                    <views:ColorFormView Grid.Column="1"
+                                                         DataContext="{Binding ColorViewModel}" />
+                                </Grid>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="2" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </Expander>
 
                 <Button Command="{Binding ConfirmCommand}"

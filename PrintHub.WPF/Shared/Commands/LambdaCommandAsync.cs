@@ -1,55 +1,48 @@
 namespace PrintHub.WPF.Shared.Commands;
 
-public class LambdaCommandAsync : CommandBase
+public class LambdaCommandAsync(Func<object?, Task> executeAsync, Func<object?, bool>? canExecuteAsync = null) : CommandBase
 {
-    private readonly Func<object?, bool>? _CanExecuteAsync;
-    private readonly Func<object?, Task> _ExecuteAsync;
+    private readonly Func<object?, Task> _executeAsync = executeAsync ?? throw new ArgumentNullException(nameof(executeAsync));
 
-    private volatile Task? _ExecutingTask;
+    private volatile Task? _executingTask;
 
-    public LambdaCommandAsync(Func<Task> ExecuteAsync, Func<bool>? CanExecute = null)
-        : this(ExecuteAsync is null ? throw new ArgumentNullException(nameof(ExecuteAsync)) : new Func<object?, Task>(_ => ExecuteAsync()),
-            CanExecute is null ? null : _ => CanExecute!())
+    public LambdaCommandAsync(Func<Task> executeAsync, Func<bool>? canExecute = null)
+        : this(executeAsync is null ? throw new ArgumentNullException(nameof(executeAsync)) : new Func<object?, Task>(_ => executeAsync()),
+            canExecute is null ? null : _ => canExecute!())
     {
     }
 
-    public LambdaCommandAsync(Func<object?, Task> ExecuteAsync, Func<bool>? CanExecute)
-        : this(ExecuteAsync, CanExecute is null ? null : _ => CanExecute!())
+    public LambdaCommandAsync(Func<object?, Task> executeAsync, Func<bool>? canExecute)
+        : this(executeAsync, canExecute is null ? null : _ => canExecute!())
     {
-    }
-
-    public LambdaCommandAsync(Func<object?, Task> ExecuteAsync, Func<object?, bool>? CanExecuteAsync = null)
-    {
-        _ExecuteAsync = ExecuteAsync ?? throw new ArgumentNullException(nameof(ExecuteAsync));
-        _CanExecuteAsync = CanExecuteAsync;
     }
 
     /// <summary>Выполнять задачу принудительно в фоновом потоке</summary>
     public bool Background { get; set; }
 
     protected override bool CanExecute(object? parameter) =>
-        (_ExecutingTask is null || _ExecutingTask.IsCompleted)
-        && (_CanExecuteAsync?.Invoke(parameter) ?? true);
+        (_executingTask is null || _executingTask.IsCompleted)
+        && (canExecuteAsync?.Invoke(parameter) ?? true);
 
     protected override async void Execute(object? parameter)
     {
         bool background = Background;
 
-        bool can_execute = background
+        bool canExecute = background
             ? await Task.Run(() => CanExecute(parameter))
             : CanExecute(parameter);
 
-        if (!can_execute)
+        if (!canExecute)
             return;
 
-        Task execute_async = background ? Task.Run(() => _ExecuteAsync(parameter)) : _ExecuteAsync(parameter);
-        _ = Interlocked.Exchange(ref _ExecutingTask, execute_async);
-        _ExecutingTask = execute_async;
+        Task executeAsync = background ? Task.Run(() => _executeAsync(parameter)) : _executeAsync(parameter);
+        _ = Interlocked.Exchange(ref _executingTask, executeAsync);
+        _executingTask = executeAsync;
         OnCanExecuteChanged();
 
         try
         {
-            await execute_async.ConfigureAwait(true);
+            await executeAsync.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {

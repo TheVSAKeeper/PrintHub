@@ -19,4 +19,13 @@ public class OrderViewModel
 
     public virtual List<Sample>? Samples { get; set; }
     public virtual List<Item>? Items { get; set; }
+
+    public override string ToString() => $"Description: {Description} "
+                                         + $"Status: {Status} "
+                                         + $"Updated: {UpdatedAt:g} "
+                                         + $"By: {UpdatedBy} "
+                                         + $"Client: {Client?.Email} "
+                                         + $"Required colors: {string.Join(", ", RequiredColors ?? [])}"
+                                         + $"Samples: {Samples?.Count} "
+                                         + $"Items: {Items?.Count}";
 }

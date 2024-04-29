@@ -6,22 +6,12 @@ using PrintHub.WPF.Shared.Navigation;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Login;
 
-public class LoginCommand : AsyncCommandBase
+public class LoginCommand(
+    LoginFormViewModel loginViewModel,
+    AuthenticationManager authenticationManager,
+    INavigationService homeNavigationService)
+    : AsyncCommandBase
 {
-    private readonly AuthenticationManager _authenticationManager;
-    private readonly INavigationService _homeNavigationService;
-    private readonly LoginFormViewModel _loginViewModel;
-
-    public LoginCommand(
-        LoginFormViewModel loginViewModel,
-        AuthenticationManager authenticationManager,
-        INavigationService homeNavigationService)
-    {
-        _loginViewModel = loginViewModel;
-        _authenticationManager = authenticationManager;
-        _homeNavigationService = homeNavigationService;
-    }
-
     protected override async Task ExecuteAsync(object? parameter)
     {
         try
@@ -29,7 +19,7 @@ public class LoginCommand : AsyncCommandBase
             if (parameter is not PasswordBox passwordBox)
                 return;
 
-            SignInResult result = await _authenticationManager.SignInAsync(_loginViewModel.Username!, passwordBox.Password);
+            SignInResult result = await authenticationManager.SignInAsync(loginViewModel.Username!, passwordBox.Password);
 
             if (result.Succeeded == false)
             {
@@ -37,7 +27,7 @@ public class LoginCommand : AsyncCommandBase
                 return;
             }
 
-            _homeNavigationService.Navigate();
+            homeNavigationService.Navigate();
         }
         catch (Exception)
         {
@@ -45,5 +35,5 @@ public class LoginCommand : AsyncCommandBase
         }
     }
 
-    protected override bool CanExecuteAsync(object? parameter) => _loginViewModel.Username != null;
+    protected override bool CanExecuteAsync(object? parameter) => loginViewModel.Username != null;
 }

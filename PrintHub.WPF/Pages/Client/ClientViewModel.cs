@@ -6,13 +6,9 @@ using Calabonga.Results;
 using MediatR;
 using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
-using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Logout;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
-using PrintHub.WPF.Pages.Login;
-using PrintHub.WPF.Pages.Profile;
 using PrintHub.WPF.Shared.Commands;
-using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -22,6 +18,8 @@ public class ClientViewModel : ViewModelBase
 {
     private readonly AuthenticationManager _authenticationManager;
     private readonly IMediator _mediator;
+
+    private ICommand? _deleteOrderCommand;
     private ICommand? _loadOrdersCommand;
 
     private ObservableCollection<OrderViewModel>? _orders;
@@ -29,15 +27,10 @@ public class ClientViewModel : ViewModelBase
     public ClientViewModel(
         AuthenticationManager authenticationManager,
         IMediator mediator,
-        NavigationService<ProfileViewModel> profileNavigationService,
-        NavigationService<LoginViewModel> loginNavigationService,
         ICallbackNavigationService<OrderViewModel> order)
     {
         _authenticationManager = authenticationManager;
         _mediator = mediator;
-
-        NavigateProfileCommand = new NavigateCommand(profileNavigationService);
-        LogoutCommand = new LogoutCommand(authenticationManager, loginNavigationService);
 
         CreateOrderCommand = new CallbackNavigateCommand<OrderViewModel>(order, OnOrderCreated);
     }
@@ -50,9 +43,7 @@ public class ClientViewModel : ViewModelBase
 
     public IEnumerable<string> StatusList => Enum.GetNames(typeof(OrderStatus)).Prepend(string.Empty);
 
-    public ICommand NavigateProfileCommand { get; }
     public ICommand CreateOrderCommand { get; }
-    public ICommand LogoutCommand { get; }
 
     public ICommand LoadOrdersCommand => _loadOrdersCommand ??= new LambdaCommandAsync(async () =>
     {
@@ -65,16 +56,42 @@ public class ClientViewModel : ViewModelBase
         Operation<IPagedList<OrderViewModel>, string> result =
             await _mediator.Send(new GetOrderPaged.Request(0, 999, _authenticationManager.User!.ClientId.ToString()));
 
-        if (result.Ok)
+        if (result.Ok == false)
         {
-            List<OrderViewModel> old = [..result.Result.Items];
-
-            if (Orders != null)
-                old.AddRange(Orders);
-
-            Orders = new ObservableCollection<OrderViewModel>(old.DistinctBy(model => model.Id).OrderBy(model => model.UpdatedAt));
+            MessageBox.Show(result.Error, "Error");
+            return;
         }
+
+        Orders = new ObservableCollection<OrderViewModel>(result.Result.Items.OrderByDescending(model => model.UpdatedAt));
     });
+
+    public ICommand DeleteOrderCommand => _deleteOrderCommand ??= new LambdaCommandAsync(async id =>
+        {
+            if (id is null)
+            {
+                MessageBox.Show("id is null", "Error");
+                return;
+            }
+
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete this item?",
+                "Delete Confirmation",
+                MessageBoxButton.OKCancel);
+
+            if (messageBoxResult == MessageBoxResult.Cancel)
+                return;
+
+            Operation<OrderViewModel, string> result = await _mediator.Send(new DeleteOrder.Request((Guid)id));
+
+            if (result.Ok == false)
+            {
+                MessageBox.Show(result.Error, "Error");
+                return;
+            }
+
+            MessageBox.Show(result.Result.ToString(), "Order deleted");
+            LoadOrdersCommand.Execute(null);
+        },
+        () => true);
 
     private void OnOrderCreated(OrderViewModel obj)
     {

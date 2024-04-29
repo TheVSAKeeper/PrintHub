@@ -15,10 +15,9 @@ using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints;
 
-public class OrderCreateFormViewModel : ViewModelBase, ICallbackViewModel<OrderViewModel>
+public class OrderCreateFormViewModel(IMediator mediator, AuthenticationManager authenticationManager, CloseModalNavigationService closeNavigationService)
+    : ViewModelBase, ICallbackViewModel<OrderViewModel>
 {
-    private readonly AuthenticationManager _authenticationManager;
-    private readonly IMediator _mediator;
     private Action<OrderViewModel>? _callback;
 
     private ICommand? _confirmCommand;
@@ -26,14 +25,6 @@ public class OrderCreateFormViewModel : ViewModelBase, ICallbackViewModel<OrderV
 
     private ObservableCollection<CheckableColor> _chosenColors = null!;
     private string? _description;
-
-    public OrderCreateFormViewModel(IMediator mediator, AuthenticationManager authenticationManager, CloseModalNavigationService closeNavigationService)
-    {
-        _mediator = mediator;
-        _authenticationManager = authenticationManager;
-
-        CancelCommand = new NavigateCommand(closeNavigationService);
-    }
 
     public string? Description
     {
@@ -47,11 +38,11 @@ public class OrderCreateFormViewModel : ViewModelBase, ICallbackViewModel<OrderV
         set => Set(ref _chosenColors, value);
     }
 
-    public ICommand CancelCommand { get; }
+    public ICommand CancelCommand { get; } = new NavigateCommand(closeNavigationService);
 
     public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommandAsync(async () =>
         {
-            if (_authenticationManager.User is { ClientId: null })
+            if (authenticationManager.User is { ClientId: null })
             {
                 MessageBox.Show("Client is null", "Create order error");
                 return;
@@ -59,12 +50,12 @@ public class OrderCreateFormViewModel : ViewModelBase, ICallbackViewModel<OrderV
 
             OrderCreateViewModel model = new()
             {
-                ClientId = (Guid)_authenticationManager.User!.ClientId!,
+                ClientId = (Guid)authenticationManager.User!.ClientId!,
                 Description = Description!,
                 RequiredColors = ChosenColors.Where(x => x.IsChecked).Select(x => x.ColorViewModel).ToList()
             };
 
-            Operation<OrderViewModel, string> result = await _mediator.Send(new CreateOrder.Request(model, _authenticationManager.User));
+            Operation<OrderViewModel, string> result = await mediator.Send(new CreateOrder.Request(model, authenticationManager.User));
 
             if (result.Ok)
             {
@@ -79,7 +70,7 @@ public class OrderCreateFormViewModel : ViewModelBase, ICallbackViewModel<OrderV
 
     public ICommand LoadColorsCommand => _loadColorsCommand ??= new LambdaCommandAsync(async () =>
     {
-        Operation<IPagedList<ColorViewModel>, string> colors = await _mediator.Send(new GetColorPaged.Request(0, 10, null));
+        Operation<IPagedList<ColorViewModel>, string> colors = await mediator.Send(new GetColorPaged.Request(0, 10, null));
         ChosenColors = new ObservableCollection<CheckableColor>(colors.Result.Items.Select(x => new CheckableColor(x, false)));
     });
 

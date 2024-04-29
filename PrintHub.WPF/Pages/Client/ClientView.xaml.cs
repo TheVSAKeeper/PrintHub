@@ -68,14 +68,14 @@ public partial class ClientView : UserControl
         RefreshOrders();
     }
 
-    private void ResetFilters(object sender, RoutedEventArgs e)
+    private void OnResetFiltersButtonClicked(object sender, RoutedEventArgs e)
     {
         SelectedStatus.SelectedValue = null;
         UpdatedAtFilter.SelectedDate = null;
         OrdersFilterText.Text = string.Empty;
     }
 
-    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    private void OnSaveButtonClicked(object sender, RoutedEventArgs e)
     {
         CollectionViewSource collection = (CollectionViewSource)FindResource(nameof(OrdersCollection));
 

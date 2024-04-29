@@ -31,7 +31,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="1"
-                               Text="Order Details" />
+                               Text="{Binding Id, StringFormat=Order #{0}}" />
 
                 </Grid>
 

@@ -7,6 +7,7 @@
              xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Views"
              xmlns:client="clr-namespace:PrintHub.WPF.Pages.Client"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:converters="clr-namespace:PrintHub.WPF.Shared.Converters"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.FontWeight="Medium"
@@ -20,6 +21,7 @@
         <CollectionViewSource x:Key="OrdersCollection"
                               Source="{Binding Orders}"
                               Filter="FilterOrders" />
+        <converters:OrderStatusToVisibilityConverter x:Key="OrderStatusToVisibilityConverter" />
     </UserControl.Resources>
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
@@ -91,7 +93,22 @@
                     <ItemsControl ItemsSource="{Binding Source={StaticResource OrdersCollection}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <views:OrderFormView DataContext="{Binding}" />
+                                <Grid>
+                                    <views:OrderFormView DataContext="{Binding}" />
+                                    <Button Panel.ZIndex="1"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Visibility="{Binding Status, Converter={StaticResource OrderStatusToVisibilityConverter}}"
+                                            Style="{DynamicResource MaterialDesignToolButton}"
+                                            Foreground="Red"
+                                            Command="{Binding DataContext.DeleteOrderCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding Id}"
+                                            Content="{materialDesign:PackIcon Remove}"
+                                            Margin="10,5"
+                                            Width="30"
+                                            Height="30" />
+                                </Grid>
+
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>
@@ -110,12 +127,12 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
             <Button Style="{DynamicResource MaterialDesignToolButton}"
-                    Click="ButtonBase_OnClick"
+                    Click="OnSaveButtonClicked"
                     Content="{materialDesign:PackIcon File}"
                     Margin="0,0,5,0" />
             <Button Style="{DynamicResource MaterialDesignToolButton}"
                     Command="{Binding LoadOrdersCommand}"
-                    Click="ResetFilters"
+                    Click="OnResetFiltersButtonClicked"
                     Content="{materialDesign:PackIcon Refresh}"
                     Margin="0,0,5,0" />
             <Button Style="{DynamicResource MaterialDesignRaisedButton}"

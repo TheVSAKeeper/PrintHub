@@ -25,8 +25,18 @@
         <materialDesign:Card Margin="10"
                              Padding="10"
                              HorizontalAlignment="Stretch">
-            <StackPanel>
-                <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0"
+                        Style="{DynamicResource MaterialDesignFloatingActionButton}"
                         Margin="0 0 0 0"
                         Command="{Binding CancelCommand}"
                         Content="{materialDesign:PackIcon ArrowBack}"
@@ -34,16 +44,20 @@
                         Height="30"
                         HorizontalAlignment="Left" />
 
-                <TextBlock Text="Order"
+                <TextBlock Grid.Row="1"
+                           Text="Order"
                            FontWeight="Bold"
                            FontSize="20"
                            Margin="0 5 0 5" />
 
-                <TextBlock Text="Order Description" />
-                <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                <TextBlock Grid.Row="2"
+                           Text="Order Description" />
+                <TextBox Grid.Row="3"
+                         Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                          TextWrapping="WrapWithOverflow" />
 
-                <Expander Margin="0 5 0 5">
+                <Expander Grid.Row="4"
+                          Margin="0 5 0 5">
                     <Expander.Header>
                         <UniformGrid Columns="2"
                                      Rows="1">
@@ -81,9 +95,12 @@
                     </ItemsControl>
                 </Expander>
 
-                <Button Command="{Binding ConfirmCommand}"
+                <Button Grid.Row="6"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding ConfirmCommand}"
                         Content="Create" />
-            </StackPanel>
+            </Grid>
 
         </materialDesign:Card>
     </Grid>

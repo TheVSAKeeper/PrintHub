@@ -60,6 +60,11 @@
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Status}"
+                                                     Value="None">
+                                            <Setter Property="Foreground"
+                                                    Value="Gray" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}"
                                                      Value="New">
                                             <Setter Property="Foreground"
                                                     Value="Red" />
@@ -78,6 +83,11 @@
                                                      Value="Delivered">
                                             <Setter Property="Foreground"
                                                     Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}"
+                                                     Value="Completed">
+                                            <Setter Property="Foreground"
+                                                    Value="DarkGreen" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

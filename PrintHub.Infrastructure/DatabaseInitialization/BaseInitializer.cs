@@ -101,6 +101,18 @@ public partial class DatabaseInitializer
             new Order
             {
                 Id = Guid.NewGuid(),
+                Description = "Completed order",
+                Status = OrderStatus.Completed,
+                ClientId = clients[0].Id,
+                Client = clients[0],
+                Samples = new List<Sample>(),
+                Items = new List<Item>(),
+                RequiredColors = [colors[0]]
+            },
+
+            new Order
+            {
+                Id = Guid.NewGuid(),
                 Description = "Второй заказ",
                 Status = OrderStatus.InProgress,
                 ClientId = clients[1].Id,
@@ -108,6 +120,18 @@ public partial class DatabaseInitializer
                 Samples = new List<Sample>(),
                 Items = new List<Item>(),
                 RequiredColors = [colors[1]]
+            },
+
+            new Order
+            {
+                Id = Guid.NewGuid(),
+                Description = "Третий заказ",
+                Status = OrderStatus.InProgress,
+                ClientId = clients[0].Id,
+                Client = clients[0],
+                Samples = new List<Sample>(),
+                Items = new List<Item>(),
+                RequiredColors = [colors[0], colors[1]]
             }
         ];
 

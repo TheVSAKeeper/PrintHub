@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared;
 
@@ -36,7 +37,12 @@ public partial class ClientView : UserControl
     private bool IsStatusMatching(OrderViewModel order)
     {
         string? selectedStatus = SelectedStatus.SelectedValue as string;
-        return string.IsNullOrEmpty(selectedStatus) || string.Equals(order.Status.ToString(), selectedStatus, StringComparison.OrdinalIgnoreCase);
+        bool isFilterEntered = string.IsNullOrEmpty(selectedStatus) == false;
+
+        if (order.Status == OrderStatus.Completed)
+            return isFilterEntered && string.Equals(OrderStatus.Completed.ToString(), selectedStatus, StringComparison.OrdinalIgnoreCase);
+
+        return isFilterEntered == false || string.Equals(order.Status.ToString(), selectedStatus, StringComparison.OrdinalIgnoreCase);
     }
 
     private bool IsUpdatedAtMatching(OrderViewModel order) => UpdatedAtFilter.SelectedDate.HasValue == false || order.UpdatedAt >= UpdatedAtFilter.SelectedDate;

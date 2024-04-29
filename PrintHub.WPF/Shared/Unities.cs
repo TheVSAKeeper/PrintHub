@@ -3,30 +3,29 @@ using System.Reflection;
 using System.Xml.Serialization;
 using Microsoft.Win32;
 using OfficeOpenXml;
-using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 
 namespace PrintHub.WPF.Shared;
 
-public class Unities
+public static class Unities
 {
-    public static void SaveOrdersToXml(List<OrderViewModel> orders, string filePath)
+    private static void SaveOrdersToXml<T>(List<T> orders, string filePath)
     {
-        XmlSerializer serializer = new(typeof(List<OrderViewModel>));
+        XmlSerializer serializer = new(typeof(List<T>));
 
         using TextWriter writer = new StreamWriter(filePath);
 
         serializer.Serialize(writer, orders);
     }
 
-    public static void SaveOrdersToExcel(List<OrderViewModel> orders, string filePath)
+    private static void SaveOrdersToExcel<T>(List<T> orders, string filePath)
     {
         using ExcelPackage package = new();
 
-        ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Orders");
+        ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(typeof(T).Name);
 
         int column = 1;
 
-        foreach (PropertyInfo propertyInfo in typeof(OrderViewModel).GetProperties())
+        foreach (PropertyInfo propertyInfo in typeof(T).GetProperties())
         {
             worksheet.Cells[1, column].Value = propertyInfo.Name;
             column++;
@@ -34,11 +33,11 @@ public class Unities
 
         int row = 2;
 
-        foreach (OrderViewModel order in orders)
+        foreach (T order in orders)
         {
             column = 1;
 
-            foreach (PropertyInfo propertyInfo in typeof(OrderViewModel).GetProperties())
+            foreach (PropertyInfo propertyInfo in typeof(T).GetProperties())
             {
                 worksheet.Cells[row, column].Value = propertyInfo.GetValue(order);
                 column++;
@@ -50,12 +49,12 @@ public class Unities
         package.SaveAs(new FileInfo(filePath));
     }
 
-    public static void SaveToExcel(List<OrderViewModel> list)
+    public static void SaveToExcel<T>(List<T> list)
     {
         SaveFileDialog saveFileDialog = new()
         {
             Filter = "Excel Files|*.xlsx",
-            FileName = $"OrdersData_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx"
+            FileName = $"{typeof(T).Name}Data_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx"
         };
 
         if (saveFileDialog.ShowDialog() == false)
@@ -66,12 +65,12 @@ public class Unities
         SaveOrdersToExcel(list, filePath);
     }
 
-    public static void SaveToXml(List<OrderViewModel> list)
+    public static void SaveToXml<T>(List<T> list)
     {
         SaveFileDialog saveFileDialog = new()
         {
             Filter = "XML Files|*.xml",
-            FileName = $"OrdersData_{DateTime.Now:yyyyMMdd_HHmmss}.xml"
+            FileName = $"{typeof(T).Name}Data_{DateTime.Now:yyyyMMdd_HHmmss}.xml"
         };
 
         if (saveFileDialog.ShowDialog() == false)

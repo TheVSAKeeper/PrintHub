@@ -100,7 +100,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Foreground="Red" Text="{Binding ErrorMessage}"></TextBlock>
+                                <TextBlock Foreground="Red"
+                                           Text="{Binding ErrorMessage}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -111,7 +112,6 @@
                         Command="{Binding ConfirmCommand}"
                         Content="Create" />
             </Grid>
-
         </materialDesign:Card>
     </Grid>
 </UserControl>

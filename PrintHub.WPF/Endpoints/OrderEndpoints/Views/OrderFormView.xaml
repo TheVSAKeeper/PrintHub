@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewModels="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels"
+             xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{materialDesign:MaterialDesignFont}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -37,6 +38,7 @@
 
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
+                        <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
@@ -116,6 +118,19 @@
                                    Margin="10 0 0 0" />
                     </StackPanel>
 
+                    <ItemsControl Grid.Row="5"
+                                  ItemsSource="{Binding RequiredColors}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <views:ColorFormView DataContext="{Binding }" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="2" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </Grid>
             </Grid>
 

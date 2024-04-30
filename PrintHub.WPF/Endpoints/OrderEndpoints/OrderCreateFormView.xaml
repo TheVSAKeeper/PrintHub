@@ -95,6 +95,16 @@
                     </ItemsControl>
                 </Expander>
 
+                <ListView Grid.Row="5"
+                          ItemsSource="{Binding Errors}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Foreground="Red" Text="{Binding ErrorMessage}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <Button Grid.Row="6"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"

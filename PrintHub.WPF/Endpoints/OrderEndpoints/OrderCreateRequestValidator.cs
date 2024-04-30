@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
-using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints;
 
-public class OrderCreateRequestValidator : AbstractValidator<CreateOrder.Request>
+public class OrderCreateRequestValidator : AbstractValidator<OrderCreateFormViewModel>
 {
     public OrderCreateRequestValidator()
     {
         RuleSet("default", () =>
         {
-            //  RuleFor(request => request.Model.CreatedAt).NotNull();
+            RuleFor(request => request.Description).NotNull().Length(10, 1024);
         });
     }
 }

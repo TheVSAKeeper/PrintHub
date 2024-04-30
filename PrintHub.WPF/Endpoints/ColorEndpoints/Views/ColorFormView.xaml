@@ -29,6 +29,8 @@
                            Margin="5" />
                 <Rectangle Width="50"
                            Height="20"
+                           RadiusX="5"
+                           RadiusY="5"
                            Fill="{Binding ColorCode, Converter={StaticResource ColorCodeToColorConverter}}"
                            Margin="5" />
             </StackPanel>

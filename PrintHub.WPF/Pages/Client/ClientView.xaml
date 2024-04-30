@@ -108,7 +108,6 @@
                                             Width="30"
                                             Height="30" />
                                 </Grid>
-
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>

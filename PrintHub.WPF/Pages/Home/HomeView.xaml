@@ -18,7 +18,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="1*" />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -50,6 +51,11 @@
         </Grid>
 
         <Button Grid.Row="2"
+                Style="{DynamicResource MaterialDesignRaisedButton}"
+                Command="{Binding NavigateAdminCommand}"
+                Content="Заказы"
+                Margin="5,5,5,5" />
+        <Button Grid.Row="3"
                 Style="{DynamicResource MaterialDesignRaisedButton}"
                 Command="{Binding NavigateClientCommand}"
                 Content="Заказы"

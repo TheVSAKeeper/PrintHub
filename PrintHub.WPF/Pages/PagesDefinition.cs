@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PrintHub.WPF.Definitions.Base;
+using PrintHub.WPF.Pages.Admin;
 using PrintHub.WPF.Pages.Client;
 using PrintHub.WPF.Pages.Home;
 using PrintHub.WPF.Pages.Login;
@@ -16,5 +17,6 @@ public class PagesDefinition : AppDefinition
         services.AddPage<LoginViewModel>();
         services.AddPage<ProfileViewModel>();
         services.AddPage<ClientViewModel>();
+        services.AddPage<AdminViewModel>();
     }
 }

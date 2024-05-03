@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PrintHub.WPF.Pages.Admin"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Views"
              mc:Ignorable="d"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
@@ -21,6 +22,21 @@
         </b:EventTrigger>
     </b:Interaction.Triggers>
     <Grid>
-        <DataGrid ItemsSource="{Binding Orders}" />
+        <DataGrid ItemsSource="{Binding Orders}"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="False"
+                  CanUserResizeRows="False"
+                  CanUserSortColumns="False"
+                  IsReadOnly="True">
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <views:OrderFormView HorizontalAlignment="Left"
+                                             MaxWidth="500"
+                                             DataContext="{Binding }" />
+                    </StackPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
     </Grid>
 </UserControl>

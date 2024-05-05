@@ -17,7 +17,7 @@ namespace PrintHub.WPF.Pages.Client;
 
 public class ClientViewModel : ViewModelBase
 {
-    private readonly AuthenticationManager _authenticationManager;
+    private readonly AuthenticationStore _authenticationStore;
     private readonly IMediator _mediator;
 
     private ICommand? _deleteOrderCommand;
@@ -26,11 +26,11 @@ public class ClientViewModel : ViewModelBase
     private ObservableCollection<OrderViewModel>? _orders;
 
     public ClientViewModel(
-        AuthenticationManager authenticationManager,
+        AuthenticationStore authenticationStore,
         IMediator mediator,
         ICallbackNavigationService<OrderViewModel> order)
     {
-        _authenticationManager = authenticationManager;
+        _authenticationStore = authenticationStore;
         _mediator = mediator;
 
         CreateOrderCommand = new CallbackNavigateCommand<OrderViewModel>(order, OnOrderCreated);
@@ -48,14 +48,14 @@ public class ClientViewModel : ViewModelBase
 
     public ICommand LoadOrdersCommand => _loadOrdersCommand ??= new LambdaCommandAsync(async () =>
     {
-        if (_authenticationManager.User is { ClientId: null })
+        if (_authenticationStore.User is { ClientId: null })
         {
             MaterialMessageBox.ShowError("Client is null", "Create order error");
             return;
         }
 
         Operation<IPagedList<OrderViewModel>, string> result =
-            await _mediator.Send(new GetOrderPaged.Request(0, 999, _authenticationManager.User!.ClientId.ToString()));
+            await _mediator.Send(new GetOrderPaged.Request(0, 999, _authenticationStore.User!.ClientId.ToString()));
 
         if (result.Ok == false)
         {

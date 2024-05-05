@@ -5,7 +5,7 @@ using PrintHub.WPF.Properties;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 
-public class AuthenticationManager(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+public class AuthenticationStore(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
 {
     public ApplicationUser? User { get; private set; }
 
@@ -56,7 +56,7 @@ public class AuthenticationManager(UserManager<ApplicationUser> userManager, Rol
     public void SignOut()
     {
         User = null;
-        //ClearAuthenticationState();
+        ClearAuthenticationState();
     }
 
     private void SaveAuthenticationState()

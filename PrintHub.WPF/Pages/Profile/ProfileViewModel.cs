@@ -14,17 +14,17 @@ using PrintHub.WPF.Shared.ViewModels;
 namespace PrintHub.WPF.Pages.Profile;
 
 public class ProfileViewModel(
-    AuthenticationManager authenticationManager,
+    AuthenticationStore authenticationStore,
     NavigationService<HomeViewModel> homeNavigationService,
     ApplicationRoleStore roleStore,
     IMediator mediator,
     IMapper mapper)
     : ViewModelBase
 {
-    public ApplicationUserUpdateViewModel ApplicationUserUpdateViewModel { get; } = new(authenticationManager, mediator, mapper);
-    public RegisterFormViewModel RegisterFormViewModel { get; } = new(authenticationManager, roleStore);
+    public ApplicationUserUpdateViewModel ApplicationUserUpdateViewModel { get; } = new(authenticationStore, mediator, mapper);
+    public RegisterFormViewModel RegisterFormViewModel { get; } = new(authenticationStore, roleStore);
 
-    public bool IsUserAdministrator => authenticationManager.IsInRole(AppData.SystemAdministratorRoleName);
+    public bool IsUserAdministrator => authenticationStore.IsInRole(AppData.SystemAdministratorRoleName);
 
     public ICommand NavigateHomeCommand { get; } = new NavigateCommand(homeNavigationService);
 }

@@ -9,11 +9,11 @@ public class LoginFormViewModel : ViewModelBase
     private string? _username;
 
     public LoginFormViewModel(
-        AuthenticationManager authenticationManager,
+        AuthenticationStore authenticationStore,
         INavigationService homeNavigationService
     )
     {
-        SubmitCommand = new LoginCommand(this, authenticationManager, homeNavigationService);
+        SubmitCommand = new LoginCommand(this, authenticationStore, homeNavigationService);
     }
 
     public string? Username

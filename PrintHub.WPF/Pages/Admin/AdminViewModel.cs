@@ -17,7 +17,7 @@ namespace PrintHub.WPF.Pages.Admin;
 
 public class AdminViewModel : ViewModelBase
 {
-    private readonly AuthenticationManager _authenticationManager;
+    private readonly AuthenticationStore _authenticationStore;
     private readonly IMediator _mediator;
 
     private ICommand? _deleteOrderCommand;
@@ -26,12 +26,12 @@ public class AdminViewModel : ViewModelBase
     private ObservableCollection<OrderViewModel>? _orders;
 
     public AdminViewModel(
-        AuthenticationManager authenticationManager,
+        AuthenticationStore authenticationStore,
         IMediator mediator,
         ICallbackNavigationService<OrderViewModel> order
     )
     {
-        _authenticationManager = authenticationManager;
+        _authenticationStore = authenticationStore;
         _mediator = mediator;
 
         CreateOrderCommand = new CallbackNavigateCommand<OrderViewModel>(order, OnOrderCreated);

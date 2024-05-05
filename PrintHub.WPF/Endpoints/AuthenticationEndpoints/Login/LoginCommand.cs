@@ -8,7 +8,7 @@ namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Login;
 
 public class LoginCommand(
     LoginFormViewModel loginViewModel,
-    AuthenticationManager authenticationManager,
+    AuthenticationStore authenticationStore,
     INavigationService homeNavigationService)
     : AsyncCommandBase
 {
@@ -19,7 +19,7 @@ public class LoginCommand(
             if (parameter is not PasswordBox passwordBox)
                 return;
 
-            SignInResult result = await authenticationManager.SignInAsync(loginViewModel.Username!, passwordBox.Password);
+            SignInResult result = await authenticationStore.SignInAsync(loginViewModel.Username!, passwordBox.Password);
 
             if (result.Succeeded == false)
             {

@@ -19,7 +19,7 @@ namespace PrintHub.WPF.Endpoints.OrderEndpoints.Create;
 
 public class OrderCreateFormViewModel(
     IMediator mediator,
-    AuthenticationManager authenticationManager,
+    AuthenticationStore authenticationStore,
     CloseModalNavigationService closeNavigationService,
     IValidator<OrderCreateFormViewModel> validator)
     : ValidationViewModel<OrderCreateFormViewModel>(validator), ICallbackViewModel<OrderViewModel>
@@ -56,7 +56,7 @@ public class OrderCreateFormViewModel(
         if (HasErrors)
             return;
 
-        if (authenticationManager.User is { ClientId: null })
+        if (authenticationStore.User is { ClientId: null })
         {
             MaterialMessageBox.Show("Client is null", "Create order error");
             return;
@@ -64,12 +64,12 @@ public class OrderCreateFormViewModel(
 
         OrderCreateViewModel model = new()
         {
-            ClientId = (Guid)authenticationManager.User!.ClientId!,
+            ClientId = (Guid)authenticationStore.User!.ClientId!,
             Description = Description!,
             RequiredColors = ChosenColors.Where(color => color.IsChecked).Select(color => color.ColorViewModel).ToList()
         };
 
-        Operation<OrderViewModel, string> result = await mediator.Send(new CreateOrder.Request(model, authenticationManager.User));
+        Operation<OrderViewModel, string> result = await mediator.Send(new CreateOrder.Request(model, authenticationStore.User));
 
         if (result.Ok == false)
         {

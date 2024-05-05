@@ -19,7 +19,7 @@ namespace PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 
 public class OrderUpdateFormViewModel(
     IMediator mediator,
-    AuthenticationManager authenticationManager,
+    AuthenticationStore authenticationStore,
     CloseModalNavigationService closeNavigationService,
     IValidator<OrderUpdateFormViewModel> validator)
     : ValidationViewModel<OrderUpdateFormViewModel>(validator), ICallbackViewModel<OrderViewModel>
@@ -56,7 +56,7 @@ public class OrderUpdateFormViewModel(
         if (HasErrors)
             return;
 
-        if (authenticationManager.User is { ClientId: null })
+        if (authenticationStore.User is { ClientId: null })
         {
             MaterialMessageBox.Show("Client is null", "Update order error");
             return;
@@ -64,7 +64,7 @@ public class OrderUpdateFormViewModel(
 
         OrderUpdateViewModel model = new()
         {
-            //  ClientId = (Guid)authenticationManager.User!.ClientId!,
+            //  ClientId = (Guid)authenticationStore.User!.ClientId!,
             Description = Description!
             // RequiredColors = ChosenColors.Where(color => color.IsChecked).Select(color => color.ColorViewModel).ToList()
         };

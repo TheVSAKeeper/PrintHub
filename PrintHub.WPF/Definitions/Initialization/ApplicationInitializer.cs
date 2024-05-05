@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Base;
-using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Pages.Home;
 using PrintHub.WPF.Pages.Login;
 using PrintHub.WPF.Shared.Navigation;
@@ -34,7 +33,7 @@ public class ApplicationInitializer : AppDefinition
             if (pendingMigrations.Any())
                 await context.Database.MigrateAsync();
 
-            AuthenticationManager authenticationManager = scope.ServiceProvider.GetRequiredService<AuthenticationManager>();
+            Endpoints.AuthenticationEndpoints.AuthenticationStore authenticationManager = scope.ServiceProvider.GetRequiredService<Endpoints.AuthenticationEndpoints.AuthenticationStore>();
             await authenticationManager.Initialize();
 
             if (authenticationManager.IsLoggedIn)

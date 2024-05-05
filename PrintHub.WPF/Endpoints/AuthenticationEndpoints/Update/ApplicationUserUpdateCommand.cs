@@ -5,7 +5,7 @@ using PrintHub.WPF.Shared.MaterialMessageBox;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Update;
 
-public class ApplicationUserUpdateCommand(ApplicationUserUpdateViewModel viewModel, IMediator mediator, AuthenticationManager authenticationManager)
+public class ApplicationUserUpdateCommand(ApplicationUserUpdateViewModel viewModel, IMediator mediator, AuthenticationStore authenticationStore)
     : AsyncCommandBase
 {
     protected override async Task ExecuteAsync(object? parameter)
@@ -16,7 +16,7 @@ public class ApplicationUserUpdateCommand(ApplicationUserUpdateViewModel viewMod
             return;
 
         OperationResult<Guid> result = await mediator.Send(new ApplicationUserUpdateRequest(viewModel.ApplicationUser));
-        await authenticationManager.UpdateUserAsync(result.Result);
+        await authenticationStore.UpdateUserAsync(result.Result);
 
         if (result.Ok)
             MaterialMessageBox.Show("Пользователь обновлен.", "Успех");

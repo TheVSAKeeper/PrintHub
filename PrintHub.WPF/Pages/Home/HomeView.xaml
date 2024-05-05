@@ -25,14 +25,27 @@
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
+            <Image HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="../../icon.ico"
+                   Width="75" />
+
+            <TextBlock Grid.Column="1"
+                       Text="3D Print Hub"
+                       FontFamily="Prosto Sans"
+                       VerticalAlignment="Center"
+                       Margin="20,0,0,0"
+                       FontSize="24" />
+
             <Button Style="{DynamicResource MaterialDesignToolButton}"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
+                    Grid.Column="2"
+                    VerticalAlignment="Top"
                     Command="{Binding NavigateProfileCommand}">
                 <TextBlock>
                     <Run Text="Привет, " />
@@ -43,7 +56,8 @@
             </Button>
 
             <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
-                    Grid.Column="2"
+                    Grid.Column="3"
+                    VerticalAlignment="Top"
                     Margin="10 0 0 0"
                     Command="{Binding LogoutCommand}"
                     Content="{materialDesign:PackIcon Logout}"

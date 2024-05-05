@@ -6,8 +6,8 @@ using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Pages.Login;
 
-public class LoginViewModel(AuthenticationManager authenticationManager, NavigationService<HomeViewModel> homeNavigationService)
+public class LoginViewModel(AuthenticationStore authenticationStore, NavigationService<HomeViewModel> homeNavigationService)
     : ViewModelBase
 {
-    public LoginFormViewModel LoginFormViewModel { get; } = new(authenticationManager, homeNavigationService);
+    public LoginFormViewModel LoginFormViewModel { get; } = new(authenticationStore, homeNavigationService);
 }

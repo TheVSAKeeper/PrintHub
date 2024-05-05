@@ -15,7 +15,7 @@ using PrintHub.WPF.Shared.ViewModels;
 namespace PrintHub.WPF.Pages.Home;
 
 public class HomeViewModel(
-    AuthenticationManager authenticationManager,
+    AuthenticationStore authenticationStore,
     NavigationService<ClientViewModel> clientNavigationService,
     NavigationService<AdminViewModel> adminNavigationService,
     NavigationService<ProfileViewModel> profileNavigationService,
@@ -26,10 +26,10 @@ public class HomeViewModel(
     public ICommand NavigateClientCommand { get; set; } = new NavigateCommand(clientNavigationService);
     public ICommand NavigateAdminCommand { get; set; } = new NavigateCommand(adminNavigationService);
     public ICommand NavigateProfileCommand { get; } = new NavigateCommand(profileNavigationService);
-    public ICommand LogoutCommand { get; } = new LogoutCommand(authenticationManager, loginNavigationService);
+    public ICommand LogoutCommand { get; } = new LogoutCommand(authenticationStore, loginNavigationService);
     public ICommand ChangeDbCommand { get; } = new NavigateCommand(changeDbNavigationService);
 
-    public string Username => authenticationManager.Username;
+    public string Username => authenticationStore.Username;
 
-    public bool IsAdministrator { get; set; } = authenticationManager.IsInRole(AppData.SystemAdministratorRoleName);
+    public bool IsAdministrator { get; set; } = authenticationStore.IsInRole(AppData.SystemAdministratorRoleName);
 }

@@ -7,6 +7,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
         <StartupObject>PrintHub.WPF.Program</StartupObject>
+        <ApplicationIcon>icon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -136,6 +137,17 @@
 
     <ItemGroup>
         <None Remove="log4cplus.properties"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="icon.png"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Icon.ico"/>
+        <Resource Include="icon.ico">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
     </ItemGroup>
 
 </Project>

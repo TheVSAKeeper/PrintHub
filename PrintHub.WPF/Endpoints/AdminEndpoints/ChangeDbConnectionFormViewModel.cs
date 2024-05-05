@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Calabonga.Results;
 using Npgsql;
-using PrintHub.Domain;
 using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -9,6 +9,7 @@ namespace PrintHub.WPF.Endpoints.AdminEndpoints;
 
 public class ChangeDbConnectionFormViewModel : ViewModelBase
 {
+    private readonly IDbConnectionService _dbConnectionService;
     private ICommand? _createConnectionStringCommand;
     private ICommand? _resetCommand;
     private ICommand? _restartCommand;
@@ -19,21 +20,16 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
     private string? _password;
     private string? _username;
 
-    public ChangeDbConnectionFormViewModel()
+    public ChangeDbConnectionFormViewModel(IDbConnectionService dbConnectionService)
     {
-        FillConnectionData(App.GetConnectionString());
+        _dbConnectionService = dbConnectionService;
+        FillConnectionData(_dbConnectionService.GetConnectionString());
     }
 
     public string? Host
     {
         get => _host;
-        set
-        {
-            Set(ref _host, value);
-
-            _host = value;
-            OnPropertyChanged();
-        }
+        set => Set(ref _host, value);
     }
 
     public string? Username
@@ -70,8 +66,9 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
 
     public ICommand ResetCommand => _resetCommand ??= new LambdaCommand(() =>
     {
-        App.SetConnectionString(string.Empty);
-        ConnectionString = App.GetConnectionString();
+        _dbConnectionService.SetConnectionString(string.Empty);
+        ConnectionString = _dbConnectionService.GetConnectionString();
+        FillConnectionData(ConnectionString);
     });
 
     public ICommand CreateConnectionStringCommand => _createConnectionStringCommand ??= new LambdaCommand(() =>
@@ -84,16 +81,22 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
             Database = Database
         };
 
-        if (IsDatabaseStructureValid(builder.ConnectionString) == false)
+        Operation<bool, string> result = _dbConnectionService.IsDatabaseValid(builder.ConnectionString);
+
+        if (result.Ok)
         {
-            MessageBox.Show("Invalid connection string, database does not exist, "
-                            + "or database structure does not match the expected structure. Please check the values.", "Error");
+            ConnectionString = builder.ConnectionString;
+            _dbConnectionService.SetConnectionString(ConnectionString);
+
+            MessageBoxResult boxResult = MessageBox.Show("A reboot is required to apply the changes!", "Attention", MessageBoxButton.OKCancel);
+
+            if (boxResult == MessageBoxResult.OK)
+                RestartCommand.Execute(null);
 
             return;
         }
 
-        ConnectionString = builder.ConnectionString;
-        App.SetConnectionString(ConnectionString);
+        MessageBox.Show(result.Error, "Error");
     });
 
     private void FillConnectionData(string connectionString)
@@ -103,26 +106,5 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
         Username = builder.Username;
         Password = builder.Password;
         Database = builder.Database;
-    }
-
-    private static bool IsDatabaseStructureValid(string connectionString)
-    {
-        try
-        {
-            using NpgsqlConnection connection = new(connectionString);
-
-            connection.Open();
-
-            const string Query = $"SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = '{nameof(PrintingDetails)}')";
-
-            using NpgsqlCommand command = new(Query, connection);
-
-            bool tableExists = (bool)(command.ExecuteScalar() ?? false);
-            return tableExists;
-        }
-        catch
-        {
-            return false;
-        }
     }
 }

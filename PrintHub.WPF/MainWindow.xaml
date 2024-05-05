@@ -13,10 +13,11 @@
         xmlns:views1="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.Views"
         xmlns:views2="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
         xmlns:queries111="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
-        xmlns:orderEndpoints="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints"
         xmlns:client="clr-namespace:PrintHub.WPF.Pages.Client"
         xmlns:admin="clr-namespace:PrintHub.WPF.Pages.Admin"
         xmlns:changeDbConnection="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection"
+        xmlns:create="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Create"
+        xmlns:update="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Update"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -54,8 +55,11 @@
             <DataTemplate DataType="{x:Type queries111:ColorViewModel}">
                 <views2:ColorFormView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type orderEndpoints:OrderCreateFormViewModel}">
-                <orderEndpoints:OrderCreateFormView />
+            <DataTemplate DataType="{x:Type create:OrderCreateFormViewModel}">
+                <create:OrderCreateFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type update:OrderUpdateFormViewModel}">
+                <update:OrderUpdateFormView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type changeDbConnection:ChangeDbConnectionFormViewModel}">
                 <changeDbConnection:ChangeDbConnectionFormView />

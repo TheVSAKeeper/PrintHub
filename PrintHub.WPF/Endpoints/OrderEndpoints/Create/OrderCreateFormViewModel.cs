@@ -15,7 +15,7 @@ using PrintHub.WPF.Shared.MaterialMessageBox;
 using PrintHub.WPF.Shared.Navigation.Modal;
 using PrintHub.WPF.Shared.ViewModels;
 
-namespace PrintHub.WPF.Endpoints.OrderEndpoints;
+namespace PrintHub.WPF.Endpoints.OrderEndpoints.Create;
 
 public class OrderCreateFormViewModel(
     IMediator mediator,
@@ -48,7 +48,7 @@ public class OrderCreateFormViewModel(
         private set => Set(ref _chosenColors, value);
     }
 
-    public ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
+    private ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
 
     public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommandAsync(async () =>
     {

@@ -4,7 +4,7 @@ using PrintHub.WPF.Definitions.Base;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.Navigation;
 
-namespace PrintHub.WPF.Endpoints.OrderEndpoints;
+namespace PrintHub.WPF.Endpoints.OrderEndpoints.Create;
 
 public class OrderCreateDefinition : AppDefinition
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace PrintHub.WPF.Endpoints.OrderEndpoints;
+namespace PrintHub.WPF.Endpoints.OrderEndpoints.Create;
 
 public partial class OrderCreateFormView : UserControl
 {

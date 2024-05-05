@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PrintHub.WPF.Endpoints.OrderEndpoints;
+namespace PrintHub.WPF.Endpoints.OrderEndpoints.Create;
 
 public class OrderCreateRequestValidator : AbstractValidator<OrderCreateFormViewModel>
 {

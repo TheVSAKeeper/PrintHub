@@ -39,7 +39,7 @@ public class ClientViewModel : ViewModelBase
     public ObservableCollection<OrderViewModel>? Orders
     {
         get => _orders;
-        set => Set(ref _orders, value);
+        private set => Set(ref _orders, value);
     }
 
     public IEnumerable<string> StatusList => Enum.GetNames(typeof(OrderStatus)).Prepend(string.Empty);

@@ -22,7 +22,7 @@ public class OrderUpdateFormViewModel(
     AuthenticationManager authenticationManager,
     CloseModalNavigationService closeNavigationService,
     IValidator<OrderUpdateFormViewModel> validator)
-    : ValidationViewModel<OrderUpdateFormViewModel>, ICallbackViewModel<OrderViewModel>
+    : ValidationViewModel<OrderUpdateFormViewModel>(validator), ICallbackViewModel<OrderViewModel>
 {
     private Action<OrderViewModel>? _callback;
 
@@ -34,7 +34,6 @@ public class OrderUpdateFormViewModel(
     private string? _description;
 
     protected override OrderUpdateFormViewModel ViewModel => this;
-    protected override IValidator<OrderUpdateFormViewModel> Validator { get; init; } = validator;
 
     public string? Description
     {

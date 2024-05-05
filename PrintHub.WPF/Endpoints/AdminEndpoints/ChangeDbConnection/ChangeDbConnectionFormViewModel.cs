@@ -24,15 +24,13 @@ public class ChangeDbConnectionFormViewModel : ValidationViewModel<ChangeDbConne
     private string? _host;
     private string? _username;
 
-    public ChangeDbConnectionFormViewModel(IDbConnectionService dbConnectionService, IValidator<ChangeDbConnectionFormViewModel> validator)
+    public ChangeDbConnectionFormViewModel(IDbConnectionService dbConnectionService, IValidator<ChangeDbConnectionFormViewModel> validator) : base(validator)
     {
         _dbConnectionService = dbConnectionService;
-        Validator = validator;
         FillConnectionData(_dbConnectionService.GetConnectionString());
     }
 
     protected override ChangeDbConnectionFormViewModel ViewModel => this;
-    protected sealed override IValidator<ChangeDbConnectionFormViewModel> Validator { get; init; }
 
     public string? Host
     {

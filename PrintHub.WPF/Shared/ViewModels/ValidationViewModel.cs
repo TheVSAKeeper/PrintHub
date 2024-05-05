@@ -6,10 +6,9 @@ using FluentValidation.Results;
 
 namespace PrintHub.WPF.Shared.ViewModels;
 
-public abstract class ValidationViewModel<TV> : ViewModelBase, INotifyDataErrorInfo
+public abstract class ValidationViewModel<TV>(IValidator<TV> validator) : ViewModelBase, INotifyDataErrorInfo
 {
     protected abstract TV ViewModel { get; }
-    protected abstract IValidator<TV> Validator { get; init; }
 
     protected override bool Set<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
@@ -25,7 +24,7 @@ public abstract class ValidationViewModel<TV> : ViewModelBase, INotifyDataErrorI
     {
         ClearErrors();
 
-        ValidationResult result = Validator.Validate(ViewModel);
+        ValidationResult result = validator.Validate(ViewModel);
 
         IEnumerable<ValidationFailure> errors = result.Errors.DistinctBy(failure => failure.PropertyName);
 
@@ -37,7 +36,7 @@ public abstract class ValidationViewModel<TV> : ViewModelBase, INotifyDataErrorI
     {
         ClearErrors(propertyName);
 
-        ValidationResult result = Validator.Validate(ViewModel, strategy => strategy.IncludeProperties(propertyName));
+        ValidationResult result = validator.Validate(ViewModel, strategy => strategy.IncludeProperties(propertyName));
 
         if (result.Errors.Count == 0)
             return;

@@ -31,8 +31,8 @@ public class OrderCreateFormViewModel(
     private ICommand? _loadColorsCommand;
 
     private ObservableCollection<CheckableColor> _chosenColors = null!;
-
     private ObservableCollection<ValidationFailure>? _errors;
+
     private string? _description;
 
     public string? Description

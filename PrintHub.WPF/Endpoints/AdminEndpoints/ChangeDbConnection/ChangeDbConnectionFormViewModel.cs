@@ -1,31 +1,46 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Calabonga.Results;
+using FluentValidation;
+using FluentValidation.Results;
 using Npgsql;
 using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
 using PrintHub.WPF.Shared.Services;
 using PrintHub.WPF.Shared.ViewModels;
+using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection;
 
 public class ChangeDbConnectionFormViewModel : ViewModelBase
 {
     private readonly IDbConnectionService _dbConnectionService;
+    private readonly IValidator<ChangeDbConnectionFormViewModel> _validator;
     private ICommand? _createConnectionStringCommand;
     private ICommand? _resetCommand;
     private ICommand? _restartCommand;
+    private ObservableCollection<ValidationFailure>? _errors;
 
     private string? _connectionString;
     private string? _database;
     private string? _host;
-    private string? _password;
     private string? _username;
 
-    public ChangeDbConnectionFormViewModel(IDbConnectionService dbConnectionService)
+    public ChangeDbConnectionFormViewModel(IDbConnectionService dbConnectionService, IValidator<ChangeDbConnectionFormViewModel> validator)
     {
         _dbConnectionService = dbConnectionService;
+        _validator = validator;
         FillConnectionData(_dbConnectionService.GetConnectionString());
+    }
+
+    public bool IsHasErrors => Errors is { Count: not 0 };
+
+    public ObservableCollection<ValidationFailure>? Errors
+    {
+        get => _errors;
+        set => Set(ref _errors, value);
     }
 
     public string? Host
@@ -38,12 +53,6 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
     {
         get => _username;
         set => Set(ref _username, value);
-    }
-
-    public string? Password
-    {
-        get => _password;
-        set => Set(ref _password, value);
     }
 
     public string? Database
@@ -59,12 +68,20 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
     }
 
     public ICommand RestartCommand => _restartCommand ??= new LambdaCommand(() =>
-    {
-        MessageBoxResult boxResult = MaterialMessageBox.ShowWithCancel("Are you sure you restart application?", "Restart");
+        {
+            MessageBoxResult boxResult = MaterialMessageBox.ShowWithCancel("Are you sure you restart application?", "Restart");
 
-        if (boxResult == MessageBoxResult.OK)
-            App.RestartApplication();
-    }, () => string.IsNullOrEmpty(ConnectionString) == false);
+            if (boxResult == MessageBoxResult.OK)
+                App.RestartApplication();
+        },
+        () =>
+        {
+            ValidationResult validationResult = _validator.Validate(this);
+            Errors = new ObservableCollection<ValidationFailure>(validationResult.Errors);
+            OnPropertyChanged(nameof(IsHasErrors));
+
+            return validationResult.IsValid && string.IsNullOrEmpty(ConnectionString) == false;
+        });
 
     public ICommand ResetCommand => _resetCommand ??= new LambdaCommand(() =>
     {
@@ -73,13 +90,16 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
         FillConnectionData(ConnectionString);
     });
 
-    public ICommand CreateConnectionStringCommand => _createConnectionStringCommand ??= new LambdaCommand(() =>
+    public ICommand CreateConnectionStringCommand => _createConnectionStringCommand ??= new LambdaCommand(parameter =>
     {
+        if (parameter is not PasswordBox passwordBox)
+            return;
+
         NpgsqlConnectionStringBuilder builder = new()
         {
             Host = Host,
             Username = Username,
-            Password = Password,
+            Password = passwordBox.Password,
             Database = Database
         };
 
@@ -106,7 +126,6 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
         NpgsqlConnectionStringBuilder builder = new(connectionString);
         Host = builder.Host;
         Username = builder.Username;
-        Password = builder.Password;
         Database = builder.Database;
     }
 }

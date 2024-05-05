@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using PrintHub.WPF.Endpoints.AdminEndpoints;
+using PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Logout;
 using PrintHub.WPF.Pages.Admin;

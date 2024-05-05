@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 using PrintHub.WPF.Definitions.Base;
 using PrintHub.WPF.Shared.Navigation;
 
-namespace PrintHub.WPF.Endpoints.AdminEndpoints;
+namespace PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection;
 
 public class ChangeDbConnectionDefinition : AppDefinition
 {

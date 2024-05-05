@@ -15,8 +15,8 @@
         xmlns:queries111="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
         xmlns:orderEndpoints="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints"
         xmlns:client="clr-namespace:PrintHub.WPF.Pages.Client"
-        xmlns:adminEndpoints="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints"
         xmlns:admin="clr-namespace:PrintHub.WPF.Pages.Admin"
+        xmlns:changeDbConnection="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -57,8 +57,8 @@
             <DataTemplate DataType="{x:Type orderEndpoints:OrderCreateFormViewModel}">
                 <orderEndpoints:OrderCreateFormView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type adminEndpoints:ChangeDbConnectionFormViewModel}">
-                <adminEndpoints:ChangeDbConnectionFormView />
+            <DataTemplate DataType="{x:Type changeDbConnection:ChangeDbConnectionFormViewModel}">
+                <changeDbConnection:ChangeDbConnectionFormView />
             </DataTemplate>
         </Grid.Resources>
 

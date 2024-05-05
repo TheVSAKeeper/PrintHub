@@ -3,9 +3,10 @@ using System.Windows.Input;
 using Calabonga.Results;
 using Npgsql;
 using PrintHub.WPF.Shared.Commands;
+using PrintHub.WPF.Shared.Services;
 using PrintHub.WPF.Shared.ViewModels;
 
-namespace PrintHub.WPF.Endpoints.AdminEndpoints;
+namespace PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection;
 
 public class ChangeDbConnectionFormViewModel : ViewModelBase
 {

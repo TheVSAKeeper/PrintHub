@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using PrintHub.WPF.Definitions.Base;
 
-namespace PrintHub.WPF.Endpoints.AdminEndpoints;
+namespace PrintHub.WPF.Shared.Services;
 
 public class DbConnectionServiceDefinition : AppDefinition
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace PrintHub.WPF.Endpoints.AdminEndpoints;
+namespace PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection;
 
 public partial class ChangeDbConnectionFormView : UserControl
 {

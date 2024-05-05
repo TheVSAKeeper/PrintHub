@@ -5,7 +5,7 @@ using Npgsql;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Properties;
 
-namespace PrintHub.WPF.Endpoints.AdminEndpoints;
+namespace PrintHub.WPF.Shared.Services;
 
 public class DbConnectionService : IDbConnectionService
 {

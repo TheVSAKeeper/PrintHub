@@ -1,6 +1,6 @@
 ﻿using Calabonga.Results;
 
-namespace PrintHub.WPF.Endpoints.AdminEndpoints;
+namespace PrintHub.WPF.Shared.Services;
 
 public interface IDbConnectionService
 {

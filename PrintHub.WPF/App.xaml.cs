@@ -1,7 +1,13 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
+using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Base;
+using PrintHub.WPF.Properties;
 
 namespace PrintHub.WPF;
 
@@ -30,5 +36,47 @@ public partial class App
 
         base.OnExit(e);
         await host.StopAsync();
+    }
+
+    public static void RestartApplication()
+    {
+        Process.Start(Process.GetCurrentProcess().MainModule?.FileName ?? throw new InvalidOperationException());
+        Current.Shutdown();
+    }
+
+    public static string GetConnectionString()
+    {
+        //MessageBox.Show(Settings.Default.ConnectionString);
+        if (string.IsNullOrEmpty(Settings.Default.ConnectionString) == false)
+            return Settings.Default.ConnectionString;
+
+        IConfigurationBuilder configBuilder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+
+        IConfigurationRoot configuration = configBuilder.Build();
+        return configuration.GetConnectionString(nameof(ApplicationDbContext)) ?? string.Empty;
+    }
+
+    public static void SetConnectionString(string connectionString)
+    {
+        if (IsConnectionStringValid(connectionString) == false)
+            return;
+
+        Settings.Default.ConnectionString = connectionString;
+        Settings.Default.Save();
+    }
+
+    public static bool IsConnectionStringValid(string connectionString)
+    {
+        try
+        {
+            NpgsqlConnectionStringBuilder dummy = new(connectionString);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

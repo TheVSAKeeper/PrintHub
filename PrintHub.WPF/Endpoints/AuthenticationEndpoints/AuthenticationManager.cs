@@ -56,7 +56,7 @@ public class AuthenticationManager(UserManager<ApplicationUser> userManager, Rol
     public void SignOut()
     {
         User = null;
-        ClearAuthenticationState();
+        //ClearAuthenticationState();
     }
 
     private void SaveAuthenticationState()

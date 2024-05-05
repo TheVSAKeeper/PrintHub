@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnectionFormView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:adminEndpoints="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{materialDesign:MaterialDesignFont}"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+             mc:Ignorable="d"
+             d:DesignHeight="900"
+             d:DesignWidth="400"
+             d:DataContext="{d:DesignInstance adminEndpoints:ChangeDbConnectionFormViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <materialDesign:Card Grid.Row="0"
+                             Margin="16">
+            <materialDesign:TransitioningContent>
+                <StackPanel>
+                    <TextBlock Margin="16,16,16,8">
+                        <materialDesign:PackIcon Kind="Server"
+                                                 Margin="0,0,8,0" />
+                        Host
+                    </TextBlock>
+                    <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                             Margin="16,0,16,16"
+                             Text="{Binding Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </materialDesign:TransitioningContent>
+        </materialDesign:Card>
+
+        <materialDesign:Card Grid.Row="1"
+                             Margin="16">
+            <StackPanel>
+                <TextBlock Margin="16,16,16,8">
+                    <materialDesign:PackIcon Kind="Account"
+                                             Margin="0,0,8,0" />
+                    Username
+                </TextBlock>
+                <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                         Margin="16,0,16,16"
+                         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </materialDesign:Card>
+
+        <materialDesign:Card Grid.Row="2"
+                             Margin="16">
+            <StackPanel>
+                <TextBlock Margin="16,16,16,8">
+                    <materialDesign:PackIcon Kind="Key"
+                                             Margin="0,0,8,0" />
+                    Password
+                </TextBlock>
+                <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                         Margin="16,0,16,16"
+                         Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </materialDesign:Card>
+
+        <materialDesign:Card Grid.Row="3"
+                             Margin="16">
+            <StackPanel>
+                <TextBlock Margin="16,16,16,8">
+                    <materialDesign:PackIcon Kind="Database"
+                                             Margin="0,0,8,0" />
+                    Database
+                </TextBlock>
+                <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                         Margin="16,0,16,16"
+                         Text="{Binding Database, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </materialDesign:Card>
+
+        <Button Grid.Row="4"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Margin="16"
+                Command="{Binding CreateConnectionStringCommand}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Database"
+                                             Margin="0,0,8,0" />
+                    <TextBlock Text="Get Connection String" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
+        <materialDesign:Card Grid.Row="5"
+                             Margin="16">
+            <StackPanel>
+                <TextBlock Margin="16,16,16,8">
+                    <materialDesign:PackIcon Kind="Database"
+                                             Margin="0,0,8,0" />
+                    Connection String
+                </TextBlock>
+                <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                         Margin="16,0,16,16"
+                         Text="{Binding ConnectionString, Mode=OneWay}"
+                         IsReadOnly="True" />
+            </StackPanel>
+        </materialDesign:Card>
+
+        <Button Grid.Row="6"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Margin="16"
+                Command="{Binding ResetCommand}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Restore"
+                                             Margin="0,0,8,0" />
+                    <TextBlock Text="Reset to default" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
+        <Button Grid.Row="7"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Margin="16"
+                Command="{Binding RestartCommand}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Restart"
+                                             Margin="0,0,8,0" />
+                    <TextBlock Text="Restart" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
+    </Grid>
+</UserControl>

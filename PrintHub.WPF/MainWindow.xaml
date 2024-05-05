@@ -15,6 +15,7 @@
         xmlns:queries111="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
         xmlns:orderEndpoints="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints"
         xmlns:client="clr-namespace:PrintHub.WPF.Pages.Client"
+        xmlns:adminEndpoints="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints"
         xmlns:admin="clr-namespace:PrintHub.WPF.Pages.Admin"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -55,6 +56,9 @@
             <DataTemplate DataType="{x:Type orderEndpoints:OrderCreateFormViewModel}">
                 <orderEndpoints:OrderCreateFormView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type adminEndpoints:ChangeDbConnectionFormViewModel}">
+                <adminEndpoints:ChangeDbConnectionFormView />
+            </DataTemplate>
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
@@ -67,12 +71,17 @@
             <bar:NavigationBarView DataContext="{Binding NavigationBarViewModel}" />
         </StackPanel>
 
-        <ContentControl Grid.Column="1"
-                        Panel.ZIndex="1"
-                        IsEnabled="{Binding IsOpen, Mode=OneWay}"
-                        Content="{Binding CurrentModalViewModel}" />
+        <ScrollViewer Grid.Column="1"
+                      materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+            <Grid>
+                <ContentControl Panel.ZIndex="1"
+                                Padding="50"
+                                IsEnabled="{Binding IsOpen, Mode=OneWay}"
+                                Content="{Binding CurrentModalViewModel}" />
 
-        <ContentControl Grid.Column="1"
-                        Content="{Binding CurrentViewModel}" />
+                <ContentControl Content="{Binding CurrentViewModel}" />
+            </Grid>
+        </ScrollViewer>
+
     </Grid>
 </Window>

@@ -27,7 +27,8 @@ public class AdminViewModel : ViewModelBase
     public AdminViewModel(
         AuthenticationManager authenticationManager,
         IMediator mediator,
-        ICallbackNavigationService<OrderViewModel> order)
+        ICallbackNavigationService<OrderViewModel> order
+    )
     {
         _authenticationManager = authenticationManager;
         _mediator = mediator;
@@ -47,14 +48,8 @@ public class AdminViewModel : ViewModelBase
 
     public ICommand LoadOrdersCommand => _loadOrdersCommand ??= new LambdaCommandAsync(async () =>
     {
-        if (_authenticationManager.User is { ClientId: null })
-        {
-            MessageBox.Show("Admin is null", "Create order error");
-            return;
-        }
-
         Operation<IPagedList<OrderViewModel>, string> result =
-            await _mediator.Send(new GetOrderPaged.Request(0, 999, _authenticationManager.User!.ClientId.ToString()));
+            await _mediator.Send(new GetOrderPaged.Request(0, 999, null));
 
         if (result.Ok == false)
         {

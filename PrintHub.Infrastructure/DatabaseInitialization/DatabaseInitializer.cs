@@ -51,6 +51,7 @@ public partial class DatabaseInitializer
 
         ApplicationUser developer = new()
         {
+            Id = new Guid(Guid.Parse("20101097-c309-4379-8777-a4b0c1873b51").ToString("D")),
             Email = "microservice@yopmail.com",
             NormalizedEmail = "MICROSERVICE@YOPMAIL.COM",
             UserName = "Superuser",

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PrintHub.Infrastructure;
@@ -13,7 +12,8 @@ public class DbContextDefinition : AppDefinition
     {
         services.AddDbContext<ApplicationDbContext>(config =>
         {
-            config.UseNpgsql(context.Configuration.GetConnectionString(nameof(ApplicationDbContext)));
+            // config.UseNpgsql(context.Configuration.GetConnectionString(nameof(ApplicationDbContext)));
+            config.UseNpgsql(App.GetConnectionString());
         });
 
         services.AddIdentityCore<ApplicationUser>()

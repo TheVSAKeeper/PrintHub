@@ -55,7 +55,7 @@ public class ChangeDbConnectionFormViewModel : ValidationViewModel<ChangeDbConne
     public string? ConnectionString
     {
         get => _connectionString;
-        set => Set(ref _connectionString, value);
+        private set => Set(ref _connectionString, value);
     }
 
     public ICommand RestartCommand => _restartCommand ??= new LambdaCommand(() =>
@@ -64,7 +64,7 @@ public class ChangeDbConnectionFormViewModel : ValidationViewModel<ChangeDbConne
 
         if (boxResult == MessageBoxResult.OK)
             App.RestartApplication();
-    });
+    }, () => HasErrors == false);
 
     public ICommand ResetCommand => _resetCommand ??= new LambdaCommand(() =>
     {
@@ -115,7 +115,7 @@ public class ChangeDbConnectionFormViewModel : ValidationViewModel<ChangeDbConne
         Host = builder.Host;
         Username = builder.Username;
         Database = builder.Database;
-        
+
         Validate();
     }
 }

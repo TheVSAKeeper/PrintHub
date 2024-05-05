@@ -18,7 +18,18 @@
         WindowStartupLocation="CenterScreen"
         Width="500"
         Height="240">
-
+    <Window.Resources>
+        <ResourceDictionary x:Name="Dictionary">
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme x:Name="BundledTheme"
+                                             BaseTheme="Light"
+                                             PrimaryColor="LightBlue"
+                                             SecondaryColor="Red" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid Name="MainContentControl"
           x:FieldModifier="public">
         <Grid.RowDefinitions>
@@ -94,6 +105,7 @@
                         Click="BtnOk_OnClick"
                         Content="Ok"
                         Width="100"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
                         Padding="24,5" />
                 <Button x:FieldModifier="public"
                         Name="BtnCancel"

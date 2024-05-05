@@ -4,7 +4,6 @@ using System.Windows.Input;
 using Calabonga.PagedListCore;
 using Calabonga.Results;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.ColorEndpoints.Queries;
@@ -23,7 +22,7 @@ public class OrderCreateFormViewModel(
     AuthenticationManager authenticationManager,
     CloseModalNavigationService closeNavigationService,
     IValidator<OrderCreateFormViewModel> validator)
-    : ViewModelBase, ICallbackViewModel<OrderViewModel>
+    : ValidationViewModel<OrderCreateFormViewModel>, ICallbackViewModel<OrderViewModel>
 {
     private Action<OrderViewModel>? _callback;
 
@@ -31,9 +30,11 @@ public class OrderCreateFormViewModel(
     private ICommand? _loadColorsCommand;
 
     private ObservableCollection<CheckableColor> _chosenColors = null!;
-    private ObservableCollection<ValidationFailure>? _errors;
 
     private string? _description;
+
+    protected override OrderCreateFormViewModel ViewModel => this;
+    protected override IValidator<OrderCreateFormViewModel> Validator { get; init; } = validator;
 
     public string? Description
     {
@@ -44,61 +45,45 @@ public class OrderCreateFormViewModel(
     public ObservableCollection<CheckableColor> ChosenColors
     {
         get => _chosenColors;
-        set => Set(ref _chosenColors, value);
-    }
-
-    public ObservableCollection<ValidationFailure>? Errors
-    {
-        get => _errors;
-        set => Set(ref _errors, value);
+        private set => Set(ref _chosenColors, value);
     }
 
     public ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
 
     public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommandAsync(async () =>
+    {
+        Validate();
+
+        if (HasErrors)
+            return;
+
+        if (authenticationManager.User is { ClientId: null })
         {
-            if (authenticationManager.User is { ClientId: null })
-            {
-                MaterialMessageBox.Show("Client is null", "Create order error");
-                return;
-            }
+            MaterialMessageBox.Show("Client is null", "Create order error");
+            return;
+        }
 
-            ValidationResult validationResult = validator.Validate(this);
-
-            if (validationResult.IsValid == false)
-            {
-                MaterialMessageBox.ShowError(string.Join(Environment.NewLine, validationResult.Errors));
-                return;
-            }
-
-            OrderCreateViewModel model = new()
-            {
-                ClientId = (Guid)authenticationManager.User!.ClientId!,
-                Description = Description!,
-                RequiredColors = ChosenColors.Where(color => color.IsChecked).Select(color => color.ColorViewModel).ToList()
-            };
-
-            Operation<OrderViewModel, string> result = await mediator.Send(new CreateOrder.Request(model, authenticationManager.User));
-
-            if (result.Ok == false)
-            {
-                MaterialMessageBox.ShowError(result.Error);
-                return;
-            }
-
-            _callback?.Invoke(result.Result);
-            MessageBoxResult boxResult = MaterialMessageBox.ShowWithCancel(result.Result.ToString(), "Order created");
-
-            if (boxResult == MessageBoxResult.OK)
-                CloseCommand.Execute(null);
-        },
-        () =>
+        OrderCreateViewModel model = new()
         {
-            ValidationResult validationResult = validator.Validate(this);
-            Errors = new ObservableCollection<ValidationFailure>(validationResult.Errors);
+            ClientId = (Guid)authenticationManager.User!.ClientId!,
+            Description = Description!,
+            RequiredColors = ChosenColors.Where(color => color.IsChecked).Select(color => color.ColorViewModel).ToList()
+        };
 
-            return validationResult.IsValid;
-        });
+        Operation<OrderViewModel, string> result = await mediator.Send(new CreateOrder.Request(model, authenticationManager.User));
+
+        if (result.Ok == false)
+        {
+            MaterialMessageBox.ShowError(result.Error);
+            return;
+        }
+
+        _callback?.Invoke(result.Result);
+        MessageBoxResult boxResult = MaterialMessageBox.ShowWithCancel(result.Result.ToString(), "Order created");
+
+        if (boxResult == MessageBoxResult.OK)
+            CloseCommand.Execute(null);
+    });
 
     public ICommand LoadColorsCommand => _loadColorsCommand ??= new LambdaCommandAsync(async () =>
     {

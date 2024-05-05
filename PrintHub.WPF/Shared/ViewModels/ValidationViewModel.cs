@@ -17,7 +17,7 @@ public abstract class ValidationViewModel<TV> : ViewModelBase, INotifyDataErrorI
 
         if (propertyName is not null)
             ValidateProperty(propertyName);
-        
+
         return isSet;
     }
 
@@ -27,7 +27,7 @@ public abstract class ValidationViewModel<TV> : ViewModelBase, INotifyDataErrorI
 
         ValidationResult result = Validator.Validate(ViewModel);
 
-        IEnumerable<ValidationFailure> errors = result.Errors.DistinctBy(e => e.PropertyName);
+        IEnumerable<ValidationFailure> errors = result.Errors.DistinctBy(failure => failure.PropertyName);
 
         foreach (ValidationFailure error in errors)
             AddError(error.PropertyName, error.ErrorMessage);
@@ -37,7 +37,7 @@ public abstract class ValidationViewModel<TV> : ViewModelBase, INotifyDataErrorI
     {
         ClearErrors(propertyName);
 
-        ValidationResult result = Validator.Validate(ViewModel, o => o.IncludeProperties(propertyName));
+        ValidationResult result = Validator.Validate(ViewModel, strategy => strategy.IncludeProperties(propertyName));
 
         if (result.Errors.Count == 0)
             return;
@@ -59,7 +59,7 @@ public abstract class ValidationViewModel<TV> : ViewModelBase, INotifyDataErrorI
 
     private void AddError(string propertyName, string errorMessage)
     {
-        if (!_propertyErrors.ContainsKey(propertyName))
+        if (_propertyErrors.ContainsKey(propertyName) == false)
             _propertyErrors.Add(propertyName, []);
 
         _propertyErrors[propertyName].Add(errorMessage);

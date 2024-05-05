@@ -9,10 +9,22 @@ namespace PrintHub.WPF.Shared.Navigation.Bar;
 
 public class NavigationBarViewModel(NavigationService<HomeViewModel> homeNavigationService, CloseModalNavigationService closeNavigationService) : ViewModelBase
 {
-    public ICommand CloseModalCommand { get; } = new NavigateCommand(closeNavigationService);
+    private ICommand? _backCommand;
+
+    public ICommand BackCommand => _backCommand ??= new LambdaCommand(() =>
+    {
+        if (MainViewModel?.CurrentModalViewModel is null)
+        {
+            NavigateHomeCommand.Execute(null);
+            return;
+        }
+
+        CloseModalCommand.Execute(null);
+    });
+
+    private ICommand CloseModalCommand { get; } = new NavigateCommand(closeNavigationService);
     public ICommand NavigateHomeCommand { get; } = new NavigateCommand(homeNavigationService);
     public MainViewModel? MainViewModel { get; set; }
 
     public bool IsEnabledHomeButton => MainViewModel?.CurrentViewModel is not LoginViewModel;
-    public bool IsEnabledCloseModalButton => true;
 }

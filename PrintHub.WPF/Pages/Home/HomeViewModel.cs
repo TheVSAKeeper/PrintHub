@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using PrintHub.Domain.Base;
 using PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Logout;
@@ -29,4 +30,6 @@ public class HomeViewModel(
     public ICommand ChangeDbCommand { get; } = new NavigateCommand(changeDbNavigationService);
 
     public string Username => authenticationManager.Username;
+
+    public bool IsAdministrator { get; set; } = authenticationManager.IsInRole(AppData.SystemAdministratorRoleName);
 }

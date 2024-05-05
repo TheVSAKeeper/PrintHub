@@ -15,10 +15,9 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance bar:NavigationBarViewModel}">
     <StackPanel Orientation="Vertical">
-        <Button IsEnabled="{Binding IsEnabledCloseModalButton}"
-                Style="{DynamicResource MaterialDesignToolButton}"
+        <Button Style="{DynamicResource MaterialDesignToolButton}"
                 Margin="0 0 0 0"
-                Command="{Binding CloseModalCommand}"
+                Command="{Binding BackCommand}"
                 Content="{materialDesign:PackIcon ArrowBack}"
                 Width="30"
                 Height="30" />

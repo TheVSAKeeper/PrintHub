@@ -12,6 +12,7 @@ using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.Commands;
+using PrintHub.WPF.Shared.MaterialMessageBox;
 using PrintHub.WPF.Shared.Navigation.Modal;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -52,13 +53,13 @@ public class OrderCreateFormViewModel(
         set => Set(ref _errors, value);
     }
 
-    public ICommand CancelCommand { get; } = new NavigateCommand(closeNavigationService);
+    public ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
 
     public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommandAsync(async () =>
         {
             if (authenticationManager.User is { ClientId: null })
             {
-                MessageBox.Show("Client is null", "Create order error");
+                MaterialMessageBox.Show("Client is null", "Create order error");
                 return;
             }
 
@@ -66,7 +67,7 @@ public class OrderCreateFormViewModel(
 
             if (validationResult.IsValid == false)
             {
-                MessageBox.Show(string.Join(Environment.NewLine, validationResult.Errors), "Error");
+                MaterialMessageBox.ShowError(string.Join(Environment.NewLine, validationResult.Errors));
                 return;
             }
 
@@ -81,15 +82,15 @@ public class OrderCreateFormViewModel(
 
             if (result.Ok == false)
             {
-                MessageBox.Show(result.Error, "Error");
+                MaterialMessageBox.ShowError(result.Error);
                 return;
             }
 
             _callback?.Invoke(result.Result);
-            MessageBoxResult boxResult = MessageBox.Show(result.Result.ToString(), "Order created");
+            MessageBoxResult boxResult = MaterialMessageBox.ShowWithCancel(result.Result.ToString(), "Order created");
 
             if (boxResult == MessageBoxResult.OK)
-                CancelCommand.Execute(null);
+                CloseCommand.Execute(null);
         },
         () =>
         {

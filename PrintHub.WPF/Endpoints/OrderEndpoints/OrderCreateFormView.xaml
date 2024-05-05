@@ -38,7 +38,7 @@
                 <Button Grid.Row="0"
                         Style="{DynamicResource MaterialDesignFloatingActionButton}"
                         Margin="0 0 0 0"
-                        Command="{Binding CancelCommand}"
+                        Command="{Binding CloseCommand}"
                         Content="{materialDesign:PackIcon ArrowBack}"
                         Width="30"
                         Height="30"

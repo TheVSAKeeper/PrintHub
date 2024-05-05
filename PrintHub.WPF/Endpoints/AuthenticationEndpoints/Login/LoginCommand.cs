@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using Microsoft.AspNetCore.Identity;
 using PrintHub.WPF.Shared.Commands;
+using PrintHub.WPF.Shared.MaterialMessageBox;
 using PrintHub.WPF.Shared.Navigation;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Login;
@@ -23,7 +23,7 @@ public class LoginCommand(
 
             if (result.Succeeded == false)
             {
-                MessageBox.Show("Неверный логин или пароль.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MaterialMessageBox.ShowError("Неверный логин или пароль.", "Ошибка");
                 return;
             }
 
@@ -31,7 +31,7 @@ public class LoginCommand(
         }
         catch (Exception)
         {
-            MessageBox.Show("Ошибка входа. Пожалуйста, проверьте вашу информацию или повторите попытку позже.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MaterialMessageBox.ShowError("Ошибка входа. Пожалуйста, проверьте вашу информацию или повторите попытку позже.", "Ошибка");
         }
     }
 

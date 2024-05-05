@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Calabonga.Results;
 using Npgsql;
 using PrintHub.WPF.Shared.Commands;
+using PrintHub.WPF.Shared.MaterialMessageBox;
 using PrintHub.WPF.Shared.Services;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -59,7 +60,7 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
 
     public ICommand RestartCommand => _restartCommand ??= new LambdaCommand(() =>
     {
-        MessageBoxResult boxResult = MessageBox.Show("Are you sure you restart application?", "Restart", MessageBoxButton.OKCancel);
+        MessageBoxResult boxResult = MaterialMessageBox.ShowWithCancel("Are you sure you restart application?", "Restart");
 
         if (boxResult == MessageBoxResult.OK)
             App.RestartApplication();
@@ -89,7 +90,7 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
             ConnectionString = builder.ConnectionString;
             _dbConnectionService.SetConnectionString(ConnectionString);
 
-            MessageBoxResult boxResult = MessageBox.Show("A reboot is required to apply the changes!", "Attention", MessageBoxButton.OKCancel);
+            MessageBoxResult boxResult = MaterialMessageBox.ShowWarningWithCancel("A reboot is required to apply the changes!");
 
             if (boxResult == MessageBoxResult.OK)
                 RestartCommand.Execute(null);
@@ -97,7 +98,7 @@ public class ChangeDbConnectionFormViewModel : ViewModelBase
             return;
         }
 
-        MessageBox.Show(result.Error, "Error");
+        MaterialMessageBox.ShowError(result.Error);
     });
 
     private void FillConnectionData(string connectionString)

@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using Calabonga.OperationResults;
+﻿using Calabonga.OperationResults;
 using MediatR;
 using PrintHub.WPF.Shared.Commands;
+using PrintHub.WPF.Shared.MaterialMessageBox;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Update;
 
@@ -19,8 +19,8 @@ public class ApplicationUserUpdateCommand(ApplicationUserUpdateViewModel viewMod
         await authenticationManager.UpdateUserAsync(result.Result);
 
         if (result.Ok)
-            MessageBox.Show("Пользователь обновлен.", "Успех", MessageBoxButton.OK, MessageBoxImage.None);
+            MaterialMessageBox.Show("Пользователь обновлен.", "Успех");
         else
-            MessageBox.Show("Ошибка обновления пользователя.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MaterialMessageBox.ShowError("Ошибка обновления пользователя.", "Ошибка");
     }
 }

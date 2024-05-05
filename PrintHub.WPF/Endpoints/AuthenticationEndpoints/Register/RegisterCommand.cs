@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using Microsoft.AspNetCore.Identity;
 using PrintHub.WPF.Shared.Commands;
+using PrintHub.WPF.Shared.MaterialMessageBox;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Register;
 
@@ -22,15 +22,15 @@ public class RegisterCommand(
             if (result.Succeeded == false)
             {
                 string errors = string.Join(Environment.NewLine, result.Errors.Select(error => error.Description));
-                MessageBox.Show($"Ошибка регистрации. {Environment.NewLine}{errors}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MaterialMessageBox.ShowError($"Ошибка регистрации. {Environment.NewLine}{errors}", "Ошибка");
                 return;
             }
 
-            MessageBox.Show("Успешно зарегистрирован!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            MaterialMessageBox.Show("Успешно зарегистрирован!", "Успех");
         }
         catch (Exception)
         {
-            MessageBox.Show("Регистрация не удалась. Пожалуйста, проверьте вашу информацию или повторите попытку позже.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MaterialMessageBox.ShowError("Регистрация не удалась. Пожалуйста, проверьте вашу информацию или повторите попытку позже.", "Ошибка");
         }
     }
 

@@ -9,6 +9,7 @@ using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.Commands;
+using PrintHub.WPF.Shared.MaterialMessageBox;
 using PrintHub.WPF.Shared.Navigation.Modal;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -49,7 +50,7 @@ public class ClientViewModel : ViewModelBase
     {
         if (_authenticationManager.User is { ClientId: null })
         {
-            MessageBox.Show("Client is null", "Create order error");
+            MaterialMessageBox.ShowError("Client is null", "Create order error");
             return;
         }
 
@@ -58,7 +59,7 @@ public class ClientViewModel : ViewModelBase
 
         if (result.Ok == false)
         {
-            MessageBox.Show(result.Error, "Error");
+            MaterialMessageBox.ShowError(result.Error);
             return;
         }
 
@@ -69,13 +70,12 @@ public class ClientViewModel : ViewModelBase
         {
             if (id is null)
             {
-                MessageBox.Show("id is null", "Error");
+                MaterialMessageBox.ShowError("id is null");
                 return;
             }
 
-            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete this item?",
-                "Delete Confirmation",
-                MessageBoxButton.OKCancel);
+            MessageBoxResult messageBoxResult = MaterialMessageBox.ShowWithCancel("Are you sure you want to delete this item?",
+                "Delete Confirmation");
 
             if (messageBoxResult == MessageBoxResult.Cancel)
                 return;
@@ -88,7 +88,7 @@ public class ClientViewModel : ViewModelBase
                 return;
             }
 
-            MessageBox.Show(result.Result.ToString(), "Order deleted");
+            MaterialMessageBox.Show(result.Result.ToString(), "Order deleted");
             LoadOrdersCommand.Execute(null);
         },
         () => true);

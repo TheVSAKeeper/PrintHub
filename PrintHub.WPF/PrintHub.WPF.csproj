@@ -89,7 +89,7 @@
         <PackageReference Include="Calabonga.UnitOfWork" Version="4.0.0"/>
         <PackageReference Include="EPPlus" Version="7.1.2"/>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0"/>
-        <PackageReference Include="MaterialDesignThemes" Version="4.9.0"/>
+        <PackageReference Include="MaterialDesignThemes" Version="5.0.0"/>
         <PackageReference Include="MediatR" Version="12.2.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">

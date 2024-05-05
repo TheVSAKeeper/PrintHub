@@ -33,7 +33,7 @@ public sealed class GetOrderPaged
             if (pagedList.PageIndex > pagedList.TotalPages)
                 pagedList = await unitOfWork.GetRepository<Order>()
                     .GetPagedListAsync(pageIndex: 0,
-                        pageSize: request.PageSize, 
+                        pageSize: request.PageSize,
                         include: i => i.Include(order => order.RequiredColors),
                         cancellationToken: cancellationToken);
 

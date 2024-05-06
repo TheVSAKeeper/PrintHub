@@ -68,7 +68,8 @@ public partial class DatabaseInitializer
                 Description = "Биоразлагаемый пластик PLA",
                 Price = 10.99m,
                 AvailableColors = [colors[0], colors[1]],
-                PrintingDetails = new List<PrintingDetails>()
+                PrintingDetails = new List<PrintingDetails>(),
+                Technology = PrintingTechnology.FDM
             },
 
             new Material
@@ -78,7 +79,8 @@ public partial class DatabaseInitializer
                 Description = "Прочный пластик PETG",
                 Price = 15.99m,
                 AvailableColors = [colors[1]],
-                PrintingDetails = new List<PrintingDetails>()
+                PrintingDetails = new List<PrintingDetails>(),
+                Technology = PrintingTechnology.FDM
             }
         ];
 

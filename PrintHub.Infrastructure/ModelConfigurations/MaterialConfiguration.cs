@@ -10,6 +10,7 @@ public class MaterialConfiguration : IdentityModelConfigurationBase<Material>
     {
         builder.Property(material => material.Name).IsRequired();
         builder.Property(material => material.Price).IsRequired();
+        builder.Property(material => material.Technology).IsRequired();
         builder.Property(material => material.Description).IsRequired();
 
         builder.HasMany(material => material.AvailableColors)

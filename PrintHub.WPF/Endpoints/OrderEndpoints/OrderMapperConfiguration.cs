@@ -32,7 +32,7 @@ public class OrderMapperConfiguration : Profile
             .ForMember(order => order.CreatedBy, expression => expression.Ignore())
             .ForMember(order => order.UpdatedAt, expression => expression.Ignore())
             .ForMember(order => order.UpdatedBy, expression => expression.MapFrom((_, _, _, context) => context.Items[nameof(ApplicationUser)]))
-            .ForMember(order => order.Status, expression => expression.Ignore())
+            .ForMember(order => order.RequiredColors, expression => expression.Ignore())
             .ForMember(order => order.ClientId, expression => expression.Ignore())
             .ForMember(order => order.Client, expression => expression.Ignore())
             .ForMember(order => order.Samples, expression => expression.Ignore())

@@ -18,6 +18,7 @@
         xmlns:changeDbConnection="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection"
         xmlns:create="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Create"
         xmlns:update="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Update"
+        xmlns:update1="clr-namespace:PrintHub.WPF.Endpoints.ItemEndpoints.Create"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -60,6 +61,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type update:OrderUpdateFormViewModel}">
                 <update:OrderUpdateFormView />
+            </DataTemplate> 
+            <DataTemplate DataType="{x:Type update1:ItemCreateFormViewModel}">
+                <update1:ItemCreateFormView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type changeDbConnection:ChangeDbConnectionFormViewModel}">
                 <changeDbConnection:ChangeDbConnectionFormView />

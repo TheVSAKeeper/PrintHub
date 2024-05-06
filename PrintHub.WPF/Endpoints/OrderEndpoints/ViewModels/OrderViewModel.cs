@@ -1,5 +1,6 @@
 ﻿using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
+using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 
@@ -19,7 +20,7 @@ public class OrderViewModel
     public List<ColorViewModel>? RequiredColors { get; set; }
 
     public virtual List<Sample>? Samples { get; set; }
-    public virtual List<Item>? Items { get; set; }
+    public virtual List<ItemViewModel>? Items { get; set; }
 
     public override string ToString() => $"Description: {Description} "
                                          + $"Status: {Status} "

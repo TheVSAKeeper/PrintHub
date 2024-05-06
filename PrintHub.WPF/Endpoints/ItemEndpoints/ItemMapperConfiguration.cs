@@ -23,21 +23,6 @@ public class ItemMapperConfiguration : Profile
 
         CreateMap<Item, ItemViewModel>();
 
-        CreateMap<Item, ItemUpdateViewModel>();
-
-        CreateMap<ItemUpdateViewModel, Item>()
-            .ForMember(order => order.CreatedAt, expression => expression.Ignore())
-            .ForMember(order => order.CreatedBy, expression => expression.Ignore())
-            .ForMember(order => order.UpdatedAt, expression => expression.Ignore())
-            .ForMember(order => order.UpdatedBy, expression => expression.MapFrom((_, _, _, context) => context.Items[nameof(ApplicationUser)]))
-            .ForMember(order => order.PrintingDetails, expression => expression.Ignore())
-            .ForMember(order => order.Description, expression => expression.Ignore())
-            .ForMember(order => order.Ready, expression => expression.Ignore())
-            .ForMember(order => order.PrintingDetailsId, expression => expression.Ignore())
-            .ForMember(order => order.Order, expression => expression.Ignore())
-            .ForMember(order => order.OrderId, expression => expression.Ignore())
-            ;
-
         CreateMap<IPagedList<Item>, IPagedList<ItemViewModel>>()
             .ConvertUsing<PagedListConverter<Item, ItemViewModel>>();
     }

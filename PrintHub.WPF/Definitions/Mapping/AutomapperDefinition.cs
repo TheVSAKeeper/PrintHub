@@ -17,7 +17,7 @@ public class AutomapperDefinition : AppDefinition
         IConfigurationProvider mapper = host.Services.GetRequiredService<IConfigurationProvider>();
 
         mapper.AssertConfigurationIsValid();
+        mapper.CompileMappings();
         return Task.CompletedTask;
-        //mapper.CompileMappings();
     }
 }

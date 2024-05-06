@@ -1,7 +1,5 @@
 using System.Windows;
-using System.Windows.Media;
 using MaterialDesignColors;
-using MaterialDesignThemes.Wpf;
 
 namespace PrintHub.WPF.Shared.MaterialMessageBox;
 
@@ -9,7 +7,7 @@ public static class MaterialMessageBox
 {
     private const string MessageBoxTitle = "Message";
 
-    public static void Show(string message, string title = MessageBoxTitle)
+    public static MessageBoxResult Show(string message, string title = MessageBoxTitle)
     {
         using MessageBoxWindow msg = new();
 
@@ -20,6 +18,8 @@ public static class MaterialMessageBox
 
         msg.BtnOk.Focus();
         msg.ShowDialog();
+
+        return msg.Result == MessageBoxResult.OK ? MessageBoxResult.OK : MessageBoxResult.Cancel;
     }
 
     public static void ShowError(string errorMessage, string errorTitle = "Error")
@@ -31,7 +31,7 @@ public static class MaterialMessageBox
             msg.Title = errorTitle;
             msg.TxtTitle.Text = errorTitle;
             msg.TxtMessage.Text = errorMessage;
-            
+
             msg.ResourceDictionary.PrimaryColor = PrimaryColor.Red;
 
             msg.BtnCancel.Visibility = Visibility.Collapsed;
@@ -54,7 +54,7 @@ public static class MaterialMessageBox
             msg.Title = warningTitle;
             msg.TxtTitle.Text = warningTitle;
             msg.TxtMessage.Text = warningMessage;
-            
+
             msg.ResourceDictionary.PrimaryColor = PrimaryColor.Orange;
 
             msg.BtnCancel.Visibility = Visibility.Collapsed;

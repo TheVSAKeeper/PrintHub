@@ -14,8 +14,8 @@
              TextElement.FontSize="14"
              xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
              xmlns:views1="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.Views"
-             xmlns:views2="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views"
-             d:DataContext="{d:DesignInstance views2:PrintingDetailsViewModel}">
+             xmlns:viewModels="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels"
+             d:DataContext="{d:DesignInstance viewModels:PrintingDetailsViewModel}">
     <Grid>
         <materialDesign:Card Margin="10"
                              Padding="10"

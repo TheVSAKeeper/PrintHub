@@ -12,13 +12,13 @@ public class ItemMapperConfiguration : Profile
     public ItemMapperConfiguration()
     {
         CreateMap<ItemCreateViewModel, Item>()
-            .ForMember(order => order.CreatedAt, expression => expression.Ignore())
-            .ForMember(order => order.CreatedBy, expression => expression.MapFrom((_, _, _, context) => context.Items[nameof(ApplicationUser)]))
-            .ForMember(order => order.UpdatedAt, expression => expression.Ignore())
-            .ForMember(order => order.UpdatedBy, expression => expression.Ignore())
-            .ForMember(order => order.Ready, expression => expression.Ignore())
-            .ForMember(order => order.Order, expression => expression.Ignore())
-            .ForMember(order => order.PrintingDetails, expression => expression.Ignore())
+            .ForMember(item => item.CreatedAt, expression => expression.Ignore())
+            .ForMember(item => item.CreatedBy, expression => expression.MapFrom((_, _, _, context) => context.Items[nameof(ApplicationUser)]))
+            .ForMember(item => item.UpdatedAt, expression => expression.Ignore())
+            .ForMember(item => item.UpdatedBy, expression => expression.Ignore())
+            .ForMember(item => item.Ready, expression => expression.Ignore())
+            .ForMember(item => item.Order, expression => expression.Ignore())
+            .ForMember(item => item.PrintingDetails, expression => expression.Ignore())
             ;
 
         CreateMap<Item, ItemViewModel>();

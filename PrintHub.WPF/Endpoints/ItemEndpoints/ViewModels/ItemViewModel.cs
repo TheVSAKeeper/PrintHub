@@ -1,4 +1,4 @@
-﻿using PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views;
+﻿using PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 
@@ -13,7 +13,7 @@ public class ItemViewModel
     public string UpdatedBy { get; set; }
 
     public Guid OrderId { get; set; }
-    
+
     public Guid PrintingDetailsId { get; set; }
     public PrintingDetailsViewModel PrintingDetails { get; set; }
 }

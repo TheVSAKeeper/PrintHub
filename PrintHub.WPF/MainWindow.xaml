@@ -19,6 +19,7 @@
         xmlns:create="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Create"
         xmlns:update="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Update"
         xmlns:update1="clr-namespace:PrintHub.WPF.Endpoints.ItemEndpoints.Create"
+        xmlns:viewModels1="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -47,7 +48,7 @@
             <DataTemplate DataType="{x:Type admin:AdminViewModel}">
                 <admin:AdminView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type views:PrintingDetailsViewModel}">
+            <DataTemplate DataType="{x:Type viewModels1:PrintingDetailsViewModel}">
                 <views:PrintingDetailsFormView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type views1:MaterialViewModel }">
@@ -61,7 +62,7 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type update:OrderUpdateFormViewModel}">
                 <update:OrderUpdateFormView />
-            </DataTemplate> 
+            </DataTemplate>
             <DataTemplate DataType="{x:Type update1:ItemCreateFormViewModel}">
                 <update1:ItemCreateFormView />
             </DataTemplate>

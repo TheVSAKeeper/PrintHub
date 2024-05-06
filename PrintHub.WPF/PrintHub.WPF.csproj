@@ -91,9 +91,19 @@
             <SubType>Designer</SubType>
         </Page>
         <Page Update="Endpoints\ItemEndpoints\Create\ItemCreateFormView.xaml">
-          <Generator>MSBuild:Compile</Generator>
-          <XamlRuntime>Wpf</XamlRuntime>
-          <SubType>Designer</SubType>
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\PrintingDetailsEndpoints\Create\PrintingDetailsCreateFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\ItemEndpoints\Views\ItemFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
         </Page>
     </ItemGroup>
 

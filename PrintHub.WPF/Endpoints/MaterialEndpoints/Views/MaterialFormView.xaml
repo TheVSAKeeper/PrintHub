@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
-             xmlns:views1="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.Views"
+             xmlns:viewModels="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.ViewModels"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{materialDesign:MaterialDesignFont}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -14,7 +14,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance views1:MaterialViewModel}">
+             d:DataContext="{d:DesignInstance viewModels:MaterialViewModel}">
     <Grid>
         <materialDesign:Card Margin="10"
                              Padding="10"
@@ -28,7 +28,9 @@
                            Margin="5" />
                 <TextBlock Text="{Binding Description}"
                            Margin="5" />
-                <TextBlock Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                <TextBlock Text="{Binding Technology}"
+                           Margin="5" />
+                <TextBlock Text="{Binding Price, StringFormat=Price: {0:C}}"
                            Margin="5" />
                 <TextBlock Text="Available Colors:"
                            FontWeight="Bold"

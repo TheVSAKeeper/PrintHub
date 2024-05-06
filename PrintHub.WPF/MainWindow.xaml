@@ -8,18 +8,20 @@
         xmlns:bar="clr-namespace:PrintHub.WPF.Shared.Navigation.Bar"
         xmlns:profile="clr-namespace:PrintHub.WPF.Pages.Profile"
         xmlns:home="clr-namespace:PrintHub.WPF.Pages.Home"
-        xmlns:login="clr-namespace:PrintHub.WPF.Pages.Login"
-        xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views"
-        xmlns:views1="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.Views"
-        xmlns:views2="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
-        xmlns:queries111="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
         xmlns:client="clr-namespace:PrintHub.WPF.Pages.Client"
         xmlns:admin="clr-namespace:PrintHub.WPF.Pages.Admin"
-        xmlns:changeDbConnection="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection"
+        xmlns:login="clr-namespace:PrintHub.WPF.Pages.Login"
+        xmlns:viewModels1="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels"
+        xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views"
+        xmlns:viewModels2="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.ViewModels"
+        xmlns:views1="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.Views"
+        xmlns:viewModels3="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
+        xmlns:views2="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
         xmlns:create="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Create"
         xmlns:update="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Update"
-        xmlns:update1="clr-namespace:PrintHub.WPF.Endpoints.ItemEndpoints.Create"
-        xmlns:viewModels1="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels"
+        xmlns:create1="clr-namespace:PrintHub.WPF.Endpoints.ItemEndpoints.Create"
+        xmlns:create2="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Create"
+        xmlns:changeDbConnection="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -51,10 +53,10 @@
             <DataTemplate DataType="{x:Type viewModels1:PrintingDetailsViewModel}">
                 <views:PrintingDetailsFormView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type views1:MaterialViewModel }">
+            <DataTemplate DataType="{x:Type viewModels2:MaterialViewModel }">
                 <views1:MaterialFormView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type queries111:ColorViewModel}">
+            <DataTemplate DataType="{x:Type viewModels3:ColorViewModel}">
                 <views2:ColorFormView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type create:OrderCreateFormViewModel}">
@@ -63,8 +65,11 @@
             <DataTemplate DataType="{x:Type update:OrderUpdateFormViewModel}">
                 <update:OrderUpdateFormView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type update1:ItemCreateFormViewModel}">
-                <update1:ItemCreateFormView />
+            <DataTemplate DataType="{x:Type create1:ItemCreateFormViewModel}">
+                <create1:ItemCreateFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type create2:PrintingDetailsCreateFormViewModel}">
+                <create2:PrintingDetailsCreateFormView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type changeDbConnection:ChangeDbConnectionFormViewModel}">
                 <changeDbConnection:ChangeDbConnectionFormView />

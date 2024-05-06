@@ -1,13 +1,12 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using Calabonga.PagedListCore;
 using Calabonga.Results;
 using FluentValidation;
 using MediatR;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
-using PrintHub.WPF.Endpoints.ColorEndpoints.Queries;
 using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
+using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.Commands;
@@ -17,23 +16,34 @@ using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 
-public class OrderUpdateFormViewModel(
-    IMediator mediator,
-    AuthenticationStore authenticationStore,
-    CloseModalNavigationService closeNavigationService,
-    IValidator<OrderUpdateFormViewModel> validator)
-    : ValidationViewModel<OrderUpdateFormViewModel>(validator), ICallbackViewModel<OrderViewModel>
+public class OrderUpdateFormViewModel : ValidationViewModel<OrderUpdateFormViewModel>, ICallbackViewModel<OrderViewModel>, IParameterViewModel<Guid>
 {
+    private readonly AuthenticationStore _authenticationStore;
+    private readonly IMediator _mediator;
     private Action<OrderViewModel>? _callback;
 
     private ICommand? _confirmCommand;
-    private ICommand? _loadColorsCommand;
 
-    private ObservableCollection<CheckableColor> _chosenColors = null!;
-
+    private ObservableCollection<ItemViewModel>? _items;
     private string? _description;
 
+    public OrderUpdateFormViewModel(
+        IMediator mediator,
+        AuthenticationStore authenticationStore,
+        CloseModalNavigationService closeNavigationService,
+        ICallbackNavigationService<ItemViewModel> detailsNavigationService,
+        IValidator<OrderUpdateFormViewModel> validator) : base(validator)
+    {
+        _mediator = mediator;
+        _authenticationStore = authenticationStore;
+        CloseCommand = new NavigateCommand(closeNavigationService);
+        AddItemCommand = new CallbackNavigateCommand<ItemViewModel>(detailsNavigationService, OnItemAdded);
+    }
+
     protected override OrderUpdateFormViewModel ViewModel => this;
+    public Guid OrderId { get; set; }
+
+    public ICommand AddItemCommand { get; }
 
     public string? Description
     {
@@ -41,13 +51,13 @@ public class OrderUpdateFormViewModel(
         set => Set(ref _description, value);
     }
 
-    public ObservableCollection<CheckableColor> ChosenColors
+    public ObservableCollection<ItemViewModel>? Items
     {
-        get => _chosenColors;
-        private set => Set(ref _chosenColors, value);
+        get => _items;
+        private set => Set(ref _items, value);
     }
 
-    public ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
+    public ICommand CloseCommand { get; }
 
     public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommandAsync(async () =>
     {
@@ -56,7 +66,7 @@ public class OrderUpdateFormViewModel(
         if (HasErrors)
             return;
 
-        if (authenticationStore.User is { ClientId: null })
+        if (_authenticationStore.User is { ClientId: null })
         {
             MaterialMessageBox.Show("Client is null", "Update order error");
             return;
@@ -69,7 +79,7 @@ public class OrderUpdateFormViewModel(
             // RequiredColors = ChosenColors.Where(color => color.IsChecked).Select(color => color.ColorViewModel).ToList()
         };
 
-        Operation<OrderViewModel, string> result = await mediator.Send(new UpdateOrder.Request(model.Id, model));
+        Operation<OrderViewModel, string> result = await _mediator.Send(new UpdateOrder.Request(model.Id, model));
 
         if (result.Ok == false)
         {
@@ -84,13 +94,22 @@ public class OrderUpdateFormViewModel(
             CloseCommand.Execute(null);
     });
 
-    public ICommand LoadColorsCommand => _loadColorsCommand ??= new LambdaCommandAsync(async () =>
-    {
-        Operation<IPagedList<ColorViewModel>, string> colors = await mediator.Send(new GetColorPaged.Request(0, 10, null));
-        ChosenColors = new ObservableCollection<CheckableColor>(colors.Result.Items.Select(model => new CheckableColor(model, false)));
-    });
-
     public void SetCallback(Action<OrderViewModel> callback) => _callback ??= callback;
+
+    public void SetParameter(Guid parameter)
+    {
+        OrderId = parameter;
+    }
+
+    private void OnItemAdded(ItemViewModel obj)
+    {
+        List<ItemViewModel> old = [obj];
+
+        if (Items != null)
+            old.AddRange(Items);
+
+        Items = new ObservableCollection<ItemViewModel>(old);
+    }
 
     public class CheckableColor(ColorViewModel colorViewModel, bool isChecked)
     {

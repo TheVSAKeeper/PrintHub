@@ -78,7 +78,7 @@ public class OrderCreateFormViewModel(
         }
 
         _callback?.Invoke(result.Result);
-        MessageBoxResult boxResult = MaterialMessageBox.ShowWithCancel(result.Result.ToString(), "Order created");
+        MessageBoxResult boxResult = MaterialMessageBox.Show(result.Result.ToString(), "Order created");
 
         if (boxResult == MessageBoxResult.OK)
             CloseCommand.Execute(null);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.Navigation.Modal;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -40,6 +41,18 @@ public static class AddNavigationServiceExtensions
             {
                 TViewModel viewModel = provider.GetRequiredService<TViewModel>();
                 viewModel.SetParameter(parameter);
+                return viewModel;
+            }));
+    }
+
+    public static IServiceCollection AddParameterNavigationService<TParameter, TCommand, TViewModel>(this IServiceCollection serviceCollection)
+        where TViewModel : ViewModelBase, IParameterViewModel<TParameter, TCommand> where TCommand : NavigateCommand
+    {
+        return serviceCollection.AddSingleton<ParameterNavigationService<TParameter, TCommand, TViewModel>>(provider =>
+            new ParameterNavigationService<TParameter, TCommand, TViewModel>(provider.GetRequiredService<NavigationMediator>(), (parameter, command) =>
+            {
+                TViewModel viewModel = provider.GetRequiredService<TViewModel>();
+                viewModel.SetParameter(parameter, command);
                 return viewModel;
             }));
     }

@@ -7,9 +7,11 @@ using MediatR;
 using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
+using PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
+using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -28,14 +30,19 @@ public class AdminViewModel : ViewModelBase
     public AdminViewModel(
         AuthenticationStore authenticationStore,
         IMediator mediator,
-        ICallbackNavigationService<OrderViewModel> order
+        NavigationService<AdminViewModel> back,
+        ICallbackNavigationService<OrderViewModel> order,
+        ParameterNavigationService<Guid, NavigateCommand, OrderUpdateFormViewModel> orderUpdateNavigationService
     )
     {
         _authenticationStore = authenticationStore;
         _mediator = mediator;
 
         CreateOrderCommand = new CallbackNavigateCommand<OrderViewModel>(order, OnOrderCreated);
+        UpdateOrderNavigateCommand = new ParameterBackNavigateCommand<Guid>(orderUpdateNavigationService, new NavigateCommand(back));
     }
+
+    public ICommand UpdateOrderNavigateCommand { get; }
 
     public ObservableCollection<OrderViewModel>? Orders
     {

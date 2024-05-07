@@ -17,7 +17,7 @@ public sealed class GetItemById
         {
             Guid id = request.Id;
             IRepository<Item> repository = unitOfWork.GetRepository<Item>();
-            Item? entityWithoutIncludes = await repository.GetFirstOrDefaultAsync(predicate: Item => Item.Id == id);
+            Item? entityWithoutIncludes = await repository.GetFirstOrDefaultAsync(predicate: item => item.Id == id);
 
             if (entityWithoutIncludes == null)
                 return Operation.Error($"Entity with identifier {id} not found");

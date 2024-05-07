@@ -17,7 +17,7 @@ public sealed class GetMaterialById
         {
             Guid id = request.Id;
             IRepository<Material> repository = unitOfWork.GetRepository<Material>();
-            Material? entityWithoutIncludes = await repository.GetFirstOrDefaultAsync(predicate: Material => Material.Id == id);
+            Material? entityWithoutIncludes = await repository.GetFirstOrDefaultAsync(predicate: material => material.Id == id);
 
             if (entityWithoutIncludes == null)
                 return Operation.Error($"Entity with identifier {id} not found");

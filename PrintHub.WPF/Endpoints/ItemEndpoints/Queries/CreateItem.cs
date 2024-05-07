@@ -6,20 +6,22 @@ using Microsoft.Extensions.Logging;
 using PrintHub.Domain;
 using PrintHub.Domain.Base;
 using PrintHub.Infrastructure;
+using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.ItemEndpoints.Queries;
 
 public sealed class CreateItem
 {
-    public class Handler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<Handler> logger)
+    public class Handler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<Handler> logger, AuthenticationStore authenticationStore)
         : IRequestHandler<Request, Operation<ItemViewModel, string>>
     {
-        public async Task<Operation<ItemViewModel, string>> Handle(Request ItemRequest, CancellationToken cancellationToken)
+        public async Task<Operation<ItemViewModel, string>> Handle(Request itemRequest, CancellationToken cancellationToken)
         {
             logger.LogDebug("Creating new Item");
 
-            Item? entity = mapper.Map<ItemCreateViewModel, Item>(ItemRequest.Model);
+            Item? entity = mapper.Map<ItemCreateViewModel, Item>(itemRequest.Model,
+                options => options.Items[nameof(ApplicationUser)] = authenticationStore.User?.UserName);
 
             if (entity == null)
             {
@@ -49,5 +51,5 @@ public sealed class CreateItem
         }
     }
 
-    public record Request(ItemCreateViewModel Model, ApplicationUser User) : IRequest<Operation<ItemViewModel, string>>;
+    public record Request(ItemCreateViewModel Model) : IRequest<Operation<ItemViewModel, string>>;
 }

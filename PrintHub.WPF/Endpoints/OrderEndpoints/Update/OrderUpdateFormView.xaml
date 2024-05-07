@@ -18,7 +18,7 @@
              d:DesignWidth="500">
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
-            <b:InvokeCommandAction Command="{Binding }" />
+            <b:InvokeCommandAction Command="{Binding LoadOrderCommand}" />
         </b:EventTrigger>
     </b:Interaction.Triggers>
     <GroupBox Header="Update Order"
@@ -34,8 +34,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="1"
@@ -50,11 +51,16 @@
                              Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="WrapWithOverflow" />
 
-                    <Button Grid.Row="4"
+                    <ComboBox Grid.Row="4"
+                              ItemsSource="{Binding StatusList}"
+                              Margin="0 0 5 0"
+                              VerticalAlignment="Center" />
+
+                    <Button Grid.Row="5"
                             Command="{Binding AddItemCommand}"
                             Content="Add Item" />
 
-                    <ItemsControl Grid.Row="5"
+                    <ItemsControl Grid.Row="6"
                                   ItemsSource="{Binding Items}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -68,7 +74,7 @@
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
 
-                    <Button Grid.Row="6"
+                    <Button Grid.Row="7"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
                             Command="{Binding ConfirmCommand}"

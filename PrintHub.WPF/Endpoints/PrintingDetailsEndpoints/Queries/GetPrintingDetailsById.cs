@@ -17,7 +17,7 @@ public sealed class GetPrintingDetailsById
         {
             Guid id = request.Id;
             IRepository<PrintingDetails> repository = unitOfWork.GetRepository<PrintingDetails>();
-            PrintingDetails? entityWithoutIncludes = await repository.GetFirstOrDefaultAsync(predicate: PrintingDetails => PrintingDetails.Id == id);
+            PrintingDetails? entityWithoutIncludes = await repository.GetFirstOrDefaultAsync(predicate: printingDetails => printingDetails.Id == id);
 
             if (entityWithoutIncludes == null)
                 return Operation.Error($"Entity with identifier {id} not found");

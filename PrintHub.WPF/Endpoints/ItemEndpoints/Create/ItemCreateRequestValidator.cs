@@ -9,6 +9,7 @@ public class ItemCreateRequestValidator : AbstractValidator<ItemCreateFormViewMo
         RuleSet("default", () =>
         {
             RuleFor(request => request.Description).NotNull().Length(10, 1024);
+            RuleFor(request => request.PrintingDetails).NotNull();
         });
     }
 }

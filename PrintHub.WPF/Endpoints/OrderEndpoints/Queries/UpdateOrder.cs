@@ -4,13 +4,15 @@ using Calabonga.UnitOfWork;
 using MediatR;
 using PrintHub.Domain;
 using PrintHub.Domain.Base;
+using PrintHub.Infrastructure;
+using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 
 public sealed class UpdateOrder
 {
-    public class Handler(IUnitOfWork unitOfWork, IMapper mapper)
+    public class Handler(IUnitOfWork unitOfWork, IMapper mapper, AuthenticationStore authenticationStore)
         : IRequestHandler<Request, Operation<OrderViewModel, string>>
     {
         public async Task<Operation<OrderViewModel, string>> Handle(Request orderRequest, CancellationToken cancellationToken)
@@ -22,7 +24,7 @@ public sealed class UpdateOrder
             if (entity == null)
                 return Operation.Error(AppData.Exceptions.NotFoundException);
 
-            mapper.Map(orderRequest.Model, entity);
+            mapper.Map(orderRequest.Model, entity, options => options.Items[nameof(ApplicationUser)] = authenticationStore.User?.UserName);
 
             repository.Update(entity);
             await unitOfWork.SaveChangesAsync();

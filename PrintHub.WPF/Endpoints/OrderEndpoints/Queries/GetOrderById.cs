@@ -2,6 +2,7 @@
 using Calabonga.Results;
 using Calabonga.UnitOfWork;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using PrintHub.Domain;
 using PrintHub.Domain.Base;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
@@ -17,7 +18,9 @@ public sealed class GetOrderById
         {
             Guid id = request.Id;
             IRepository<Order> repository = unitOfWork.GetRepository<Order>();
-            Order? entityWithoutIncludes = await repository.GetFirstOrDefaultAsync(predicate: order => order.Id == id);
+
+            Order? entityWithoutIncludes = await repository.GetFirstOrDefaultAsync(predicate: order => order.Id == id,
+                include: i => i.Include(x => x.Items)!);
 
             if (entityWithoutIncludes == null)
                 return Operation.Error($"Entity with identifier {id} not found");

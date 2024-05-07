@@ -14,11 +14,11 @@ public sealed class CreatePrintingDetails
     public class Handler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<Handler> logger)
         : IRequestHandler<Request, Operation<PrintingDetailsViewModel, string>>
     {
-        public async Task<Operation<PrintingDetailsViewModel, string>> Handle(Request PrintingDetailsRequest, CancellationToken cancellationToken)
+        public async Task<Operation<PrintingDetailsViewModel, string>> Handle(Request printingDetailsRequest, CancellationToken cancellationToken)
         {
             logger.LogDebug("Creating new PrintingDetails");
 
-            PrintingDetails? entity = mapper.Map<PrintingDetailsCreateViewModel, PrintingDetails>(PrintingDetailsRequest.Model);
+            PrintingDetails? entity = mapper.Map<PrintingDetailsCreateViewModel, PrintingDetails>(printingDetailsRequest.Model);
 
             if (entity == null)
             {

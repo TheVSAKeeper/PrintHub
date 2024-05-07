@@ -9,6 +9,8 @@ public class ItemConfiguration : AuditableModelConfigurationBase<Item>
     protected override void AddCustomConfiguration(EntityTypeBuilder<Item> builder)
     {
         builder.Property(item => item.Description).IsRequired();
+        builder.Property(item => item.DevelopmentCost).IsRequired();
+        builder.Property(item => item.Weight).IsRequired();
         builder.Property(item => item.Ready).IsRequired();
 
         builder.HasOne(item => item.Order)

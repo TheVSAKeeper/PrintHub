@@ -17,6 +17,9 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
 {
     private readonly IMediator _mediator;
     private Action<ItemViewModel>? _callback;
+
+    private decimal? _developmentCost;
+    private decimal? _weight;
     private PrintingDetailsViewModel? _printingDetails;
     private string? _description;
 
@@ -33,12 +36,24 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
 
     protected override ItemCreateFormViewModel ViewModel => this;
 
-    public Guid OrderId { get; set; }
+    private Guid OrderId { get; set; }
 
     public string? Description
     {
         get => _description;
         set => Set(ref _description, value);
+    }
+
+    public decimal? Weight
+    {
+        get => _weight;
+        set => Set(ref _weight, value);
+    }
+
+    public decimal? DevelopmentCost
+    {
+        get => _developmentCost;
+        set => Set(ref _developmentCost, value);
     }
 
     public PrintingDetailsViewModel? PrintingDetails

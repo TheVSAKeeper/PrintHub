@@ -8,10 +8,10 @@ public class ItemViewModel
 
     public string Description { get; set; }
     public bool Ready { get; set; }
-
+    public decimal Weight { get; set; }
+    public decimal DevelopmentCost { get; set; }
     public DateTime UpdatedAt { get; set; }
     public string UpdatedBy { get; set; }
-
     public Guid OrderId { get; set; }
 
     public Guid PrintingDetailsId { get; set; }

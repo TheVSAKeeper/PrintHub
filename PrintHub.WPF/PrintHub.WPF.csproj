@@ -113,6 +113,7 @@
         <PackageReference Include="Calabonga.Results" Version="1.0.2"/>
         <PackageReference Include="Calabonga.UnitOfWork" Version="4.0.0"/>
         <PackageReference Include="EPPlus" Version="7.1.2"/>
+        <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0"/>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0"/>
         <PackageReference Include="MaterialDesignThemes" Version="5.0.0"/>
         <PackageReference Include="MediatR" Version="12.2.0"/>

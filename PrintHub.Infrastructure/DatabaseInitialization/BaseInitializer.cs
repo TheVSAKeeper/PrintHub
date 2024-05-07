@@ -206,7 +206,9 @@ public partial class DatabaseInitializer
                 PrintingDetailsId = printingDetailsList[0].Id,
                 PrintingDetails = printingDetailsList[0],
                 CreatedAt = DateTime.UtcNow,
-                CreatedBy = "Superuser"
+                CreatedBy = "Superuser",
+                Weight = 22.5m,
+                DevelopmentCost = 65.7m
             },
 
             new Item
@@ -218,7 +220,9 @@ public partial class DatabaseInitializer
                 PrintingDetailsId = printingDetailsList[1].Id,
                 PrintingDetails = printingDetailsList[1],
                 CreatedAt = DateTime.UtcNow,
-                CreatedBy = "Superuser"
+                CreatedBy = "Superuser",
+                Weight = 55.6m,
+                DevelopmentCost = 12.3m
             }
         ];
 

@@ -32,7 +32,7 @@ public abstract class ValidationViewModel<TV>(IValidator<TV> validator) : ViewMo
             AddError(error.PropertyName, error.ErrorMessage);
     }
 
-    private void ValidateProperty(string propertyName)
+    protected void ValidateProperty(string propertyName)
     {
         ClearErrors(propertyName);
 

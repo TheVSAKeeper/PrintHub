@@ -25,6 +25,18 @@ public static class AddNavigationServiceExtensions
         where TViewModel : ViewModelBase, ICallbackViewModel<TParameter>
     {
         return serviceCollection.AddSingleton<ICallbackNavigationService<TParameter>, CallbackModalNavigationService<TParameter, TViewModel>>(provider =>
+            new CallbackModalNavigationService<TParameter, TViewModel>(provider.GetRequiredService<NavigationMediator>(), parameter =>
+            {
+                TViewModel viewModel = provider.GetRequiredService<TViewModel>();
+                viewModel.SetCallback(parameter);
+                return viewModel;
+            }));
+    }    
+    
+    public static IServiceCollection AddCallbackModalNavigationService<TParameter, TViewModel>(this IServiceCollection serviceCollection)
+        where TViewModel : ViewModelBase, ICallbackViewModel<TParameter>
+    {
+        return serviceCollection.AddSingleton<ICallbackNavigationService<TParameter>, CallbackModalNavigationService<TParameter, TViewModel>>(provider =>
             new CallbackModalNavigationService<TParameter, TViewModel>(provider.GetRequiredService<ModalNavigationMediator>(), parameter =>
             {
                 TViewModel viewModel = provider.GetRequiredService<TViewModel>();

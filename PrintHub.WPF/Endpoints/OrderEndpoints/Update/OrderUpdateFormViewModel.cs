@@ -15,7 +15,10 @@ using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 
-public class OrderUpdateFormViewModel : ValidationViewModel<OrderUpdateFormViewModel>, ICallbackViewModel<OrderViewModel>, IParameterViewModel<Guid>, IParameterViewModel<Guid, NavigateCommand>
+public class OrderUpdateFormViewModel : ValidationViewModel<OrderUpdateFormViewModel>,
+    ICallbackViewModel<OrderViewModel>,
+    IParameterViewModel<Guid>,
+    IParameterViewModel<Guid, NavigateCommand>
 {
     private readonly IMediator _mediator;
     private Action<OrderViewModel>? _callback;

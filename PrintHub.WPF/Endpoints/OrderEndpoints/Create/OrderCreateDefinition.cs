@@ -14,6 +14,6 @@ public class OrderCreateDefinition : AppDefinition
 
         services.AddModalNavigationService<OrderCreateFormViewModel>();
 
-        services.AddCallbackNavigationService<OrderViewModel, OrderCreateFormViewModel>();
+        services.AddCallbackModalNavigationService<OrderViewModel, OrderCreateFormViewModel>();
     }
 }

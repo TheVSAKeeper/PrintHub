@@ -14,6 +14,6 @@ public class PrintingDetailsCreateDefinition : AppDefinition
 
         services.AddModalNavigationService<PrintingDetailsCreateFormViewModel>();
 
-        services.AddCallbackNavigationService<PrintingDetailsViewModel, PrintingDetailsCreateFormViewModel>();
+        services.AddCallbackModalNavigationService<PrintingDetailsViewModel, PrintingDetailsCreateFormViewModel>();
     }
 }

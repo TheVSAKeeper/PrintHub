@@ -59,12 +59,20 @@ public class PrintingDetailsCreateFormViewModel(
     {
         Operation<IPagedList<ColorViewModel>, string> colors = await mediator.Send(new GetColorPaged.Request(0, 10, null));
         ChosenColors = new ObservableCollection<CheckableColor>(colors.Result.Items.Select(model => new CheckableColor(model, false)));
+        
+        foreach (CheckableColor color in ChosenColors)
+            color.OnCheckChanged += () => ValidateProperty(nameof(ChosenColors));
+        
+        LoadMaterialsCommand.Execute(null);
     });
 
     public ICommand LoadMaterialsCommand => _loadMaterialsCommand ??= new LambdaCommandAsync(async () =>
     {
         Operation<IPagedList<MaterialViewModel>, string> colors = await mediator.Send(new GetMaterialPaged.Request(0, 10, null));
         ChosenMaterials = new ObservableCollection<CheckableMaterial>(colors.Result.Items.Select(model => new CheckableMaterial(model, false)));
+
+        foreach (CheckableMaterial material in ChosenMaterials)
+            material.OnCheckChanged += () => ValidateProperty(nameof(ChosenMaterials));
     });
 
     private ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
@@ -94,9 +102,17 @@ public class PrintingDetailsCreateFormViewModel(
             MaterialMessageBox.ShowError(result.Error);
             return;
         }
+        
+        Operation<PrintingDetailsViewModel, string> newResult =  await mediator.Send(new GetPrintingDetailsById.Request(result.Result.Id));
+        
+        if (newResult.Ok == false)
+        {
+            MaterialMessageBox.ShowError(newResult.Error);
+            return;
+        }
 
-        _callback?.Invoke(result.Result);
-        MessageBoxResult boxResult = MaterialMessageBox.Show(result.Result.ToString(), "PrintingDetails created");
+        _callback?.Invoke(newResult.Result);
+        MessageBoxResult boxResult = MaterialMessageBox.Show(newResult.Result.ToString()!, "PrintingDetails created");
 
         if (boxResult == MessageBoxResult.OK)
             CloseCommand.Execute(null);
@@ -117,5 +133,15 @@ public class PrintingDetailsCreateFormViewModel(
 
 public abstract class Checkable(bool isChecked)
 {
-    public bool IsChecked { get; set; } = isChecked;
+    public bool IsChecked
+    {
+        get => isChecked;
+        set
+        {
+            isChecked = value;
+            OnCheckChanged?.Invoke();
+        }
+    }
+
+    public event Action? OnCheckChanged;
 }

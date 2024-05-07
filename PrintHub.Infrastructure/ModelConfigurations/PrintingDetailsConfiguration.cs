@@ -14,10 +14,14 @@ public class PrintingDetailsConfiguration : IdentityModelConfigurationBase<Print
             .WithMany(color => color.PrintingDetails)
             .HasForeignKey(printingDetails => printingDetails.ColorId)
             .IsRequired();
+        
+        builder.Navigation(printingDetails => printingDetails.Color).AutoInclude();
 
         builder.HasOne(printingDetails => printingDetails.Material)
             .WithMany(material => material.PrintingDetails)
             .HasForeignKey(printingDetails => printingDetails.MaterialId)
             .IsRequired();
+        
+        builder.Navigation(printingDetails => printingDetails.Material).AutoInclude();
     }
 }

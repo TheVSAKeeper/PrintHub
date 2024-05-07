@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewModels="clr-namespace:PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels"
-             xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{materialDesign:MaterialDesignFont}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -44,60 +43,21 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0"
                                 Orientation="Horizontal">
-                        <TextBlock Text="Description:" />
-                        <TextBlock Text="{Binding Description}"
-                                   Margin="10 0 0 0" />
+                        <TextBlock VerticalAlignment="Center"
+                                   Text="Ready:" />
+                        <ToggleButton IsChecked="{Binding Ready, Mode=OneWay}"
+                                      Margin="10 0 0 0" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1"
                                 Orientation="Horizontal">
-                        <TextBlock Text="Status:" />
-                        <TextBlock Text="{Binding Status}"
-                                   Margin="10 0 0 0">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="None">
-                                            <Setter Property="Foreground"
-                                                    Value="Gray" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="New">
-                                            <Setter Property="Foreground"
-                                                    Value="Red" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="InProgress">
-                                            <Setter Property="Foreground"
-                                                    Value="Yellow" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="Ready">
-                                            <Setter Property="Foreground"
-                                                    Value="Orange" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="Delivered">
-                                            <Setter Property="Foreground"
-                                                    Value="Green" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Status}"
-                                                     Value="Completed">
-                                            <Setter Property="Foreground"
-                                                    Value="DarkGreen" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                        <TextBlock Text="Description:" />
+                        <TextBlock Text="{Binding Description}"
+                                   Margin="10 0 0 0" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="2"
@@ -116,34 +76,16 @@
 
                     <StackPanel Grid.Row="4"
                                 Orientation="Horizontal">
-                        <TextBlock Text="Client ID:" />
-                        <TextBlock Text="{Binding ClientId}"
-                                   Margin="10 0 0 0" />
+                        <TextBlock Text="Weight: " />
+                        <TextBlock Text="{Binding Weight, StringFormat='{}{0:0.00}'}" />
                     </StackPanel>
 
-                    <TextBlock Grid.Row="4"
-                               Text="Weight" />
-                    <TextBox Grid.Row="5"
-                             Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:0.00}'}" />
+                    <StackPanel Grid.Row="5"
+                                Orientation="Horizontal">
+                        <TextBlock Text="Development Cost: " />
+                        <TextBlock Text="{Binding DevelopmentCost, StringFormat='{}{0:0.00}'}" />
+                    </StackPanel>
 
-                    <TextBlock Grid.Row="6"
-                               Text="Development Cost" />
-                    <TextBox Grid.Row="7"
-                             Text="{Binding DevelopmentCost, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:0.00}'}" />
-
-                    <ItemsControl Grid.Row="8"
-                                  ItemsSource="{Binding RequiredColors}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <views:ColorFormView DataContext="{Binding }" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="2" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
                 </Grid>
             </Grid>
 

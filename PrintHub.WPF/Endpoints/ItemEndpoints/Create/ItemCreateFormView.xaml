@@ -7,7 +7,6 @@
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:create="clr-namespace:PrintHub.WPF.Endpoints.ItemEndpoints.Create"
              xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              d:DataContext="{d:DesignInstance create:ItemCreateFormViewModel, IsDesignTimeCreatable=True}"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{materialDesign:MaterialDesignFont}"
@@ -56,21 +55,14 @@
 
                     <TextBlock Grid.Row="4"
                                Text="Weight" />
-                    <xctk:DecimalUpDown Grid.Row="5"
-                                        Value="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
-                                        Minimum="0"
-                                        Maximum="1000"
-                                        Increment="0.01"
-                                        FormatString="{}{0:0.00}" />
+                    <TextBox Grid.Row="5"
+                             Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:0.00}'}" />
 
                     <TextBlock Grid.Row="6"
                                Text="Development Cost" />
-                    <xctk:DecimalUpDown Grid.Row="7"
-                                        Value="{Binding DevelopmentCost, UpdateSourceTrigger=PropertyChanged}"
-                                        Minimum="0"
-                                        Maximum="1000000"
-                                        Increment="0.01"
-                                        FormatString="{}{0:0.00}" />
+                    <TextBox Grid.Row="7"
+                             Text="{Binding DevelopmentCost, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:0.00}'}" />
+
                     <Button Grid.Row="8"
                             Command="{Binding AddPrintingDetailsCommand}"
                             Content="Add PrintingDetails" />

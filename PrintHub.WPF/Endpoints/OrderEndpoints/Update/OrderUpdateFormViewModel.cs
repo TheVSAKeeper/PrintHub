@@ -5,7 +5,6 @@ using Calabonga.Results;
 using FluentValidation;
 using MediatR;
 using PrintHub.Domain;
-using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
@@ -18,23 +17,20 @@ namespace PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 
 public class OrderUpdateFormViewModel : ValidationViewModel<OrderUpdateFormViewModel>, ICallbackViewModel<OrderViewModel>, IParameterViewModel<Guid>, IParameterViewModel<Guid, NavigateCommand>
 {
-    private readonly AuthenticationStore _authenticationStore;
     private readonly IMediator _mediator;
     private Action<OrderViewModel>? _callback;
 
+    private int _statusId;
     private ObservableCollection<ItemViewModel>? _items;
-
     private OrderStatus _status;
     private string? _description;
 
     public OrderUpdateFormViewModel(
         IMediator mediator,
-        AuthenticationStore authenticationStore,
         ICallbackNavigationService<ItemViewModel> detailsNavigationService,
         IValidator<OrderUpdateFormViewModel> validator) : base(validator)
     {
         _mediator = mediator;
-        _authenticationStore = authenticationStore;
         AddItemCommand = new CallbackNavigateCommand<ItemViewModel>(detailsNavigationService, OnItemAdded);
     }
 
@@ -47,10 +43,22 @@ public class OrderUpdateFormViewModel : ValidationViewModel<OrderUpdateFormViewM
         set => Set(ref _description, value);
     }
 
-    public OrderStatus Status
+    private OrderStatus Status
     {
         get => _status;
-        set => Set(ref _status, value);
+        set
+        {
+            if (Set(ref _status, value) == false)
+                return;
+
+            StatusId = StatusList.IndexOf(Status.ToString());
+        }
+    }
+
+    public int StatusId
+    {
+        get => _statusId;
+        set => Set(ref _statusId, value);
     }
 
     public ObservableCollection<ItemViewModel>? Items
@@ -59,7 +67,7 @@ public class OrderUpdateFormViewModel : ValidationViewModel<OrderUpdateFormViewM
         private set => Set(ref _items, value);
     }
 
-    public IEnumerable<string> StatusList => Enum.GetNames(typeof(OrderStatus)).Prepend(string.Empty);
+    public List<string> StatusList => Enum.GetNames(typeof(OrderStatus)).Prepend(string.Empty).ToList();
 
     public void SetCallback(Action<OrderViewModel> callback) => _callback ??= callback;
 
@@ -134,7 +142,7 @@ public class OrderUpdateFormViewModel : ValidationViewModel<OrderUpdateFormViewM
 
         Description = result.Result.Description;
         Status = result.Result.Status;
-        Items = new ObservableCollection<ItemViewModel>(result.Result.Items);
+        Items = new ObservableCollection<ItemViewModel>(result.Result.Items!);
     });
 
     #endregion

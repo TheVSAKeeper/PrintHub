@@ -16,6 +16,7 @@
             <converters:DateTimeToLongDateConverter x:Key="DateTimeToLongDateConverter" />
             <converters:RussificationConverter x:Key="RussificationConverter" />
             <converters:DateToAgeConverter x:Key="DateToAgeConverter" />
+            <converters:OrderStatusToIconConverter x:Key="OrderStatusToIconConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

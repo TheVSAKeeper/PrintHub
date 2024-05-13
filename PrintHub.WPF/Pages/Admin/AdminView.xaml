@@ -33,7 +33,7 @@
                 <DataTemplate DataType="{x:Type viewModels:OrderViewModel}">
                     <StackPanel>
                         <Button Panel.ZIndex="1"
-                                HorizontalAlignment="Right"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
                                 Command="{Binding DataContext.UpdateOrderNavigateCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"

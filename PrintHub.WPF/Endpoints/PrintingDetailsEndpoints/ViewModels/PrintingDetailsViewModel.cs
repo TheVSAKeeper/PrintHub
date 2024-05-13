@@ -10,6 +10,5 @@ public class PrintingDetailsViewModel
     public PrintingTechnology Technology { get; set; }
     public ColorViewModel ColorViewModel { get; set; }
     public MaterialViewModel MaterialViewModel { get; set; }
-
     public override string ToString() => $"{nameof(Id)}: {Id}, {nameof(Technology)}: {Technology}, {nameof(ColorViewModel)}: {ColorViewModel}, {nameof(MaterialViewModel)}: {MaterialViewModel}";
 }

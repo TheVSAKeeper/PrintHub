@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using PrintHub.Domain.Base;
 using PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection;
+using PrintHub.WPF.Endpoints.AdminEndpoints.ShowStatistics;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Logout;
 using PrintHub.WPF.Pages.Admin;
@@ -16,6 +17,7 @@ namespace PrintHub.WPF.Pages.Home;
 
 public class HomeViewModel(
     AuthenticationStore authenticationStore,
+    ShowStatisticsFormViewModel statisticsFormViewModel,
     NavigationService<ClientViewModel> clientNavigationService,
     NavigationService<AdminViewModel> adminNavigationService,
     NavigationService<ProfileViewModel> profileNavigationService,
@@ -28,6 +30,8 @@ public class HomeViewModel(
     public ICommand NavigateProfileCommand { get; } = new NavigateCommand(profileNavigationService);
     public ICommand LogoutCommand { get; } = new LogoutCommand(authenticationStore, loginNavigationService);
     public ICommand ChangeDbCommand { get; } = new NavigateCommand(changeDbNavigationService);
+
+    public ShowStatisticsFormViewModel StatisticsFormViewModel { get; } = statisticsFormViewModel;
 
     public string Username => authenticationStore.Username;
 

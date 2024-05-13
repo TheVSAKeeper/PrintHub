@@ -5,6 +5,7 @@ using Calabonga.PredicatesBuilder;
 using Calabonga.Results;
 using Calabonga.UnitOfWork;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using PrintHub.Domain;
 using PrintHub.Domain.Base;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
@@ -26,12 +27,15 @@ public sealed class GetItemPaged
                 .GetPagedListAsync(predicate,
                     pageIndex: request.PageIndex,
                     pageSize: request.PageSize,
+                    include: i => i.Include(item => item.PrintingDetails)!,
                     cancellationToken: cancellationToken);
 
             if (pagedList.PageIndex > pagedList.TotalPages)
                 pagedList = await unitOfWork.GetRepository<Item>()
                     .GetPagedListAsync(pageIndex: 0,
-                        pageSize: request.PageSize, cancellationToken: cancellationToken);
+                        pageSize: request.PageSize,
+                        include: i => i.Include(item => item.PrintingDetails)!,
+                        cancellationToken: cancellationToken);
 
             IPagedList<ItemViewModel>? mapped = mapper.Map<IPagedList<ItemViewModel>>(pagedList);
 

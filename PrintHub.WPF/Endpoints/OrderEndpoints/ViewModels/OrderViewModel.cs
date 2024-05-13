@@ -11,6 +11,9 @@ public class OrderViewModel
     public required string Description { get; set; }
     public required OrderStatus Status { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+    public string CreatedBy { get; set; }
+
     public DateTime UpdatedAt { get; set; }
     public string UpdatedBy { get; set; }
 

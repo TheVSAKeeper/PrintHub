@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:home="clr-namespace:PrintHub.WPF.Pages.Home"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:showStatistics="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints.ShowStatistics"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.FontWeight="Medium"
@@ -18,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="1*" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -65,20 +67,24 @@
                     Height="30" />
         </Grid>
 
-        <Button Grid.Row="2"
+        <showStatistics:ShowStatisticsFormView Grid.Row="2"
+                                               Visibility="{Binding DataContext.IsAdministrator, RelativeSource={RelativeSource AncestorType=Grid}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                               DataContext="{Binding StatisticsFormViewModel}" />
+
+        <Button Grid.Row="3"
                 Style="{DynamicResource MaterialDesignRaisedButton}"
                 Visibility="{Binding IsAdministrator, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Command="{Binding ChangeDbCommand}"
                 Content="Change Database"
                 Margin="5,5,5,5" />
-        <Button Grid.Row="3"
+        <Button Grid.Row="4"
                 Style="{DynamicResource MaterialDesignRaisedButton}"
                 Visibility="{Binding IsAdministrator, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Command="{Binding NavigateAdminCommand}"
                 Content="Заказы"
                 Margin="5,5,5,5" />
 
-        <Button Grid.Row="4"
+        <Button Grid.Row="5"
                 Style="{DynamicResource MaterialDesignRaisedButton}"
                 Command="{Binding NavigateClientCommand}"
                 Content="Заказы"

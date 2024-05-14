@@ -186,4 +186,9 @@
         </Resource>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Endpoints\AdditionalServiceEndpoints\Views\"/>
+        <Folder Include="Endpoints\ServiceDetailEndpoints\Views\"/>
+    </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
 ﻿using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
+using PrintHub.WPF.Endpoints.ServiceDetailEndpoints.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 
@@ -21,6 +22,7 @@ public class OrderViewModel
     public Client? Client { get; set; }
 
     public List<ColorViewModel>? RequiredColors { get; set; }
+    public List<ServiceDetailViewModel>? ServiceDetails { get; set; }
 
     public virtual List<Sample>? Samples { get; set; }
     public virtual List<ItemViewModel>? Items { get; set; }

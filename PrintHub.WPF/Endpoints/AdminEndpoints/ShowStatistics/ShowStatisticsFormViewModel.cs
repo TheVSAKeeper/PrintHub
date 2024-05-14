@@ -40,7 +40,8 @@ public class ShowStatisticsFormViewModel(IMediator mediator) : ViewModelBase
 
     public record OrdersCount
     {
-        public required string Message { get; set; }
+        public string Message { get; set; }
+        public required int Count { get; set; }
         public required OrderStatus Status { get; set; }
     }
 
@@ -70,7 +71,8 @@ public class ShowStatisticsFormViewModel(IMediator mediator) : ViewModelBase
         descriptions.AddRange(ordersByStatus.Select(status => new OrdersCount
             {
                 Message = $"Status '{status.Key}': {status.Value} count",
-                Status = status.Key
+                Status = status.Key,
+                Count = status.Value
             })
             .OrderBy(count => count.Status));
 

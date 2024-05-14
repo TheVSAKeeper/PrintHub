@@ -39,11 +39,58 @@
                                   ItemsSource="{Binding OrdersByStatus}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
                                     <materialDesign:PackIcon Margin="0,0,8,0"
-                                                             Kind="{Binding Status, Converter={StaticResource OrderStatusToIconConverter}}" />
-                                    <TextBlock Text="{Binding Message}" />
-                                </StackPanel>
+                                                             Kind="{Binding Status, Converter={StaticResource OrderStatusToIconConverter}}"
+                                                             Grid.Column="0">
+                                        <materialDesign:PackIcon.Style>
+                                            <Style TargetType="materialDesign:PackIcon">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="None">
+                                                        <Setter Property="Foreground"
+                                                                Value="Gray" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="New">
+                                                        <Setter Property="Foreground"
+                                                                Value="Red" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="InProgress">
+                                                        <Setter Property="Foreground"
+                                                                Value="YellowGreen" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="Ready">
+                                                        <Setter Property="Foreground"
+                                                                Value="Orange" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="Delivered">
+                                                        <Setter Property="Foreground"
+                                                                Value="Green" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="Completed">
+                                                        <Setter Property="Foreground"
+                                                                Value="DarkGreen" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </materialDesign:PackIcon.Style>
+                                    </materialDesign:PackIcon>
+                                    <TextBlock Text="{Binding Status}"
+                                               Grid.Column="1" />
+                                    <TextBlock Text="{Binding Count}"
+                                               Grid.Column="2"
+                                               HorizontalAlignment="Right" />
+                                </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

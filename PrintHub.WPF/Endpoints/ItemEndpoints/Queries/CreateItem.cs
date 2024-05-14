@@ -29,8 +29,6 @@ public sealed class CreateItem
                 return Operation.Error(AppData.Exceptions.MappingException);
             }
 
-            
-            
             await unitOfWork.GetRepository<Item>().InsertAsync(entity, cancellationToken);
             await unitOfWork.SaveChangesAsync();
 

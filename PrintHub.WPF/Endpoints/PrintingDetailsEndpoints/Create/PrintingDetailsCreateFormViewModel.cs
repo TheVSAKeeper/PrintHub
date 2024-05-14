@@ -59,10 +59,10 @@ public class PrintingDetailsCreateFormViewModel(
     {
         Operation<IPagedList<ColorViewModel>, string> colors = await mediator.Send(new GetColorPaged.Request(0, 10, null));
         ChosenColors = new ObservableCollection<CheckableColor>(colors.Result.Items.Select(model => new CheckableColor(model, false)));
-        
+
         foreach (CheckableColor color in ChosenColors)
             color.OnCheckChanged += () => ValidateProperty(nameof(ChosenColors));
-        
+
         LoadMaterialsCommand.Execute(null);
     });
 
@@ -102,9 +102,9 @@ public class PrintingDetailsCreateFormViewModel(
             MaterialMessageBox.ShowError(result.Error);
             return;
         }
-        
-        Operation<PrintingDetailsViewModel, string> newResult =  await mediator.Send(new GetPrintingDetailsById.Request(result.Result.Id));
-        
+
+        Operation<PrintingDetailsViewModel, string> newResult = await mediator.Send(new GetPrintingDetailsById.Request(result.Result.Id));
+
         if (newResult.Ok == false)
         {
             MaterialMessageBox.ShowError(newResult.Error);

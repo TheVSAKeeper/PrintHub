@@ -31,8 +31,8 @@ public static class AddNavigationServiceExtensions
                 viewModel.SetCallback(parameter);
                 return viewModel;
             }));
-    }    
-    
+    }
+
     public static IServiceCollection AddCallbackModalNavigationService<TParameter, TViewModel>(this IServiceCollection serviceCollection)
         where TViewModel : ViewModelBase, ICallbackViewModel<TParameter>
     {

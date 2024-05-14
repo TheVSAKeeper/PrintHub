@@ -17,5 +17,8 @@ public class OrderConfiguration : AuditableModelConfigurationBase<Order>
 
         builder.HasMany(order => order.RequiredColors)
             .WithMany(color => color.Orders);
+
+        builder.HasMany(order => order.ServiceDetails)
+            .WithMany(serviceDetail => serviceDetail.Orders);
     }
 }

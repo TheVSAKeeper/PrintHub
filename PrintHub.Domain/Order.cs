@@ -12,6 +12,7 @@ public class Order : Auditable
 
     public List<Color>? RequiredColors { get; set; }
 
+    public virtual List<ServiceDetail>? ServiceDetails { get; set; }
     public virtual List<Sample>? Samples { get; set; }
     public virtual List<Item>? Items { get; set; }
 }

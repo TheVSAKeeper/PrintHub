@@ -14,6 +14,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Order> Orders { get; set; } = null!;
     public DbSet<PrintingDetails> PrintingDetails { get; set; } = null!;
     public DbSet<Sample> Samples { get; set; } = null!;
+    public DbSet<AdditionalService> AdditionalServices { get; set; } = null!;
+    public DbSet<ServiceDetail> ServiceDetails { get; set; } = null!;
 }
 
 public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>

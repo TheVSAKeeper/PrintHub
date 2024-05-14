@@ -228,6 +228,107 @@ public partial class DatabaseInitializer
 
         await _context.Items.AddRangeAsync(items);
 
+        List<AdditionalService> additionalServices =
+        [
+            new AdditionalService()
+            {
+                Name = "Сканирование объектов",
+                Description = "Мы можем отсканировать ваш физический объект и создать его 3D-модель для последующей печати.",
+                ServiceDetails = new List<ServiceDetail>
+                {
+                    new()
+                    {
+                        Name = "Лазерное сканирование",
+                        Description = "Высокоточное лазерное сканирование объектов с точностью до 0,1 мм.",
+                        Price = 5.7m
+                    },
+                    new()
+                    {
+                        Name = "Фотограмметрическое сканирование",
+                        Description = "Создание 3D-модели на основе серии фотографий объекта.",
+                        Price = 6.5m
+                    }
+                }
+            },
+
+            new AdditionalService()
+            {
+                Name = "Моделирование и дизайн",
+                Description = "Наши специалисты помогут вам разработать 3D-модель, если у вас нет готового файла для печати.",
+                ServiceDetails = new List<ServiceDetail>
+                {
+                    new()
+                    {
+                        Name = "3D-моделирование",
+                        Description = "Создание 3D-модели по вашим эскизам или техническим требованиям.",
+                        Price = 7.5m
+                    },
+                    new()
+                    {
+                        Name = "Дизайн-консультации",
+                        Description = "Помощь в разработке дизайна и концепции вашего изделия.",
+                        Price = 4.1m
+                    }
+                }
+            },
+
+            new AdditionalService()
+            {
+                Name = "Постобработка",
+                Description = "Мы можем обработать напечатанные изделия, например, отшлифовать, покрасить или нанести дополнительные покрытия.",
+                ServiceDetails = new List<ServiceDetail>
+                {
+                    new()
+                    {
+                        Name = "Шлифовка и полировка",
+                        Description = "Ручная или механическая обработка поверхности для достижения гладкого финиша.",
+                        Price = 5.7m
+                    },
+                    new()
+                    {
+                        Name = "Покраска",
+                        Description = "Нанесение краски или лака для придания изделию желаемого цвета и защитного покрытия.",
+                        Price = 3.5m
+                    },
+                    new()
+                    {
+                        Name = "Нанесение покрытий",
+                        Description = "Нанесение специальных покрытий, таких как металлизация, гальваника или лакировка.",
+                        Price = 9.1m
+                    }
+                }
+            },
+
+            new AdditionalService()
+            {
+                Name = "Консультации",
+                Description = "Наши эксперты готовы проконсультировать вас по вопросам 3D-печати, выбора материалов и технологий.",
+                ServiceDetails = new List<ServiceDetail>
+                {
+                    new()
+                    {
+                        Name = "Консультация по 3D-печати",
+                        Description = "Помощь в выборе оптимальной технологии и материалов для вашего проекта.",
+                        Price = 5.9m
+                    },
+                    new()
+                    {
+                        Name = "Консультация по дизайну",
+                        Description = "Рекомендации по улучшению дизайна и оптимизации 3D-модели для печати.",
+                        Price = 3.9m
+                    },
+                    new()
+                    {
+                        Name = "Консультация по постобработке",
+                        Description = "Советы по выбору методов и материалов для постобработки напечатанных изделий.",
+                        Price = 4.8m
+                    }
+                }
+            }
+        ];
+
+        await _context.AdditionalServices.AddRangeAsync(additionalServices);
+
         await _context.SaveChangesAsync();
     }
 }

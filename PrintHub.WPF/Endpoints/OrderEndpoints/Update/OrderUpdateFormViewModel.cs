@@ -10,6 +10,7 @@ using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
+using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
 using PrintHub.WPF.Shared.ViewModels;
 
@@ -30,11 +31,11 @@ public class OrderUpdateFormViewModel : ValidationViewModel<OrderUpdateFormViewM
 
     public OrderUpdateFormViewModel(
         IMediator mediator,
-        ICallbackNavigationService<ItemViewModel> detailsNavigationService,
+        IParameterCallbackNavigationService<ItemViewModel, Guid> detailsNavigationService,
         IValidator<OrderUpdateFormViewModel> validator) : base(validator)
     {
         _mediator = mediator;
-        AddItemCommand = new CallbackNavigateCommand<ItemViewModel>(detailsNavigationService, OnItemAdded);
+        AddItemCommand = new ParameterCallbackNavigateCommand<Guid, ItemViewModel>(detailsNavigationService, OnItemAdded);
     }
 
     protected override OrderUpdateFormViewModel ViewModel => this;

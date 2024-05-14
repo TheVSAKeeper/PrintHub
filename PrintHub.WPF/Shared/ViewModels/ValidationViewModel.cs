@@ -54,7 +54,7 @@ public abstract class ValidationViewModel<TV>(IValidator<TV> validator) : ViewMo
 
     public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
-    public IEnumerable GetErrors(string? propertyName) => _propertyErrors!.GetValueOrDefault(propertyName, []);
+    public IEnumerable GetErrors(string? propertyName) => _propertyErrors!.GetValueOrDefault(propertyName ?? string.Empty, []);
 
     private void AddError(string propertyName, string errorMessage)
     {

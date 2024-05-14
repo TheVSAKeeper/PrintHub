@@ -10,3 +10,12 @@ public class CallbackModalNavigationService<TParameter, TViewModel>(INavigationM
         navigationMediator.CurrentViewModel = createViewModel(parameter);
     }
 }
+
+public class ParameterCallbackModalNavigationService<TParameter, T, TViewModel>(INavigationMediator navigationMediator, CreateViewModel<Action<TParameter>, T, TViewModel> createViewModel)
+    : IParameterCallbackNavigationService<TParameter, T> where TViewModel : ViewModelBase, ICallbackViewModel<TParameter, T>
+{
+    public void Navigate(Action<TParameter> parameter, T parameter2)
+    {
+        navigationMediator.CurrentViewModel = createViewModel(parameter, parameter2);
+    }
+}

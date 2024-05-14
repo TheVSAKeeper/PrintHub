@@ -30,8 +30,8 @@ public class AdminViewModel : ViewModelBase
     public AdminViewModel(
         AuthenticationStore authenticationStore,
         IMediator mediator,
-        NavigationService<AdminViewModel> back,
         ICallbackNavigationService<OrderViewModel> order,
+        NavigationService<AdminViewModel> back,
         ParameterNavigationService<Guid, NavigateCommand, OrderUpdateFormViewModel> orderUpdateNavigationService
     )
     {

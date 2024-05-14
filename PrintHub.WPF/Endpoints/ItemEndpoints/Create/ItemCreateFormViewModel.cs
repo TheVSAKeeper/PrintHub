@@ -5,15 +5,18 @@ using FluentValidation;
 using MediatR;
 using PrintHub.WPF.Endpoints.ItemEndpoints.Queries;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
+using PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 using PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels;
+using PrintHub.WPF.Pages.Admin;
 using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
+using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
 using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.ItemEndpoints.Create;
 
-public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewModel>, ICallbackViewModel<ItemViewModel>, IParameterViewModel<Guid>
+public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewModel>, ICallbackViewModel<ItemViewModel, Guid>
 {
     private readonly IMediator _mediator;
     private Action<ItemViewModel>? _callback;
@@ -27,11 +30,14 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
         IMediator mediator,
         CloseModalNavigationService closeNavigationService,
         ICallbackNavigationService<PrintingDetailsViewModel> detailsNavigationService,
+        NavigationService<AdminViewModel> back,
+        ParameterNavigationService<Guid, NavigateCommand, OrderUpdateFormViewModel> orderUpdateNavigationService,
         IValidator<ItemCreateFormViewModel> validator) : base(validator)
     {
         _mediator = mediator;
         CloseCommand = new NavigateCommand(closeNavigationService);
         AddPrintingDetailsCommand = new CallbackNavigateCommand<PrintingDetailsViewModel>(detailsNavigationService, OnPrintingDetailsAdded);
+        CloseCommand = new ParameterBackNavigateCommand<Guid>(orderUpdateNavigationService, new NavigateCommand(back));
     }
 
     protected override ItemCreateFormViewModel ViewModel => this;
@@ -62,13 +68,12 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
         set => Set(ref _printingDetails, value);
     }
 
-    public void SetCallback(Action<ItemViewModel> callback) => _callback ??= callback;
-
-    public void SetParameter(Guid parameter)
+    public void SetCallback(Action<ItemViewModel> callback, Guid parameter)
     {
+        _callback ??= callback;
         OrderId = parameter;
     }
-
+    
     private void OnPrintingDetailsAdded(PrintingDetailsViewModel obj)
     {
         PrintingDetails = obj;
@@ -109,7 +114,7 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
         MessageBoxResult boxResult = MaterialMessageBox.Show(result.Result.ToString()!, "Item created");
 
         if (boxResult == MessageBoxResult.OK)
-            CloseCommand.Execute(null);
+            CloseCommand.Execute(OrderId);
     });
 
     #endregion

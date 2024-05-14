@@ -14,6 +14,6 @@ public class ItemCreateDefinition : AppDefinition
 
         services.AddModalNavigationService<ItemCreateFormViewModel>();
 
-        services.AddCallbackNavigationService<ItemViewModel, ItemCreateFormViewModel>();
+        services.AddParameterCallbackNavigationService<ItemViewModel, Guid, ItemCreateFormViewModel>();
     }
 }

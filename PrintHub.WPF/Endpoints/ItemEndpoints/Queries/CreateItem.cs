@@ -29,6 +29,12 @@ public sealed class CreateItem
                 return Operation.Error(AppData.Exceptions.MappingException);
             }
 
+            /*Order? order = await unitOfWork.GetRepository<Order>()
+                .GetFirstOrDefaultAsync(predicate: order1 => order1.Id == itemRequest.Model.OrderId, disableTracking: false);
+
+            entity.OrderId = order.Id;
+            entity.Order = order;*/
+
             await unitOfWork.GetRepository<Item>().InsertAsync(entity, cancellationToken);
             await unitOfWork.SaveChangesAsync();
 

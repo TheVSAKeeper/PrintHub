@@ -59,6 +59,7 @@
 
                     <Button Grid.Row="5"
                             Command="{Binding AddItemCommand}"
+                            CommandParameter="{Binding OrderId}"
                             Content="Add Item" />
 
                     <ItemsControl Grid.Row="6"

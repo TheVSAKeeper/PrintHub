@@ -45,6 +45,30 @@ public static class AddNavigationServiceExtensions
             }));
     }
 
+    public static IServiceCollection AddParameterCallbackNavigationService<TParameter, TParameter2, TViewModel>(this IServiceCollection serviceCollection)
+        where TViewModel : ViewModelBase, ICallbackViewModel<TParameter, TParameter2>
+    {
+        return serviceCollection.AddSingleton<IParameterCallbackNavigationService<TParameter, TParameter2>, ParameterCallbackModalNavigationService<TParameter, TParameter2, TViewModel>>(provider =>
+            new ParameterCallbackModalNavigationService<TParameter, TParameter2, TViewModel>(provider.GetRequiredService<NavigationMediator>(), (parameter, parameter1) =>
+            {
+                TViewModel viewModel = provider.GetRequiredService<TViewModel>();
+                viewModel.SetCallback(parameter, parameter1);
+                return viewModel;
+            }));
+    }
+
+    public static IServiceCollection AddParameterCallbackModalNavigationService<TParameter, TParameter2, TViewModel>(this IServiceCollection serviceCollection)
+        where TViewModel : ViewModelBase, ICallbackViewModel<TParameter, TParameter2>
+    {
+        return serviceCollection.AddSingleton<IParameterCallbackNavigationService<TParameter, TParameter2>, ParameterCallbackModalNavigationService<TParameter, TParameter2, TViewModel>>(provider =>
+            new ParameterCallbackModalNavigationService<TParameter, TParameter2, TViewModel>(provider.GetRequiredService<ModalNavigationMediator>(), (parameter, parameter1) =>
+            {
+                TViewModel viewModel = provider.GetRequiredService<TViewModel>();
+                viewModel.SetCallback(parameter, parameter1);
+                return viewModel;
+            }));
+    }
+
     public static IServiceCollection AddParameterNavigationService<TParameter, TViewModel>(this IServiceCollection serviceCollection)
         where TViewModel : ViewModelBase, IParameterViewModel<TParameter>
     {

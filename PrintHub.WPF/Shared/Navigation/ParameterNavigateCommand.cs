@@ -1,7 +1,7 @@
 ﻿using PrintHub.Domain.Exceptions;
-using PrintHub.WPF.Shared.Navigation;
+using PrintHub.WPF.Shared.Commands;
 
-namespace PrintHub.WPF.Shared.Commands;
+namespace PrintHub.WPF.Shared.Navigation;
 
 public class ParameterNavigateCommand<T>(IParameterNavigationService<T> navigationService) : CommandBase
 {

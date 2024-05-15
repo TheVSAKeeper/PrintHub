@@ -6,7 +6,7 @@ using OfficeOpenXml;
 
 namespace PrintHub.WPF.Shared;
 
-public static class Unities
+public static class Utilities
 {
     private static void SaveOrdersToXml<T>(List<T> orders, string filePath)
     {

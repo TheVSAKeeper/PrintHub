@@ -91,7 +91,7 @@ public partial class ClientView : UserControl
         }
 
         List<OrderViewModel> list = source.Where(order => !(IsStatusMatching(order) == false || IsUpdatedAtMatching(order) == false || IsFilterTextMatching(order) == false)).ToList();
-        Unities.SaveToXml(list);
-        Unities.SaveToExcel(list);
+        Utilities.SaveToXml(list);
+        Utilities.SaveToExcel(list);
     }
 }

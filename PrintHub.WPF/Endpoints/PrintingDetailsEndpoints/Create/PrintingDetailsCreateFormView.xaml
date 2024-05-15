@@ -65,7 +65,7 @@
                                         HorizontalAlignment="Right" />
                             </UniformGrid>
                         </Expander.Header>
-                        <ItemsControl ItemsSource="{Binding ChosenColors}">
+                        <ItemsControl ItemsSource="{Binding AllColors, UpdateSourceTrigger=PropertyChanged}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -75,10 +75,10 @@
                                         </Grid.ColumnDefinitions>
                                         <CheckBox Grid.Column="0"
                                                   materialDesign:CheckBoxAssist.CheckBoxSize="24"
-                                                  IsChecked="{Binding IsChecked}"
+                                                  IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
                                                   Margin="5,5,5,5" />
                                         <views:ColorFormView Grid.Column="1"
-                                                             DataContext="{Binding ViewModel}" />
+                                                             DataContext="{Binding ViewModel, UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -104,7 +104,7 @@
                                         HorizontalAlignment="Right" />
                             </UniformGrid>
                         </Expander.Header>
-                        <ItemsControl ItemsSource="{Binding ChosenMaterials}">
+                        <ItemsControl ItemsSource="{Binding Materials}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>

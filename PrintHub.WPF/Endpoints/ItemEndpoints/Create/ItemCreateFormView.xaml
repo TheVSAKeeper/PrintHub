@@ -48,29 +48,39 @@
                                Margin="0 5 0 5" />
 
                     <TextBlock Grid.Row="2"
+                               Margin="0 5 0 0"
                                Text="Item Description" />
                     <TextBox Grid.Row="3"
+                             Margin="0 0 0 5"
                              Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="WrapWithOverflow" />
 
                     <TextBlock Grid.Row="4"
+                               Margin="0 5 0 0"
                                Text="Weight" />
                     <TextBox Grid.Row="5"
+                             Margin="0 0 0 5"
                              Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:0.00}'}" />
 
                     <TextBlock Grid.Row="6"
+                               Margin="0 5 0 0"
                                Text="Development Cost" />
                     <TextBox Grid.Row="7"
+                             Margin="0 0 0 5"
                              Text="{Binding DevelopmentCost, UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:0.00}'}" />
 
                     <Button Grid.Row="8"
+                            Margin="0 5 0 5"
                             Command="{Binding AddPrintingDetailsCommand}"
                             Content="Add PrintingDetails" />
 
                     <views:PrintingDetailsFormView Grid.Row="9"
+                                                   Margin="0 5 0 5"
+                                                   Visibility="{Binding DataContext.PrintingDetails, RelativeSource={RelativeSource AncestorType=GroupBox}, Converter={StaticResource NullableToVisibilityConverter}}"
                                                    DataContext="{Binding PrintingDetails}" />
 
                     <Button Grid.Row="10"
+                            Margin="0 5 0 5"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
                             Command="{Binding ConfirmCommand}"

@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewModels="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels"
              xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
+             xmlns:views1="clr-namespace:PrintHub.WPF.Endpoints.ServiceDetailEndpoints.Views"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{materialDesign:MaterialDesignFont}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -44,12 +45,14 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0"
                                 Orientation="Horizontal">
                         <TextBlock Text="Description:" />
-                        <TextBlock Text="{Binding Description}"
+                        <TextBlock TextWrapping="WrapWithOverflow"
+                                   Text="{Binding Description}"
                                    Margin="10 0 0 0" />
                     </StackPanel>
 
@@ -74,7 +77,7 @@
                                         <DataTrigger Binding="{Binding Status}"
                                                      Value="InProgress">
                                             <Setter Property="Foreground"
-                                                    Value="Yellow" />
+                                                    Value="YellowGreen" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Status}"
                                                      Value="Ready">
@@ -117,20 +120,42 @@
                         <TextBlock Text="{Binding ClientId}"
                                    Margin="10 0 0 0" />
                     </StackPanel>
+                    <Expander Grid.Row="5"
+                              Margin="0 5"
+                              Header="Colors">
+                        <ItemsControl Margin="0 5"
+                                      ItemsSource="{Binding RequiredColors}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <views:ColorFormView DataContext="{Binding }" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="2" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Expander>
 
-                    <ItemsControl Grid.Row="5"
-                                  ItemsSource="{Binding RequiredColors}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <views:ColorFormView DataContext="{Binding }" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="2" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                    <Expander Grid.Row="6"
+                              Margin="0 5"
+                              Header="Additional Services">
+                        <ItemsControl Margin="0 5"
+                                      ItemsSource="{Binding ServiceDetails}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <views1:ServiceDetailFormView DataContext="{Binding }" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="2" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Expander>
+
                 </Grid>
             </Grid>
 

@@ -11,11 +11,11 @@ public class PrintingDetailsCreateRequestValidator : AbstractValidator<PrintingD
         {
             RuleFor(request => request.Description).NotNull().Length(10, 1024);
 
-            RuleFor(request => request.ChosenMaterials)
+            RuleFor(request => request.AllMaterials)
                 .Must(HaveExactlyOneCheckedElement)
                 .WithMessage("ChosenMaterials must contain exactly one checked element.");
 
-            RuleFor(request => request.ChosenColors)
+            RuleFor(request => request.AllColors)
                 .Must(HaveExactlyOneCheckedElement)
                 .WithMessage("ChosenColors must contain exactly one checked element.");
         });

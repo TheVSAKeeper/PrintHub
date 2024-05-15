@@ -23,12 +23,9 @@ public class PrintingDetailsCreateFormViewModel(
 {
     private Action<PrintingDetailsViewModel>? _callback;
 
-    private ICommand? _confirmCommand;
-    private ICommand? _loadColorsCommand;
-    private ICommand? _loadMaterialsCommand;
-
-    private ObservableCollection<CheckableColor> _chosenColors = null!;
-    private ObservableCollection<CheckableMaterial> _chosenMaterials = null!;
+    private ObservableCollection<CheckableColor> _allColors = null!;
+    private ObservableCollection<CheckableMaterial> _allMaterials = null!;
+    private ObservableCollection<CheckableMaterial>? _materials;
 
     private string? _description;
 
@@ -40,39 +37,41 @@ public class PrintingDetailsCreateFormViewModel(
         set => Set(ref _description, value);
     }
 
-    public ObservableCollection<CheckableColor> ChosenColors
+    public ObservableCollection<CheckableColor> AllColors
     {
-        get => _chosenColors;
-        private set => Set(ref _chosenColors, value);
+        get => _allColors;
+        private set => Set(ref _allColors, value);
     }
 
-    public ObservableCollection<CheckableMaterial> ChosenMaterials
+    public ObservableCollection<CheckableMaterial> AllMaterials
     {
-        get => _chosenMaterials;
-        private set => Set(ref _chosenMaterials, value);
+        get => _allMaterials;
+        private set => Set(ref _allMaterials, value);
     }
 
-    public ICommand LoadColorsCommand => _loadColorsCommand ??= new LambdaCommandAsync(async () =>
+    public ObservableCollection<CheckableMaterial>? Materials
     {
-        Operation<IPagedList<ColorViewModel>, string> colors = await mediator.Send(new GetColorPaged.Request(0, 10, null));
-        ChosenColors = new ObservableCollection<CheckableColor>(colors.Result.Items.Select(model => new CheckableColor(model, false)));
+        get => _materials;
+        set => Set(ref _materials, value);
+    }
 
-        foreach (CheckableColor color in ChosenColors)
-            color.OnCheckChanged += () => ValidateProperty(nameof(ChosenColors));
+    public void SetCallback(Action<PrintingDetailsViewModel> callback) => _callback ??= callback;
 
-        LoadMaterialsCommand.Execute(null);
-    });
-
-    public ICommand LoadMaterialsCommand => _loadMaterialsCommand ??= new LambdaCommandAsync(async () =>
+    public class CheckableColor(ColorViewModel colorViewModel, bool isChecked) : Checkable(isChecked)
     {
-        Operation<IPagedList<MaterialViewModel>, string> colors = await mediator.Send(new GetMaterialPaged.Request(0, 10, null));
-        ChosenMaterials = new ObservableCollection<CheckableMaterial>(colors.Result.Items.Select(model => new CheckableMaterial(model, false)));
+        public ColorViewModel ViewModel { get; } = colorViewModel;
+    }
 
-        foreach (CheckableMaterial material in ChosenMaterials)
-            material.OnCheckChanged += () => ValidateProperty(nameof(ChosenMaterials));
-    });
+    public class CheckableMaterial(MaterialViewModel colorViewModel, bool isChecked) : Checkable(isChecked)
+    {
+        public MaterialViewModel ViewModel { get; } = colorViewModel;
+    }
 
-    private ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
+    #region Commands
+
+    private ICommand? _confirmCommand;
+    private ICommand? _loadColorsCommand;
+    private ICommand? _loadMaterialsCommand;
 
     public ICommand ConfirmCommand => _confirmCommand ??= new LambdaCommandAsync(async () =>
     {
@@ -81,8 +80,8 @@ public class PrintingDetailsCreateFormViewModel(
         if (HasErrors)
             return;
 
-        CheckableColor color = ChosenColors.First(checkableColor => checkableColor.IsChecked);
-        CheckableMaterial material = ChosenMaterials.First(checkableMaterial => checkableMaterial.IsChecked);
+        CheckableColor color = AllColors.First(checkableColor => checkableColor.IsChecked);
+        CheckableMaterial material = AllMaterials.First(checkableMaterial => checkableMaterial.IsChecked);
 
         PrintingDetailsCreateViewModel model = new()
         {
@@ -115,15 +114,41 @@ public class PrintingDetailsCreateFormViewModel(
             CloseCommand.Execute(null);
     }, () => HasErrors == false);
 
-    public void SetCallback(Action<PrintingDetailsViewModel> callback) => _callback ??= callback;
-
-    public class CheckableColor(ColorViewModel colorViewModel, bool isChecked) : Checkable(isChecked)
+    public ICommand LoadColorsCommand => _loadColorsCommand ??= new LambdaCommandAsync(async () =>
     {
-        public ColorViewModel ViewModel { get; } = colorViewModel;
-    }
+        Operation<IPagedList<ColorViewModel>, string> colors = await mediator.Send(new GetColorPaged.Request(0, 10, null));
+        AllColors = new ObservableCollection<CheckableColor>(colors.Result.Items.Select(model => new CheckableColor(model, false)));
 
-    public class CheckableMaterial(MaterialViewModel colorViewModel, bool isChecked) : Checkable(isChecked)
+        foreach (CheckableColor color in AllColors)
+            color.OnCheckChanged += () =>
+            {
+                if (color.IsChecked)
+                {
+                    foreach (CheckableColor checkableColor in AllColors.Where(checkableColor => checkableColor != color))
+                        checkableColor.IsChecked = false;
+
+                    Materials = new ObservableCollection<CheckableMaterial>(AllMaterials.Where(material =>
+                        material.ViewModel.AvailableColors.FirstOrDefault(model => model.Id == color.ViewModel.Id) != null));
+
+                    OnPropertyChanged(nameof(AllColors));
+                }
+
+                ValidateProperty(nameof(AllColors));
+            };
+
+        LoadMaterialsCommand.Execute(null);
+    });
+
+    public ICommand LoadMaterialsCommand => _loadMaterialsCommand ??= new LambdaCommandAsync(async () =>
     {
-        public MaterialViewModel ViewModel { get; } = colorViewModel;
-    }
+        Operation<IPagedList<MaterialViewModel>, string> result = await mediator.Send(new GetMaterialPaged.Request(0, 10, null));
+        AllMaterials = new ObservableCollection<CheckableMaterial>(result.Result.Items.Select(model => new CheckableMaterial(model, false)));
+
+        foreach (CheckableMaterial material in AllMaterials)
+            material.OnCheckChanged += () => ValidateProperty(nameof(AllMaterials));
+    });
+
+    private ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
+
+    #endregion
 }

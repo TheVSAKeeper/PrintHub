@@ -17,24 +17,48 @@
              d:DataContext="{d:DesignInstance viewModels:MaterialViewModel}">
     <Grid>
         <materialDesign:Card Margin="10"
-                             Padding="10"
                              HorizontalAlignment="Stretch">
             <StackPanel>
-                <TextBlock Text="Material Details"
-                           FontWeight="Bold"
-                           FontSize="20"
-                           Margin="5" />
-                <TextBlock Text="{Binding Name}"
-                           Margin="5" />
-                <TextBlock Text="{Binding Description}"
-                           Margin="5" />
-                <TextBlock Text="{Binding Technology}"
-                           Margin="5" />
-                <TextBlock Text="{Binding Price, StringFormat=Price: {0:C}}"
-                           Margin="5" />
-                <TextBlock Text="Available Colors:"
-                           FontWeight="Bold"
-                           Margin="5" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="Name:"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0" />
+                    <TextBlock Text="{Binding Name}"
+                               FontWeight="Bold" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="Description:"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0" />
+                    <TextBlock Text="{Binding Description}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="Technology:"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0" />
+                    <TextBlock Text="{Binding Technology}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="Price:"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0" />
+                    <TextBlock Text="{Binding Price, StringFormat=Price: {0:C}}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="Available Colors:"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0" />
+                </StackPanel>
                 <ItemsControl ItemsSource="{Binding AvailableColors}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

@@ -15,5 +15,7 @@ public class MaterialConfiguration : IdentityModelConfigurationBase<Material>
 
         builder.HasMany(material => material.AvailableColors)
             .WithMany(color => color.Materials);
+
+        builder.Navigation(material => material.AvailableColors).AutoInclude();
     }
 }

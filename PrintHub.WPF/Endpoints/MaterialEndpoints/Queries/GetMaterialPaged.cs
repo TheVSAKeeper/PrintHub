@@ -27,7 +27,8 @@ public sealed class GetMaterialPaged
             if (pagedList.PageIndex > pagedList.TotalPages)
                 pagedList = await unitOfWork.GetRepository<Material>()
                     .GetPagedListAsync(pageIndex: 0,
-                        pageSize: request.PageSize, cancellationToken: cancellationToken);
+                        pageSize: request.PageSize,
+                        cancellationToken: cancellationToken);
 
             IPagedList<MaterialViewModel>? mapped = mapper.Map<IPagedList<MaterialViewModel>>(pagedList);
 
@@ -44,7 +45,7 @@ public sealed class GetMaterialPaged
             if (search is null)
                 return predicate;
 
-            // predicate = predicate.And(x => x.Message.Contains(search));
+            predicate = predicate.And(x => x.AvailableColors.FirstOrDefault(color => color.ColorCode.Contains(search)) != null);
             // predicate = predicate.Or(x => x.Logger.Contains(search));
             return predicate;
         }

@@ -16,8 +16,8 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
     private readonly IMediator _mediator;
     private Action<ItemViewModel>? _callback;
 
-    private decimal? _developmentCost;
-    private decimal? _weight;
+    private decimal _developmentCost;
+    private decimal _weight;
     private PrintingDetailsViewModel? _printingDetails;
     private string? _description;
 
@@ -45,13 +45,13 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
         set => Set(ref _description, value);
     }
 
-    public decimal? Weight
+    public decimal Weight
     {
         get => _weight;
         set => Set(ref _weight, value);
     }
 
-    public decimal? DevelopmentCost
+    public decimal DevelopmentCost
     {
         get => _developmentCost;
         set => Set(ref _developmentCost, value);
@@ -93,7 +93,9 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
         {
             OrderId = OrderId,
             Description = Description!,
-            PrintingDetailsId = PrintingDetails!.Id
+            PrintingDetailsId = PrintingDetails!.Id,
+            Weight = Weight,
+            DevelopmentCost = DevelopmentCost
         };
 
         Operation<ItemViewModel, string> result = await _mediator.Send(new CreateItem.Request(model));

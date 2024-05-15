@@ -31,7 +31,7 @@
             </Grid.RowDefinitions>
 
             <materialDesign:Card Grid.Row="0"
-                                 Margin="16">
+                                 Margin="0 8">
                 <StackPanel>
                     <TextBlock Text="Number of orders by status:"
                                Margin="16,16,16,8" />
@@ -98,7 +98,7 @@
             </materialDesign:Card>
 
             <materialDesign:Card Grid.Row="1"
-                                 Margin="16">
+                                 Margin="0 8">
                 <StackPanel>
                     <TextBlock Text="Average order completion time (in days):"
                                Margin="16,16,16,8" />
@@ -112,7 +112,7 @@
             </materialDesign:Card>
 
             <materialDesign:Card Grid.Row="2"
-                                 Margin="16">
+                                 Margin="0 8">
                 <StackPanel>
                     <TextBlock Text="Total amount of all orders:"
                                Margin="16,16,16,8" />
@@ -129,7 +129,7 @@
                     Style="{StaticResource MaterialDesignRaisedButton}"
                     HorizontalAlignment="Right"
                     Command="{Binding ResetCommand}"
-                    Margin="16">
+                    Margin="0 8">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Restore"

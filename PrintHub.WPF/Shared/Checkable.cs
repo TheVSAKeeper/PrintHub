@@ -1,18 +1,38 @@
-﻿namespace PrintHub.WPF.Shared;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-public abstract class Checkable(bool isChecked)
+namespace PrintHub.WPF.Shared;
+
+public abstract class Checkable(bool isChecked) : INotifyPropertyChanged
 {
     public bool IsChecked
     {
         get => isChecked;
         set
         {
-            isChecked = value;
+            SetField(ref isChecked, value);
             OnCheckChanged?.Invoke();
         }
     }
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public event Action? OnCheckChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value))
+            return false;
+
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
 }
 
 public class Checkable<T>

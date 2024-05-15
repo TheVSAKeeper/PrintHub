@@ -31,7 +31,7 @@
                   IsReadOnly="True">
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate DataType="{x:Type viewModels:OrderViewModel}">
-                    <StackPanel>
+                    <StackPanel Orientation="Horizontal">
                         <Button Panel.ZIndex="1"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"

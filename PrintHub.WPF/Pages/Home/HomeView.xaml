@@ -67,9 +67,13 @@
                     Height="30" />
         </Grid>
 
-        <showStatistics:ShowStatisticsFormView Grid.Row="2"
-                                               Visibility="{Binding DataContext.IsAdministrator, RelativeSource={RelativeSource AncestorType=Grid}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                               DataContext="{Binding StatisticsFormViewModel}" />
+        <Expander Grid.Row="2"
+                  Header="Statistics"
+                  ExpandDirection="Up">
+            <showStatistics:ShowStatisticsFormView
+                Visibility="{Binding DataContext.IsAdministrator, RelativeSource={RelativeSource AncestorType=Grid}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                DataContext="{Binding StatisticsFormViewModel}" />
+        </Expander>
 
         <Button Grid.Row="3"
                 Style="{DynamicResource MaterialDesignRaisedButton}"
@@ -81,13 +85,13 @@
                 Style="{DynamicResource MaterialDesignRaisedButton}"
                 Visibility="{Binding IsAdministrator, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Command="{Binding NavigateAdminCommand}"
-                Content="Заказы"
+                Content="Orders (DataGrid)"
                 Margin="5,5,5,5" />
 
         <Button Grid.Row="5"
                 Style="{DynamicResource MaterialDesignRaisedButton}"
                 Command="{Binding NavigateClientCommand}"
-                Content="Заказы"
+                Content="Orders"
                 Margin="5,5,5,5" />
 
     </Grid>

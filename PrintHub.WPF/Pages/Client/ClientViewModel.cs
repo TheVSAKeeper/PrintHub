@@ -2,8 +2,10 @@
 using System.Windows;
 using System.Windows.Input;
 using Calabonga.PagedListCore;
+using PrintHub.Domain.Base;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
+using PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.MaterialMessageBox;
 using PrintHub.WPF.Shared.Navigation.Modal;
@@ -23,13 +25,21 @@ public class ClientViewModel : ViewModelBase
     public ClientViewModel(
         AuthenticationStore authenticationStore,
         IMediator mediator,
-        ICallbackNavigationService<OrderViewModel> order)
+        ICallbackNavigationService<OrderViewModel> order,
+        NavigationService<ClientViewModel> back,
+        ParameterNavigationService<Guid, NavigateCommand, OrderUpdateFormViewModel> orderUpdateNavigationService)
     {
         _authenticationStore = authenticationStore;
         _mediator = mediator;
 
         CreateOrderCommand = new CallbackNavigateCommand<OrderViewModel>(order, OnOrderCreated);
+        UpdateOrderNavigateCommand = new ParameterBackNavigateCommand<Guid>(orderUpdateNavigationService, new NavigateCommand(back));
+
+        IsAdministrator = authenticationStore.IsInRole(AppData.SystemAdministratorRoleName);
     }
+
+    public ICommand UpdateOrderNavigateCommand { get; }
+    public bool IsAdministrator { get; set; }
 
     public ObservableCollection<OrderViewModel>? Orders
     {

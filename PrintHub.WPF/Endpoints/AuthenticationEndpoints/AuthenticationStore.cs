@@ -1,11 +1,13 @@
 ﻿using System.Text.Json;
+using Calabonga.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Properties;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 
-public class AuthenticationStore(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+public class AuthenticationStore(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
 {
     public ApplicationUser? User { get; private set; }
 
@@ -82,6 +84,16 @@ public class AuthenticationStore(UserManager<ApplicationUser> userManager, RoleM
         if (role == null)
             return IdentityResult.Failed(new IdentityError { Description = $"Role {roleName} dont found" });
 
+        EntityEntry<Client> client = await unitOfWork.GetRepository<Client>()
+            .InsertAsync(new Client
+            {
+                FirstName = username,
+                LastName = string.Empty,
+                Address = string.Empty,
+                Phone = string.Empty,
+                Email = string.Empty
+            });
+
         ApplicationUser user = new()
         {
             UserName = username,
@@ -90,7 +102,8 @@ public class AuthenticationStore(UserManager<ApplicationUser> userManager, RoleM
             LastName = string.Empty,
             EmailConfirmed = true,
             PhoneNumberConfirmed = true,
-            Roles = new List<ApplicationRole> { role }
+            Roles = new List<ApplicationRole> { role },
+            ClientId = client.Entity.Id
         };
 
         IdentityResult createResult = await userManager.CreateAsync(user, password);
@@ -99,7 +112,8 @@ public class AuthenticationStore(UserManager<ApplicationUser> userManager, RoleM
             return createResult;
 
         IdentityResult addToRoleResult = await userManager.AddToRoleAsync(user, roleName);
-        return addToRoleResult;
+
+        return addToRoleResult.Succeeded == false ? addToRoleResult : createResult;
     }
 
     public async Task UpdateUserAsync(Guid id)

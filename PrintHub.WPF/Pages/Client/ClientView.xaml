@@ -107,6 +107,17 @@
                                         Margin="10,5"
                                         Width="30"
                                         Height="30" />
+                                <Button Panel.ZIndex="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Visibility="{Binding DataContext.IsAdministrator, RelativeSource={RelativeSource AncestorType=ItemsControl}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Style="{DynamicResource MaterialDesignToolButton}"
+                                        Command="{Binding DataContext.UpdateOrderNavigateCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding Id}"
+                                        Content="{materialDesign:PackIcon Edit}"
+                                        Margin="10 45 10 5"
+                                        Width="30"
+                                        Height="30" />
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

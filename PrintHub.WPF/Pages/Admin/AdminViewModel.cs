@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 using Calabonga.PagedListCore;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
@@ -7,7 +6,6 @@ using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
 using PrintHub.WPF.Shared.MaterialMessageBox;
-using PrintHub.WPF.Shared.Navigation.Modal;
 
 namespace PrintHub.WPF.Pages.Admin;
 
@@ -24,7 +22,6 @@ public class AdminViewModel : ViewModelBase
     public AdminViewModel(
         AuthenticationStore authenticationStore,
         IMediator mediator,
-        ICallbackNavigationService<OrderViewModel> order,
         NavigationService<AdminViewModel> back,
         ParameterNavigationService<Guid, NavigateCommand, OrderUpdateFormViewModel> orderUpdateNavigationService
     )
@@ -32,7 +29,6 @@ public class AdminViewModel : ViewModelBase
         _authenticationStore = authenticationStore;
         _mediator = mediator;
 
-        CreateOrderCommand = new CallbackNavigateCommand<OrderViewModel>(order, OnOrderCreated);
         UpdateOrderNavigateCommand = new ParameterBackNavigateCommand<Guid>(orderUpdateNavigationService, new NavigateCommand(back));
     }
 
@@ -43,10 +39,6 @@ public class AdminViewModel : ViewModelBase
         get => _orders;
         set => Set(ref _orders, value);
     }
-
-    public IEnumerable<string> StatusList => Enum.GetNames(typeof(OrderStatus)).Prepend(string.Empty);
-
-    public ICommand CreateOrderCommand { get; }
 
     public ICommand LoadOrdersCommand => _loadOrdersCommand ??= new LambdaCommandAsync(async () =>
     {
@@ -61,33 +53,6 @@ public class AdminViewModel : ViewModelBase
 
         Orders = new ObservableCollection<OrderViewModel>(result.Result.Items.OrderByDescending(model => model.UpdatedAt));
     });
-
-    public ICommand DeleteOrderCommand => _deleteOrderCommand ??= new LambdaCommandAsync(async id =>
-        {
-            if (id is null)
-            {
-                MaterialMessageBox.ShowError("id is null");
-                return;
-            }
-
-            MessageBoxResult messageBoxResult = MaterialMessageBox.ShowWithCancel("Are you sure you want to delete this item?",
-                "Delete Confirmation");
-
-            if (messageBoxResult == MessageBoxResult.Cancel)
-                return;
-
-            Operation<OrderViewModel, string> result = await _mediator.Send(new DeleteOrder.Request((Guid)id));
-
-            if (result.Ok == false)
-            {
-                MessageBox.Show(result.Error, "Error");
-                return;
-            }
-
-            MaterialMessageBox.Show(result.Result.ToString(), "Order deleted");
-            LoadOrdersCommand.Execute(null);
-        },
-        () => true);
 
     private void OnOrderCreated(OrderViewModel obj)
     {

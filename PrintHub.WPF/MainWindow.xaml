@@ -20,8 +20,11 @@
         xmlns:create="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Create"
         xmlns:update="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Update"
         xmlns:create1="clr-namespace:PrintHub.WPF.Endpoints.ItemEndpoints.Create"
-        xmlns:create2="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Create"
         xmlns:changeDbConnection="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection"
+        xmlns:viewModels31="clr-namespace:PrintHub.WPF.Endpoints.ServiceDetailEndpoints.ViewModels"
+        xmlns:views3="clr-namespace:PrintHub.WPF.Endpoints.ServiceDetailEndpoints.Views"
+        xmlns:select="clr-namespace:PrintHub.WPF.Endpoints.AdditionalServiceEndpoints.Select"
+        xmlns:create2="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Create"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -59,6 +62,9 @@
             <DataTemplate DataType="{x:Type viewModels3:ColorViewModel}">
                 <views2:ColorFormView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels31:ServiceDetailViewModel}">
+                <views3:ServiceDetailFormView />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type create:OrderCreateFormViewModel}">
                 <create:OrderCreateFormView />
             </DataTemplate>
@@ -67,6 +73,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type create1:ItemCreateFormViewModel}">
                 <create1:ItemCreateFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type select:SelectAdditionalServicesFormViewModel}">
+                <select:SelectAdditionalServicesFormView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type create2:PrintingDetailsCreateFormViewModel}">
                 <create2:PrintingDetailsCreateFormView />

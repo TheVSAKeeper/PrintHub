@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Calabonga.OperationResults;
+﻿using Calabonga.OperationResults;
 using Calabonga.UnitOfWork;
-using MediatR;
 using PrintHub.Domain.Exceptions;
 using PrintHub.Infrastructure;
 

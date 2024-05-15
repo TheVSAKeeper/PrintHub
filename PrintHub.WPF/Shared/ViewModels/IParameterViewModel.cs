@@ -1,6 +1,3 @@
-using PrintHub.WPF.Shared.Commands;
-using PrintHub.WPF.Shared.Navigation;
-
 namespace PrintHub.WPF.Shared.ViewModels;
 
 public interface IParameterViewModel<in T>

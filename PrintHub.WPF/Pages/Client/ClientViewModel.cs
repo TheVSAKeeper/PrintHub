@@ -2,17 +2,11 @@
 using System.Windows;
 using System.Windows.Input;
 using Calabonga.PagedListCore;
-using Calabonga.Results;
-using MediatR;
-using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
-using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
-using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Pages.Client;
 

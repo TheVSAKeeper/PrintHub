@@ -1,6 +1,4 @@
 ﻿using Calabonga.OperationResults;
-using MediatR;
-using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Update;

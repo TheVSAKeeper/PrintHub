@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using PrintHub.Infrastructure;
+﻿using PrintHub.Infrastructure;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Update;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints;

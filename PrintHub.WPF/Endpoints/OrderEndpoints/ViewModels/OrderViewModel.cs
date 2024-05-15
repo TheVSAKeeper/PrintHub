@@ -1,5 +1,4 @@
-﻿using PrintHub.Domain;
-using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
+﻿using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.ServiceDetailEndpoints.ViewModels;
 

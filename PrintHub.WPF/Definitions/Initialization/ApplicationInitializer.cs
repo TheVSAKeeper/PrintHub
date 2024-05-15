@@ -7,7 +7,6 @@ using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Base;
 using PrintHub.WPF.Pages.Home;
 using PrintHub.WPF.Pages.Login;
-using PrintHub.WPF.Shared.Navigation;
 
 namespace PrintHub.WPF.Definitions.Initialization;
 

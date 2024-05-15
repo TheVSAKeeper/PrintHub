@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using Calabonga.Results;
-using Calabonga.UnitOfWork;
-using MediatR;
+﻿using Calabonga.UnitOfWork;
 using Microsoft.Extensions.Logging;
-using PrintHub.Domain;
 using PrintHub.Domain.Base;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;

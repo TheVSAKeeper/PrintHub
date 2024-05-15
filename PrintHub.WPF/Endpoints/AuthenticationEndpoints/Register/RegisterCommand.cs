@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using Microsoft.AspNetCore.Identity;
-using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Register;

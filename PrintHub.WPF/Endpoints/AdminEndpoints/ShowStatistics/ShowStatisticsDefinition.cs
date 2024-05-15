@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PrintHub.WPF.Definitions.Base;
-using PrintHub.WPF.Shared.Navigation;
 
 namespace PrintHub.WPF.Endpoints.AdminEndpoints.ShowStatistics;
 

@@ -1,6 +1,4 @@
-﻿using PrintHub.WPF.Shared.ViewModels;
-
-namespace PrintHub.WPF.Shared.Navigation;
+﻿namespace PrintHub.WPF.Shared.Navigation;
 
 public class NavigationMediator : INavigationMediator
 {

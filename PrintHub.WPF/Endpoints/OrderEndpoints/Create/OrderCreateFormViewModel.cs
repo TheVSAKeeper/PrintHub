@@ -2,19 +2,15 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Calabonga.PagedListCore;
-using Calabonga.Results;
 using FluentValidation;
-using MediatR;
+using PrintHub.WPF.Endpoints.AdditionalServiceEndpoints.Select;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.ColorEndpoints.Queries;
 using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
-using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
-using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints.Create;
 
@@ -22,17 +18,15 @@ public class OrderCreateFormViewModel(
     IMediator mediator,
     AuthenticationStore authenticationStore,
     CloseModalNavigationService closeNavigationService,
+    SelectAdditionalServicesFormViewModel additionalServicesFormViewModel,
     IValidator<OrderCreateFormViewModel> validator)
     : ValidationViewModel<OrderCreateFormViewModel>(validator), ICallbackViewModel<OrderViewModel>
 {
     private Action<OrderViewModel>? _callback;
-
-    private ICommand? _confirmCommand;
-    private ICommand? _loadColorsCommand;
-
     private ObservableCollection<CheckableColor> _chosenColors = null!;
-
     private string? _description;
+
+    public SelectAdditionalServicesFormViewModel SelectAdditionalServicesFormViewModel { get; } = additionalServicesFormViewModel;
 
     protected override OrderCreateFormViewModel ViewModel => this;
 
@@ -47,6 +41,19 @@ public class OrderCreateFormViewModel(
         get => _chosenColors;
         private set => Set(ref _chosenColors, value);
     }
+
+    public void SetCallback(Action<OrderViewModel> callback) => _callback ??= callback;
+
+    public class CheckableColor(ColorViewModel colorViewModel, bool isChecked)
+    {
+        public ColorViewModel ColorViewModel { get; } = colorViewModel;
+        public bool IsChecked { get; set; } = isChecked;
+    }
+
+    #region Commands
+
+    private ICommand? _confirmCommand;
+    private ICommand? _loadColorsCommand;
 
     private ICommand CloseCommand { get; } = new NavigateCommand(closeNavigationService);
 
@@ -67,7 +74,8 @@ public class OrderCreateFormViewModel(
         {
             ClientId = (Guid)authenticationStore.User!.ClientId!,
             Description = Description!,
-            RequiredColors = ChosenColors.Where(color => color.IsChecked).Select(color => color.ColorViewModel).ToList()
+            RequiredColors = ChosenColors.Where(color => color.IsChecked).Select(color => color.ColorViewModel).ToList(),
+            ServiceDetails = SelectAdditionalServicesFormViewModel.GetSelectedServices()
         };
 
         Operation<OrderViewModel, string> result = await mediator.Send(new CreateOrder.Request(model, authenticationStore.User));
@@ -89,13 +97,9 @@ public class OrderCreateFormViewModel(
     {
         Operation<IPagedList<ColorViewModel>, string> colors = await mediator.Send(new GetColorPaged.Request(0, 10, null));
         ChosenColors = new ObservableCollection<CheckableColor>(colors.Result.Items.Select(model => new CheckableColor(model, false)));
+
+        SelectAdditionalServicesFormViewModel.LoadAdditionalServicesCommand.Execute(null);
     });
 
-    public void SetCallback(Action<OrderViewModel> callback) => _callback ??= callback;
-
-    public class CheckableColor(ColorViewModel colorViewModel, bool isChecked)
-    {
-        public ColorViewModel ColorViewModel { get; } = colorViewModel;
-        public bool IsChecked { get; set; } = isChecked;
-    }
+    #endregion
 }

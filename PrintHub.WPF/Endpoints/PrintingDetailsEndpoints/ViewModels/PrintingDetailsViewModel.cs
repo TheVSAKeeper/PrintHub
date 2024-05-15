@@ -1,5 +1,4 @@
-﻿using PrintHub.Domain;
-using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
+﻿using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
 using MaterialViewModel = PrintHub.WPF.Endpoints.MaterialEndpoints.ViewModels.MaterialViewModel;
 
 namespace PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels;

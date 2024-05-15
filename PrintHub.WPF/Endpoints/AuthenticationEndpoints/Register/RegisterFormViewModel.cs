@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using PrintHub.Infrastructure;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Register;
 

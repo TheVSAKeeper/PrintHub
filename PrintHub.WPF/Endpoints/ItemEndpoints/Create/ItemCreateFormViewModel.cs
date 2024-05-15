@@ -1,18 +1,13 @@
 using System.Windows;
 using System.Windows.Input;
-using Calabonga.Results;
 using FluentValidation;
-using MediatR;
 using PrintHub.WPF.Endpoints.ItemEndpoints.Queries;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 using PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels;
 using PrintHub.WPF.Pages.Admin;
-using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
-using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.ItemEndpoints.Create;
 
@@ -73,7 +68,7 @@ public class ItemCreateFormViewModel : ValidationViewModel<ItemCreateFormViewMod
         _callback ??= callback;
         OrderId = parameter;
     }
-    
+
     private void OnPrintingDetailsAdded(PrintingDetailsViewModel obj)
     {
         PrintingDetails = obj;

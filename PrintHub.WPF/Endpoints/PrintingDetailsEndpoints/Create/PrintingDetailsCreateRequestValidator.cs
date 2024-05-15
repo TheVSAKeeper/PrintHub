@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using PrintHub.WPF.Shared;
 
 namespace PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Create;
 

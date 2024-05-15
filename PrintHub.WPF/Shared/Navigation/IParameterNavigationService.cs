@@ -1,5 +1,3 @@
-using PrintHub.WPF.Shared.Commands;
-
 namespace PrintHub.WPF.Shared.Navigation;
 
 public interface IParameterNavigationService<in TParameter>

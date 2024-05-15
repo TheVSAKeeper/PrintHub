@@ -1,5 +1,4 @@
 ﻿using PrintHub.Domain.Exceptions;
-using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.Navigation.Modal;
 
 namespace PrintHub.WPF.Shared.Navigation;

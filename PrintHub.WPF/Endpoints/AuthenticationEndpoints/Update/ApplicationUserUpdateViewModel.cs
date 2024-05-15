@@ -1,9 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using AutoMapper;
 using FluentValidation.Results;
-using MediatR;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Update;
 

@@ -1,6 +1,4 @@
 ﻿using System.Windows.Input;
-using PrintHub.WPF.Shared.Navigation;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Login;
 

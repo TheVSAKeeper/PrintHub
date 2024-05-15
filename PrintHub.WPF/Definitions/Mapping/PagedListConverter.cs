@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Calabonga.PagedListCore;
+﻿using Calabonga.PagedListCore;
 
 namespace PrintHub.WPF.Definitions.Mapping;
 

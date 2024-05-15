@@ -1,9 +1,7 @@
 ﻿using System.Windows.Input;
 using PrintHub.WPF.Pages.Home;
 using PrintHub.WPF.Pages.Login;
-using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.Navigation.Modal;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Shared.Navigation.Bar;
 

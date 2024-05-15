@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Calabonga.PagedListCore;
-using PrintHub.Domain;
+﻿using Calabonga.PagedListCore;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Mapping;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;

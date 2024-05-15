@@ -1,5 +1,3 @@
-using PrintHub.WPF.Shared.ViewModels;
-
 namespace PrintHub.WPF.Shared.Navigation.Modal;
 
 public class CallbackModalNavigationService<TParameter, TViewModel>(INavigationMediator navigationMediator, CreateViewModel<Action<TParameter>, TViewModel> createViewModel)

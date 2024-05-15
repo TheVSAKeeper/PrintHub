@@ -8,10 +8,7 @@ using PrintHub.WPF.Pages.Admin;
 using PrintHub.WPF.Pages.Client;
 using PrintHub.WPF.Pages.Login;
 using PrintHub.WPF.Pages.Profile;
-using PrintHub.WPF.Shared.Commands;
-using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Pages.Home;
 

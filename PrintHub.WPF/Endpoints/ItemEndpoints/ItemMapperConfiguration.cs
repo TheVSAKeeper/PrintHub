@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Calabonga.PagedListCore;
-using PrintHub.Domain;
+﻿using Calabonga.PagedListCore;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Mapping;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
@@ -13,7 +11,8 @@ public class ItemMapperConfiguration : Profile
     {
         CreateMap<ItemCreateViewModel, Item>()
             .ForMember(item => item.CreatedAt, expression => expression.Ignore())
-            .ForMember(item => item.CreatedBy, expression => expression.MapFrom((_, _, _, context) => context.Items[nameof(ApplicationUser)]))
+            .ForMember(item => item.CreatedBy, expression => expression
+                .MapFrom((_, _, _, context) => context.Items[nameof(ApplicationUser)]))
             .ForMember(item => item.UpdatedAt, expression => expression.Ignore())
             .ForMember(item => item.UpdatedBy, expression => expression.Ignore())
             .ForMember(item => item.Ready, expression => expression.Ignore())

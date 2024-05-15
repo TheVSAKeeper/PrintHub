@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 using MaterialDesignThemes.Wpf;
-using PrintHub.Domain;
 
 namespace PrintHub.WPF.Shared.Converters;
 

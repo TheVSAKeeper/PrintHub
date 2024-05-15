@@ -1,18 +1,12 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using Calabonga.Results;
 using FluentValidation;
-using MediatR;
-using PrintHub.Domain;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
-using PrintHub.WPF.Shared.Commands;
 using PrintHub.WPF.Shared.MaterialMessageBox;
-using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.OrderEndpoints.Update;
 

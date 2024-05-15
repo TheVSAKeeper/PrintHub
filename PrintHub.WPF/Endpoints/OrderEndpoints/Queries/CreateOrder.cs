@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using Calabonga.Results;
-using Calabonga.UnitOfWork;
-using MediatR;
+﻿using Calabonga.UnitOfWork;
 using Microsoft.Extensions.Logging;
-using PrintHub.Domain;
 using PrintHub.Domain.Base;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Endpoints.OrderEndpoints.ViewModels;
@@ -34,6 +30,13 @@ public sealed class CreateOrder
                 .GetAllAsync(predicate: color => chosenColorsKeys.Contains(color.Id), disableTracking: false);
 
             entity.RequiredColors = chosenColors.ToList();
+
+            Guid[] chosenServicesKeys = orderRequest.Model.ServiceDetails!.Select(x => x.Id).ToArray();
+
+            IList<ServiceDetail> chosenServices = await unitOfWork.GetRepository<ServiceDetail>()
+                .GetAllAsync(predicate: serviceDetail => chosenServicesKeys.Contains(serviceDetail.Id), disableTracking: false);
+
+            entity.ServiceDetails = chosenServices.ToList();
 
             await unitOfWork.GetRepository<Order>().InsertAsync(entity, cancellationToken);
             await unitOfWork.SaveChangesAsync();

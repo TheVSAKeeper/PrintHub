@@ -1,5 +1,4 @@
-﻿using PrintHub.WPF.Shared.Navigation;
-using PrintHub.WPF.Shared.Navigation.Bar;
+﻿using PrintHub.WPF.Shared.Navigation.Bar;
 using PrintHub.WPF.Shared.Navigation.Modal;
 
 namespace PrintHub.WPF.Shared.ViewModels;

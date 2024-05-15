@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using Calabonga.Results;
-using Calabonga.UnitOfWork;
-using MediatR;
-using PrintHub.Domain;
+﻿using Calabonga.UnitOfWork;
 using PrintHub.Domain.Base;
 using PrintHub.WPF.Endpoints.AdditionalServiceEndpoints.ViewModels;
 

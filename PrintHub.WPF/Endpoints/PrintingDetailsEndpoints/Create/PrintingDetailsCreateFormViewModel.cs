@@ -2,20 +2,16 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Calabonga.PagedListCore;
-using Calabonga.Results;
 using FluentValidation;
-using MediatR;
 using PrintHub.WPF.Endpoints.ColorEndpoints.Queries;
 using PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.MaterialEndpoints.Queries;
 using PrintHub.WPF.Endpoints.MaterialEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Queries;
 using PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels;
-using PrintHub.WPF.Shared.Commands;
+using PrintHub.WPF.Shared;
 using PrintHub.WPF.Shared.MaterialMessageBox;
-using PrintHub.WPF.Shared.Navigation;
 using PrintHub.WPF.Shared.Navigation.Modal;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Create;
 
@@ -130,19 +126,4 @@ public class PrintingDetailsCreateFormViewModel(
     {
         public MaterialViewModel ViewModel { get; } = colorViewModel;
     }
-}
-
-public abstract class Checkable(bool isChecked)
-{
-    public bool IsChecked
-    {
-        get => isChecked;
-        set
-        {
-            isChecked = value;
-            OnCheckChanged?.Invoke();
-        }
-    }
-
-    public event Action? OnCheckChanged;
 }

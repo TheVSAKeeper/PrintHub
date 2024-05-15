@@ -1,6 +1,4 @@
-﻿using PrintHub.Domain;
-
-namespace PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels;
+﻿namespace PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels;
 
 public class PrintingDetailsCreateViewModel
 {

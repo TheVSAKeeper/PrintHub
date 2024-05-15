@@ -17,13 +17,14 @@
              d:DataContext="{d:DesignInstance showStatistics:ShowStatisticsFormViewModel, IsDesignTimeCreatable=True}">
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
-            <b:InvokeCommandAction Command="{Binding ResetCommand}" />
+            <b:InvokeCommandAction Command="{Binding ReloadCommand}" />
         </b:EventTrigger>
     </b:Interaction.Triggers>
     <GroupBox Header="Order statistics"
               Margin="10">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -39,7 +40,7 @@
                                   ItemsSource="{Binding OrdersByStatus}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <Grid ToolTip="{Binding Message}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
@@ -125,10 +126,38 @@
                 </StackPanel>
             </materialDesign:Card>
 
-            <Button Grid.Row="3"
+            <materialDesign:Card Grid.Row="3"
+                                 Margin="0 8">
+
+                <Grid Margin="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal">
+                        <TextBlock Text="From:"
+                                   VerticalAlignment="Center" />
+                        <DatePicker SelectedDate="{Binding StartDate}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal">
+                        <TextBlock Text="To:"
+                                   VerticalAlignment="Center" />
+                        <DatePicker SelectedDate="{Binding EndDate}" />
+                    </StackPanel>
+
+                    <ToggleButton Grid.Column="2"
+                                  IsChecked="{Binding IsFilterByDate}" />
+                </Grid>
+            </materialDesign:Card>
+
+            <Button Grid.Row="4"
                     Style="{StaticResource MaterialDesignRaisedButton}"
                     HorizontalAlignment="Right"
-                    Command="{Binding ResetCommand}"
+                    Command="{Binding ReloadCommand}"
                     Margin="0 8">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">

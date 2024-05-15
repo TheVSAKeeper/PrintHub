@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Calabonga.PagedListCore;
+using PrintHub.Domain.Base;
 using PrintHub.WPF.Endpoints.ItemEndpoints.Queries;
 using PrintHub.WPF.Endpoints.ItemEndpoints.ViewModels;
 using PrintHub.WPF.Endpoints.OrderEndpoints.Queries;
@@ -11,9 +12,42 @@ namespace PrintHub.WPF.Endpoints.AdminEndpoints.ShowStatistics;
 
 public class ShowStatisticsFormViewModel(IMediator mediator) : ViewModelBase
 {
+    private bool _isFilterByDate;
+    private DateTime? _endDate;
+    private DateTime? _startDate;
     private decimal _totalAmount;
     private double _averageCompletionTime;
     private ObservableCollection<OrdersCount>? _ordersByStatus;
+
+    public DateTime? StartDate
+    {
+        get => _startDate;
+        set
+        {
+            Set(ref _startDate, value);
+            ReloadCommand.Execute(null);
+        }
+    }
+
+    public DateTime? EndDate
+    {
+        get => _endDate;
+        set
+        {
+            Set(ref _endDate, value);
+            ReloadCommand.Execute(null);
+        }
+    }
+
+    public bool IsFilterByDate
+    {
+        get => _isFilterByDate;
+        set
+        {
+            if (Set(ref _isFilterByDate, value))
+                ReloadCommand.Execute(null);
+        }
+    }
 
     public ObservableCollection<OrdersCount>? OrdersByStatus
     {
@@ -42,9 +76,9 @@ public class ShowStatisticsFormViewModel(IMediator mediator) : ViewModelBase
 
     #region Commands
 
-    private ICommand? _resetCommand;
+    private ICommand? _reloadCommand;
 
-    public ICommand ResetCommand => _resetCommand ??= new LambdaCommandAsync(async () =>
+    public ICommand ReloadCommand => _reloadCommand ??= new LambdaCommandAsync(async () =>
     {
         Operation<IPagedList<OrderViewModel>, string> ordersResult = await mediator.Send(new GetOrderPaged.Request(0, 999, null));
 
@@ -54,12 +88,19 @@ public class ShowStatisticsFormViewModel(IMediator mediator) : ViewModelBase
             return;
         }
 
-        IList<OrderViewModel> orders = ordersResult.Result.Items;
+        IList<OrderViewModel> orders = ordersResult.Result.Items
+            .Where(Predicate)
+            .ToList();
 
-        Dictionary<OrderStatus, int> ordersByStatus = orders.GroupBy(order => order.Status)
+        Dictionary<OrderStatus, int> ordersByStatus = orders
+            .GroupBy(order => order.Status)
             .ToDictionary(grouping => grouping.Key, grouping => grouping.Count());
 
-        AverageCompletionTime = orders.Where(order => order.Status == OrderStatus.Completed).Average(order => (order.UpdatedAt - order.CreatedAt).Days);
+        OrderViewModel[] completedOrders = orders.Where(order => order.Status == OrderStatus.Completed).ToArray();
+
+        AverageCompletionTime = completedOrders.Length == 0
+            ? 0
+            : completedOrders.Average(order => (order.UpdatedAt!.Value - order.CreatedAt).Days);
 
         List<OrdersCount> descriptions = [];
 
@@ -81,7 +122,15 @@ public class ShowStatisticsFormViewModel(IMediator mediator) : ViewModelBase
             return;
         }
 
-        TotalAmount = itemsResult.Result.Items.Sum(item => item.DevelopmentCost + item.PrintingDetails.MaterialViewModel.Price * item.Weight);
+        ItemViewModel[] filteredItems = itemsResult.Result.Items.Where(Predicate).ToArray();
+
+        TotalAmount = filteredItems.Length == 0
+            ? 0
+            : filteredItems.Sum(item => item.DevelopmentCost + item.PrintingDetails.MaterialViewModel.Price * item.Weight);
+
+        return;
+
+        bool Predicate(IAuditable model) => IsFilterByDate == false || EndDate != null && StartDate != null && model.CreatedAt >= StartDate && model.CreatedAt <= EndDate;
     });
 
     #endregion

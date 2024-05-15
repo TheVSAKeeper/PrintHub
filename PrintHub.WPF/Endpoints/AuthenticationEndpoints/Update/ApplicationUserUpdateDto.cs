@@ -9,8 +9,4 @@ public class ApplicationUserUpdateDto
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
-
-    public string? Patronymic { get; set; }
-
-    public string? DisplayName { get; set; }
 }

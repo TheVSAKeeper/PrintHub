@@ -1,32 +1,36 @@
 ﻿using System.Windows.Input;
+using PrintHub.Domain.Base;
+using PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection;
+using PrintHub.WPF.Endpoints.AdminEndpoints.ShowStatistics;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Endpoints.AuthenticationEndpoints.Logout;
+using PrintHub.WPF.Pages.Admin;
+using PrintHub.WPF.Pages.Client;
 using PrintHub.WPF.Pages.Login;
 using PrintHub.WPF.Pages.Profile;
-using PrintHub.WPF.Shared.Commands;
-using PrintHub.WPF.Shared.Navigation;
-using PrintHub.WPF.Shared.ViewModels;
+using PrintHub.WPF.Shared.Navigation.Modal;
 
 namespace PrintHub.WPF.Pages.Home;
 
-public class HomeViewModel : ViewModelBase
+public class HomeViewModel(
+    AuthenticationStore authenticationStore,
+    ShowStatisticsFormViewModel statisticsFormViewModel,
+    NavigationService<ClientViewModel> clientNavigationService,
+    NavigationService<AdminViewModel> adminNavigationService,
+    NavigationService<ProfileViewModel> profileNavigationService,
+    NavigationService<LoginViewModel> loginNavigationService,
+    ModalNavigationService<ChangeDbConnectionFormViewModel> changeDbNavigationService)
+    : ViewModelBase
 {
-    private readonly AuthenticationManager _authenticationManager;
+    public ICommand NavigateClientCommand { get; set; } = new NavigateCommand(clientNavigationService);
+    public ICommand NavigateAdminCommand { get; set; } = new NavigateCommand(adminNavigationService);
+    public ICommand NavigateProfileCommand { get; } = new NavigateCommand(profileNavigationService);
+    public ICommand LogoutCommand { get; } = new LogoutCommand(authenticationStore, loginNavigationService);
+    public ICommand ChangeDbCommand { get; } = new NavigateCommand(changeDbNavigationService);
 
-    public HomeViewModel(
-        AuthenticationManager authenticationManager,
-        NavigationService<ProfileViewModel> profileNavigationService,
-        NavigationService<LoginViewModel> loginNavigationService
-    )
-    {
-        _authenticationManager = authenticationManager;
+    public ShowStatisticsFormViewModel StatisticsFormViewModel { get; } = statisticsFormViewModel;
 
-        NavigateProfileCommand = new NavigateCommand(profileNavigationService);
-        LogoutCommand = new LogoutCommand(authenticationManager, loginNavigationService);
-    }
+    public string Username => authenticationStore.Username;
 
-    public ICommand NavigateProfileCommand { get; }
-    public ICommand LogoutCommand { get; }
-
-    public string Username => _authenticationManager.User?.DisplayName ?? "Unknown";
+    public bool IsAdministrator { get; set; } = authenticationStore.IsInRole(AppData.SystemAdministratorRoleName);
 }

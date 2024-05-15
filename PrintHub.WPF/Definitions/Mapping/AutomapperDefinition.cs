@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PrintHub.WPF.Definitions.Base;
 
@@ -17,7 +16,7 @@ public class AutomapperDefinition : AppDefinition
         IConfigurationProvider mapper = host.Services.GetRequiredService<IConfigurationProvider>();
 
         mapper.AssertConfigurationIsValid();
+        mapper.CompileMappings();
         return Task.CompletedTask;
-        //mapper.CompileMappings();
     }
 }

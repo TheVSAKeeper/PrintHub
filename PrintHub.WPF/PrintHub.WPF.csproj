@@ -7,6 +7,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
         <StartupObject>PrintHub.WPF.Program</StartupObject>
+        <ApplicationIcon>icon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -54,22 +55,91 @@
             <XamlRuntime>Wpf</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
+        <Page Update="Endpoints\ColorEndpoints\Views\ColorFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\MaterialEndpoints\Views\MaterialFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\PrintingDetailsEndpoints\Views\PrintingDetailsFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Pages\Client\ClientView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\AdminEndpoints\ChangeDbConnection\ChangeDbConnectionFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\OrderEndpoints\Create\OrderCreateFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\OrderEndpoints\Update\OrderUpdateFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\ItemEndpoints\Create\ItemCreateFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\PrintingDetailsEndpoints\Create\PrintingDetailsCreateFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\ItemEndpoints\Views\ItemFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\AdminEndpoints\ShowStatistics\ShowStatisticsFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\ServiceDetailEndpoints\Views\ServiceDetailFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Endpoints\AdditionalServiceEndpoints\Select\SelectAdditionalServicesFormView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"/>
+        <PackageReference Include="Calabonga.PredicatesBuilder" Version="2.0.1"/>
+        <PackageReference Include="Calabonga.Results" Version="1.0.2"/>
         <PackageReference Include="Calabonga.UnitOfWork" Version="4.0.0"/>
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0"/>
-        <PackageReference Include="MaterialDesignThemes" Version="4.9.0"/>
+        <PackageReference Include="EPPlus" Version="7.1.2"/>
+        <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1"/>
+        <PackageReference Include="MaterialDesignThemes" Version="5.0.0"/>
         <PackageReference Include="MediatR" Version="12.2.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4"/>
         <PackageReference Include="OperationResultCore" Version="4.1.0"/>
         <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0"/>
         <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1"/>
@@ -94,15 +164,6 @@
         <None Update="Definitions\DataSeedingDefinition\data\Patients.txt">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Definitions\DataSeeding\data\AnamnesisTemplates.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Definitions\DataSeeding\data\diagnoses.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Definitions\DataSeeding\data\Patients.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -115,11 +176,28 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Settings.settings</DependentUpon>
         </Compile>
+        <Compile Update="Endpoints\PrintingDetailsEndpoints\Views\PrintingDetailsFormView.cs">
+            <DependentUpon>PrintingDetailsFormView.xaml</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Endpoints\AnamnesesEndpoints\"/>
-        <Folder Include="Endpoints\PatientsEndpoints\"/>
+        <None Remove="log4cplus.properties"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="icon.png"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Icon.ico"/>
+        <Resource Include="icon.ico">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Endpoints\AdditionalServiceEndpoints\Views\"/>
     </ItemGroup>
 
 </Project>

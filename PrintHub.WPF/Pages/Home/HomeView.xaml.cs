@@ -3,7 +3,7 @@
 namespace PrintHub.WPF.Pages.Home;
 
 /// <summary>
-///     Interaction logic for HomeView.xaml
+///     Interaction logic for ClientView.xaml
 /// </summary>
 public partial class HomeView : UserControl
 {

@@ -1,11 +1,9 @@
-﻿using System.Windows;
-using Calabonga.OperationResults;
-using MediatR;
-using PrintHub.WPF.Shared.Commands;
+﻿using Calabonga.OperationResults;
+using PrintHub.WPF.Shared.MaterialMessageBox;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Update;
 
-public class ApplicationUserUpdateCommand(ApplicationUserUpdateViewModel viewModel, IMediator mediator, AuthenticationManager authenticationManager)
+public class ApplicationUserUpdateCommand(ApplicationUserUpdateViewModel viewModel, IMediator mediator, AuthenticationStore authenticationStore)
     : AsyncCommandBase
 {
     protected override async Task ExecuteAsync(object? parameter)
@@ -16,11 +14,11 @@ public class ApplicationUserUpdateCommand(ApplicationUserUpdateViewModel viewMod
             return;
 
         OperationResult<Guid> result = await mediator.Send(new ApplicationUserUpdateRequest(viewModel.ApplicationUser));
-        await authenticationManager.UpdateUserAsync(result.Result);
+        await authenticationStore.UpdateUserAsync(result.Result);
 
         if (result.Ok)
-            MessageBox.Show("Пользователь обновлен.", "Успех", MessageBoxButton.OK, MessageBoxImage.None);
+            MaterialMessageBox.Show("Пользователь обновлен.", "Успех");
         else
-            MessageBox.Show("Ошибка обновления пользователя.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MaterialMessageBox.ShowError("Ошибка обновления пользователя.", "Ошибка");
     }
 }

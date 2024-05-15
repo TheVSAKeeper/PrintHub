@@ -2,6 +2,7 @@
 
 public enum PrintingTechnology
 {
+    None,
     FDM,
     SLA,
     SLS

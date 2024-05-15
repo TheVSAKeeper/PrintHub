@@ -9,4 +9,5 @@ public class Color : Identity
 
     public virtual List<Material>? Materials { get; set; }
     public virtual List<PrintingDetails>? PrintingDetails { get; set; }
+    public virtual List<Order>? Orders { get; set; }
 }

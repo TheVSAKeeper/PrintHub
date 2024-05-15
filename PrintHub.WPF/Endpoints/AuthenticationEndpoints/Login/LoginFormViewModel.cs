@@ -1,6 +1,4 @@
 ﻿using System.Windows.Input;
-using PrintHub.WPF.Shared.Navigation;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Login;
 
@@ -9,11 +7,11 @@ public class LoginFormViewModel : ViewModelBase
     private string? _username;
 
     public LoginFormViewModel(
-        AuthenticationManager authenticationManager,
+        AuthenticationStore authenticationStore,
         INavigationService homeNavigationService
     )
     {
-        SubmitCommand = new LoginCommand(this, authenticationManager, homeNavigationService);
+        SubmitCommand = new LoginCommand(this, authenticationStore, homeNavigationService);
     }
 
     public string? Username

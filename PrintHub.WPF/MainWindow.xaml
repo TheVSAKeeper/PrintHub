@@ -8,14 +8,31 @@
         xmlns:bar="clr-namespace:PrintHub.WPF.Shared.Navigation.Bar"
         xmlns:profile="clr-namespace:PrintHub.WPF.Pages.Profile"
         xmlns:home="clr-namespace:PrintHub.WPF.Pages.Home"
+        xmlns:client="clr-namespace:PrintHub.WPF.Pages.Client"
+        xmlns:admin="clr-namespace:PrintHub.WPF.Pages.Admin"
         xmlns:login="clr-namespace:PrintHub.WPF.Pages.Login"
+        xmlns:viewModels1="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.ViewModels"
+        xmlns:views="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Views"
+        xmlns:viewModels2="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.ViewModels"
+        xmlns:views1="clr-namespace:PrintHub.WPF.Endpoints.MaterialEndpoints.Views"
+        xmlns:viewModels3="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.ViewModels"
+        xmlns:views2="clr-namespace:PrintHub.WPF.Endpoints.ColorEndpoints.Views"
+        xmlns:create="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Create"
+        xmlns:update="clr-namespace:PrintHub.WPF.Endpoints.OrderEndpoints.Update"
+        xmlns:create1="clr-namespace:PrintHub.WPF.Endpoints.ItemEndpoints.Create"
+        xmlns:changeDbConnection="clr-namespace:PrintHub.WPF.Endpoints.AdminEndpoints.ChangeDbConnection"
+        xmlns:viewModels31="clr-namespace:PrintHub.WPF.Endpoints.ServiceDetailEndpoints.ViewModels"
+        xmlns:views3="clr-namespace:PrintHub.WPF.Endpoints.ServiceDetailEndpoints.Views"
+        xmlns:select="clr-namespace:PrintHub.WPF.Endpoints.AdditionalServiceEndpoints.Select"
+        xmlns:create2="clr-namespace:PrintHub.WPF.Endpoints.PrintingDetailsEndpoints.Create"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="Опросы"
+        Icon="Icon.ico"
+        Title="PrintHub"
         Height="600"
         Width="800"
         d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
@@ -30,7 +47,42 @@
             <DataTemplate DataType="{x:Type profile:ProfileViewModel}">
                 <profile:ProfileView />
             </DataTemplate>
-
+            <DataTemplate DataType="{x:Type client:ClientViewModel}">
+                <client:ClientView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type admin:AdminViewModel}">
+                <admin:AdminView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels1:PrintingDetailsViewModel}">
+                <views:PrintingDetailsFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels2:MaterialViewModel }">
+                <views1:MaterialFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels3:ColorViewModel}">
+                <views2:ColorFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels31:ServiceDetailViewModel}">
+                <views3:ServiceDetailFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type create:OrderCreateFormViewModel}">
+                <create:OrderCreateFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type update:OrderUpdateFormViewModel}">
+                <update:OrderUpdateFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type create1:ItemCreateFormViewModel}">
+                <create1:ItemCreateFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type select:SelectAdditionalServicesFormViewModel}">
+                <select:SelectAdditionalServicesFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type create2:PrintingDetailsCreateFormViewModel}">
+                <create2:PrintingDetailsCreateFormView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type changeDbConnection:ChangeDbConnectionFormViewModel}">
+                <changeDbConnection:ChangeDbConnectionFormView />
+            </DataTemplate>
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
@@ -43,12 +95,17 @@
             <bar:NavigationBarView DataContext="{Binding NavigationBarViewModel}" />
         </StackPanel>
 
-        <ContentControl Grid.Column="1"
-                        Panel.ZIndex="1"
-                        IsEnabled="{Binding IsOpen, Mode=OneWay}"
-                        Content="{Binding CurrentModalViewModel}" />
+        <ScrollViewer Grid.Column="1"
+                      materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+            <Grid>
+                <ContentControl Panel.ZIndex="1"
+                                Padding="50"
+                                IsEnabled="{Binding IsOpen, Mode=OneWay}"
+                                Content="{Binding CurrentModalViewModel}" />
 
-        <ContentControl Grid.Column="1"
-                        Content="{Binding CurrentViewModel}" />
+                <ContentControl Content="{Binding CurrentViewModel}" />
+            </Grid>
+        </ScrollViewer>
+
     </Grid>
 </Window>

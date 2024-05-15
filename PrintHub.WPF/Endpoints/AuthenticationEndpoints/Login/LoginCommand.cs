@@ -1,27 +1,15 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using Microsoft.AspNetCore.Identity;
-using PrintHub.WPF.Shared.Commands;
-using PrintHub.WPF.Shared.Navigation;
+using PrintHub.WPF.Shared.MaterialMessageBox;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Login;
 
-public class LoginCommand : AsyncCommandBase
+public class LoginCommand(
+    LoginFormViewModel loginViewModel,
+    AuthenticationStore authenticationStore,
+    INavigationService homeNavigationService)
+    : AsyncCommandBase
 {
-    private readonly AuthenticationManager _authenticationManager;
-    private readonly INavigationService _homeNavigationService;
-    private readonly LoginFormViewModel _loginViewModel;
-
-    public LoginCommand(
-        LoginFormViewModel loginViewModel,
-        AuthenticationManager authenticationManager,
-        INavigationService homeNavigationService)
-    {
-        _loginViewModel = loginViewModel;
-        _authenticationManager = authenticationManager;
-        _homeNavigationService = homeNavigationService;
-    }
-
     protected override async Task ExecuteAsync(object? parameter)
     {
         try
@@ -29,21 +17,21 @@ public class LoginCommand : AsyncCommandBase
             if (parameter is not PasswordBox passwordBox)
                 return;
 
-            SignInResult result = await _authenticationManager.SignInAsync(_loginViewModel.Username!, passwordBox.Password);
+            SignInResult result = await authenticationStore.SignInAsync(loginViewModel.Username!, passwordBox.Password);
 
             if (result.Succeeded == false)
             {
-                MessageBox.Show("Неверный логин или пароль.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MaterialMessageBox.ShowError("Неверный логин или пароль.", "Ошибка");
                 return;
             }
 
-            _homeNavigationService.Navigate();
+            homeNavigationService.Navigate();
         }
         catch (Exception)
         {
-            MessageBox.Show("Ошибка входа. Пожалуйста, проверьте вашу информацию или повторите попытку позже.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MaterialMessageBox.ShowError("Ошибка входа. Пожалуйста, проверьте вашу информацию или повторите попытку позже.", "Ошибка");
         }
     }
 
-    protected override bool CanExecuteAsync(object? parameter) => _loginViewModel.Username != null;
+    protected override bool CanExecuteAsync(object? parameter) => loginViewModel.Username != null;
 }

@@ -5,6 +5,8 @@ namespace PrintHub.Domain;
 public class Item : Auditable
 {
     public required string Description { get; set; }
+    public required decimal Weight { get; set; }
+    public required decimal DevelopmentCost { get; set; }
     public required bool Ready { get; set; }
 
     public required Guid OrderId { get; set; }

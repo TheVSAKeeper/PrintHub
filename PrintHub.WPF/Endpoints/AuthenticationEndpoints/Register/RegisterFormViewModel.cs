@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using PrintHub.Infrastructure;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Register;
 
@@ -9,10 +8,10 @@ public class RegisterFormViewModel : ViewModelBase
     private string? _role;
     private string? _username;
 
-    public RegisterFormViewModel(AuthenticationManager authenticationManager, ApplicationRoleStore roleStore)
+    public RegisterFormViewModel(AuthenticationStore authenticationStore, ApplicationRoleStore roleStore)
     {
         Roles = roleStore.Roles.Select(role => role.Name).ToList();
-        SubmitCommand = new RegisterCommand(this, authenticationManager);
+        SubmitCommand = new RegisterCommand(this, authenticationStore);
     }
 
     public List<string?> Roles { get; }

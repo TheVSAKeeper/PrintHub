@@ -1,9 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using AutoMapper;
 using FluentValidation.Results;
-using MediatR;
-using PrintHub.WPF.Shared.ViewModels;
 
 namespace PrintHub.WPF.Endpoints.AuthenticationEndpoints.Update;
 
@@ -14,10 +11,10 @@ public class ApplicationUserUpdateViewModel : ViewModelBase
 
     private ObservableCollection<string> _errors = [];
 
-    public ApplicationUserUpdateViewModel(AuthenticationManager authenticationManager, IMediator mediator, IMapper mapper)
+    public ApplicationUserUpdateViewModel(AuthenticationStore authenticationStore, IMediator mediator, IMapper mapper)
     {
-        SubmitCommand = new ApplicationUserUpdateCommand(this, mediator, authenticationManager);
-        _applicationUser = mapper.Map<ApplicationUserUpdateDto>(authenticationManager.User);
+        SubmitCommand = new ApplicationUserUpdateCommand(this, mediator, authenticationStore);
+        _applicationUser = mapper.Map<ApplicationUserUpdateDto>(authenticationStore.User);
     }
 
     public ApplicationUserUpdateDto ApplicationUser

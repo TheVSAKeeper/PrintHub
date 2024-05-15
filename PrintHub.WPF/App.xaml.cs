@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PrintHub.WPF.Definitions.Base;
@@ -11,7 +12,7 @@ public partial class App
 
     private static IHost Host => _host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
-    private static IServiceProvider Services => Host.Services;
+    public static IServiceProvider Services => Host.Services;
 
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -30,5 +31,11 @@ public partial class App
 
         base.OnExit(e);
         await host.StopAsync();
+    }
+
+    public static void RestartApplication()
+    {
+        Process.Start(Process.GetCurrentProcess().MainModule?.FileName ?? throw new InvalidOperationException());
+        Current.Shutdown();
     }
 }

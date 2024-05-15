@@ -5,10 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Base;
-using PrintHub.WPF.Endpoints.AuthenticationEndpoints;
 using PrintHub.WPF.Pages.Home;
 using PrintHub.WPF.Pages.Login;
-using PrintHub.WPF.Shared.Navigation;
 
 namespace PrintHub.WPF.Definitions.Initialization;
 
@@ -26,7 +24,7 @@ public class ApplicationInitializer : AppDefinition
         {
             await using ApplicationDbContext context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            await context.Database.EnsureDeletedAsync();
+            // await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
 
             IEnumerable<string> pendingMigrations = await context.Database.GetPendingMigrationsAsync();
@@ -34,7 +32,7 @@ public class ApplicationInitializer : AppDefinition
             if (pendingMigrations.Any())
                 await context.Database.MigrateAsync();
 
-            AuthenticationManager authenticationManager = scope.ServiceProvider.GetRequiredService<AuthenticationManager>();
+            Endpoints.AuthenticationEndpoints.AuthenticationStore authenticationManager = scope.ServiceProvider.GetRequiredService<Endpoints.AuthenticationEndpoints.AuthenticationStore>();
             await authenticationManager.Initialize();
 
             if (authenticationManager.IsLoggedIn)

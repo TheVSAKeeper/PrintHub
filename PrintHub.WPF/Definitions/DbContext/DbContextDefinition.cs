@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PrintHub.Infrastructure;
 using PrintHub.WPF.Definitions.Base;
+using PrintHub.WPF.Shared.Services;
 
 namespace PrintHub.WPF.Definitions.DbContext;
 
@@ -13,16 +13,12 @@ public class DbContextDefinition : AppDefinition
     {
         services.AddDbContext<ApplicationDbContext>(config =>
         {
-            config.UseNpgsql(context.Configuration.GetConnectionString(nameof(ApplicationDbContext)));
+            config.UseNpgsql(services.BuildServiceProvider().GetRequiredService<IDbConnectionService>().GetConnectionString());
         });
 
         services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            //.AddUserStore<ApplicationUserStore>()
-            // .AddRoleStore<ApplicationRoleStore>()
-            // .AddUserManager<UserManager<ApplicationUser>>()
-            ;
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddScoped<ApplicationUserStore>();
         services.AddScoped<ApplicationRoleStore>();

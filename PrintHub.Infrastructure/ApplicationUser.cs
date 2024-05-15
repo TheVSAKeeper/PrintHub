@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using PrintHub.Domain;
 
 namespace PrintHub.Infrastructure;
 
@@ -8,13 +9,11 @@ namespace PrintHub.Infrastructure;
 /// </summary>
 public class ApplicationUser : IdentityUser<Guid>
 {
-    public string FirstName { get; set; } = null!;
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
 
-    public string LastName { get; set; } = null!;
+    public Guid? ClientId { get; set; }
+    public Client? Client { get; set; }
 
-    public string? Patronymic { get; set; }
-
-    public string? DisplayName { get; set; }
-
-    public ICollection<ApplicationRole>? Roles { get; set; }
+    public virtual List<ApplicationRole>? Roles { get; set; }
 }

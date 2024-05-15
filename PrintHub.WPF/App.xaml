@@ -8,14 +8,15 @@
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme BaseTheme="Light"
                                              PrimaryColor="LightBlue"
-                                             SecondaryColor="DeepPurple" />
+                                             SecondaryColor="Red" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:InvertedNullVisibilityConverter x:Key="InvertedNullVisibilityConverter" />
             <converters:DateTimeToLongDateConverter x:Key="DateTimeToLongDateConverter" />
             <converters:RussificationConverter x:Key="RussificationConverter" />
             <converters:DateToAgeConverter x:Key="DateToAgeConverter" />
+            <converters:OrderStatusToIconConverter x:Key="OrderStatusToIconConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

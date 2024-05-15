@@ -8,7 +8,7 @@ namespace PrintHub.WPF;
 internal class Program
 {
     [STAThread]
-    private static void Main(string[] args)
+    public static void Main(string[] args)
     {
         try
         {

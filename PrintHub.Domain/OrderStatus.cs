@@ -2,8 +2,10 @@
 
 public enum OrderStatus
 {
+    None,
     New,
     InProgress,
     Ready,
-    Delivered
+    Delivered,
+    Completed
 }

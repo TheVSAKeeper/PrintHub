@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PrintHub.Domain.Base;
 
 namespace PrintHub.Infrastructure.ModelConfigurations.Base;
@@ -10,8 +11,11 @@ public abstract class AuditableModelConfigurationBase<T> : ModelConfigurationBas
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired();
 
+        Expression<Func<DateTime, DateTime>> convertToUtc = dateTime =>
+            dateTime.Kind == DateTimeKind.Utc ? dateTime : DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+
         builder.Property(x => x.CreatedAt)
-            .HasConversion(time => time, value => DateTime.SpecifyKind(value, DateTimeKind.Utc))
+            .HasConversion(convertToUtc, convertToUtc)
             .IsRequired();
 
         builder.Property(x => x.CreatedBy)
@@ -19,7 +23,8 @@ public abstract class AuditableModelConfigurationBase<T> : ModelConfigurationBas
             .IsRequired();
 
         builder.Property(x => x.UpdatedAt)
-            .HasConversion(time => time!.Value, value => DateTime.SpecifyKind(value, DateTimeKind.Utc));
+            .HasConversion(dateTime => dateTime!.Value.Kind == DateTimeKind.Utc ? dateTime : DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc),
+                dateTime => dateTime!.Value.Kind == DateTimeKind.Utc ? dateTime : DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc));
 
         builder.Property(x => x.UpdatedBy).HasMaxLength(256);
 

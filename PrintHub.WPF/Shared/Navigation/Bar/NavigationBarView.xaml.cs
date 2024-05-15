@@ -18,9 +18,8 @@ public partial class NavigationBarView : UserControl
 
     private void OnThemeToggleClicked(object sender, RoutedEventArgs e)
     {
-        ITheme theme = _paletteHelper.GetTheme();
-        IBaseTheme baseTheme = theme.GetBaseTheme() == BaseTheme.Light ? Theme.Dark : Theme.Light;
-        theme.SetBaseTheme(baseTheme);
+        Theme theme = _paletteHelper.GetTheme();
+        theme.SetBaseTheme(theme.GetBaseTheme() == BaseTheme.Light ? BaseTheme.Dark : BaseTheme.Light);
         _paletteHelper.SetTheme(theme);
     }
 }
